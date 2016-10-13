@@ -228,6 +228,7 @@
 				EEAE29431DAEC5FA0067C193 /* Resources */,
 				F5C96870735336465A62123C /* [CP] Embed Pods Frameworks */,
 				F366E3047737DC48305C1E39 /* [CP] Copy Pods Resources */,
+				EED4AC9C1DAF90B4001385D3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -425,6 +426,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GeekSetsTests/Pods-GeekSetsTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		EED4AC9C1DAF90B4001385D3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" cd32673ca2a39762d454af85e4639ab1c13c4095 45f4aed236b1c77830118e9a990c04651c2313f815d6c190723fd4aefea49491";
 		};
 		F0E67A4D6671690E3618A36D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 #import "CommonConstants.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 
 @interface AppDelegate ()
 
@@ -35,6 +38,8 @@
    //set cursor color for the search bar text field
     [[UITextField appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]] setTintColor:[UIColor darkTextColor]];
     
+    [Fabric with:@[[Crashlytics class]]];
+
     return YES;
 }
 
