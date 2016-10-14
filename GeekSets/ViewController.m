@@ -136,7 +136,7 @@
 - (void) ab_addSearchFunctionality {
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.searchResultsUpdater = self;
-    self.searchController.searchBar.barTintColor = [UIColor colorWithRed:0 green:194.0/255.0 blue:109.0/255.0 alpha:1.0];
+    self.searchController.searchBar.barTintColor = APP_COLOR;
     self.searchController.searchBar.tintColor = [UIColor whiteColor];
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.searchController.searchBar.delegate = self;

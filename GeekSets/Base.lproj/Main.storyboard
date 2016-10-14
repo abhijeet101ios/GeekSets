@@ -405,16 +405,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ChC-mv-cTf" userLabel="Title View">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="0.0"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GeekSets" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zJQ-o4-R2J" userLabel="Title Label">
-                                        <rect key="frame" x="149" y="21" width="77" height="21"/>
+                                        <rect key="frame" x="149" y="-11" width="77" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OEw-ns-bPM">
-                                        <rect key="frame" x="8" y="17" width="44" height="30"/>
+                                        <rect key="frame" x="8" y="-15" width="44" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="LM1-74-PLz"/>
                                             <constraint firstAttribute="width" constant="44" id="e8C-an-Q7R"/>
@@ -433,12 +433,12 @@
                                     <constraint firstItem="OEw-ns-bPM" firstAttribute="centerY" secondItem="ChC-mv-cTf" secondAttribute="centerY" id="42q-qG-V0y"/>
                                     <constraint firstItem="zJQ-o4-R2J" firstAttribute="centerY" secondItem="ChC-mv-cTf" secondAttribute="centerY" id="Eoa-jF-iqW"/>
                                     <constraint firstItem="zJQ-o4-R2J" firstAttribute="centerX" secondItem="ChC-mv-cTf" secondAttribute="centerX" id="HXF-4G-wYj"/>
-                                    <constraint firstAttribute="height" constant="64" id="ITy-Pg-rof"/>
+                                    <constraint firstAttribute="height" id="ITy-Pg-rof"/>
                                     <constraint firstItem="OEw-ns-bPM" firstAttribute="leading" secondItem="ChC-mv-cTf" secondAttribute="leading" constant="8" id="wnW-DA-qJd"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hqn-4G-Ltq" userLabel="Container View">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -450,8 +450,14 @@
                             <constraint firstItem="ChC-mv-cTf" firstAttribute="leading" secondItem="kdA-Uu-v4d" secondAttribute="leading" id="VUZ-gf-jJI"/>
                             <constraint firstAttribute="bottom" secondItem="Hqn-4G-Ltq" secondAttribute="bottom" id="X9d-vP-87y"/>
                             <constraint firstItem="Hqn-4G-Ltq" firstAttribute="top" secondItem="ChC-mv-cTf" secondAttribute="bottom" id="eJy-oO-a3q"/>
-                            <constraint firstItem="ChC-mv-cTf" firstAttribute="top" secondItem="kdA-Uu-v4d" secondAttribute="top" id="gg3-7c-Uhg"/>
+                            <constraint firstItem="ChC-mv-cTf" firstAttribute="top" secondItem="kdA-Uu-v4d" secondAttribute="top" constant="20" symbolic="YES" id="gg3-7c-Uhg"/>
+                            <constraint firstItem="ChC-mv-cTf" firstAttribute="top" secondItem="Emm-qf-qaL" secondAttribute="bottom" id="oEw-mo-8Oy"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="gg3-7c-Uhg"/>
+                            </mask>
+                        </variation>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
