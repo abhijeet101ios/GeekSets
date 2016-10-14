@@ -1,0 +1,1 @@
+../../../JRMFloatingAnimation/Pod/Classes/JRMFloatingAnimationView.h

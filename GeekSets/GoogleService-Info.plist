@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>671195492996-drokm0kem30iejlvp14kk8ta2ssmbib0.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.671195492996-drokm0kem30iejlvp14kk8ta2ssmbib0</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCra2uTXH3I_YUivgoZsNaHZoL0Iqu1Tj8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>671195492996</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.abhijeet.AmozonPracticeApp</string>
+	<key>PROJECT_ID</key>
+	<string>amazonsets-298b8</string>
+	<key>STORAGE_BUCKET</key>
+	<string>amazonsets-298b8.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:671195492996:ios:24b54f9b03d3e16f</string>
+	<key>DATABASE_URL</key>
+	<string>https://amazonsets-298b8.firebaseio.com</string>
+</dict>
+</plist>
