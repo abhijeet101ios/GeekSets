@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -14,29 +16,35 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ac2-H5-xSJ" userLabel="Title Background View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GeekSets" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fRC-Ih-leP" userLabel="Title Label">
-                                        <rect key="frame" x="234" y="278" width="133" height="44"/>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GeekSets" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fRC-Ih-leP" userLabel="Title Label">
                                         <fontDescription key="fontDescription" name="ChalkboardSE-Bold" family="Chalkboard SE" pointSize="30"/>
-                                        <color key="textColor" red="0.0" green="0.76078431369999999" blue="0.42745098040000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.0" green="0.76078431369999999" blue="0.42745098040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
-                                        <color key="shadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="shadowColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <size key="shadowOffset" width="1" height="1"/>
                                     </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="geeksets_logo" translatesAutoresizingMaskIntoConstraints="NO" id="d8P-9o-T6a">
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="d8P-9o-T6a" secondAttribute="height" multiplier="1:1" id="TKY-6v-QZR"/>
+                                            <constraint firstAttribute="width" constant="70" id="a0d-1R-NAg"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="fRC-Ih-leP" firstAttribute="centerY" secondItem="ac2-H5-xSJ" secondAttribute="centerY" id="0sr-GI-Bbo"/>
                                     <constraint firstItem="fRC-Ih-leP" firstAttribute="centerX" secondItem="ac2-H5-xSJ" secondAttribute="centerX" id="1tq-rd-LRL"/>
+                                    <constraint firstItem="d8P-9o-T6a" firstAttribute="centerY" secondItem="ac2-H5-xSJ" secondAttribute="centerY" id="5Kn-3k-gzC"/>
+                                    <constraint firstItem="d8P-9o-T6a" firstAttribute="centerX" secondItem="ac2-H5-xSJ" secondAttribute="centerX" id="9zD-R2-ugm"/>
+                                    <constraint firstItem="fRC-Ih-leP" firstAttribute="top" secondItem="d8P-9o-T6a" secondAttribute="bottom" constant="24" id="Vc7-zE-cpj"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="ac2-H5-xSJ" secondAttribute="trailing" id="6ZP-g7-tc0"/>
                             <constraint firstItem="ac2-H5-xSJ" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="96f-P8-jyn"/>
@@ -50,4 +58,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="geeksets_logo" width="76" height="76"/>
+    </resources>
 </document>

@@ -41,6 +41,8 @@
 
 @property (nonatomic) NSArray* completedArray;
 
+@property (nonatomic) NSMutableArray* setOrderArray;
+
 @property (nonatomic) int removedBubblesCount;
 
 @property (nonatomic) int totalBubblesCount;
@@ -100,7 +102,6 @@
 }
 
 - (void) viewDidAppear:(BOOL) animated {
-    [self ab_fetchUpdatedData];
     [self showInterstitialAd];
 }
 
@@ -242,7 +243,7 @@
             }
         }
     }
-    self.dataSourceArray = [@[[mutableDataSource copy]] mutableCopy];
+    self.dataSourceArray = [@[[mutableDataSource mutableCopy]] mutableCopy];
 }
 
 #pragma mark - Bubble View methods
@@ -399,6 +400,33 @@ request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
     self.interstitial = [self createInterstitialAd];
 }
 
+#pragma mark - Update dataSourceArray method
+
+- (void) ab_sortDataSourceArray {
+    NSArray* setArray = self.dataSourceArray.firstObject;
+    
+    for (NSString* newSet in setArray) {
+        if (![self.setOrderArray containsObject:newSet]) {
+            [self.setOrderArray addObject:newSet];
+        }
+    }
+    
+    self.dataSourceArray = [@[[self.setOrderArray mutableCopy]] mutableCopy];
+
+    
+}
+
+- (void) ab_updateDataSourceArray {
+    
+    NSString* uniqueID = [[NSUserDefaults standardUserDefaults] valueForKey:UNIQUE_ID];
+    
+    NSString* userKey = @"users";
+    
+    NSDictionary* emptyDict = @{uniqueID:@{KEY_COMPLETED:self.completedArray,KEY_OPENED:self.openedArray,KEY_SET_ORDER:[self.dataSourceArray copy]}};
+    
+    [[self.userDatabaseRef child:userKey] updateChildValues:emptyDict];
+}
+
 #pragma mark - FIR update methods
 
 - (void) ab_fetchUserData {
@@ -410,7 +438,42 @@ request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
         
         NSString* userKey = @"users";
         
+        //fetch list data
+        
         NSDictionary* userDictionary = data[userKey][uniqueID];
+        if (userDictionary) {
+            self.setOrderArray = [[userDictionary[KEY_SET_ORDER] firstObject] mutableCopy];
+        }
+        
+        data = snapshot.value[KEY_SETS];
+        
+        self.dataArray = ([data isKindOfClass:[NSDictionary class]])?([@[([((NSDictionary*)data).allKeys mutableCopy])] mutableCopy]):(nil);
+        
+        self.dataSourceArray = [self.dataArray mutableCopy];
+        
+        [self ab_sortDataSourceArray];
+        
+        [self.tableView reloadData];
+        
+        if (self.dataSourceArray.count) {
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            BOOL isCoachMarkSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_COACH_MARK_SEEN];
+            if (!isCoachMarkSeen) {
+                [self ab_createCoachMarks];
+            }
+        }
+
+        if (self.dataSourceArray.count) {
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            BOOL isCoachMarkSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_COACH_MARK_SEEN];
+            if (!isCoachMarkSeen) {
+                [self ab_createCoachMarks];
+            }
+        }
+        
+        //fetch user data
+        
+        data = snapshot.value;
         
         if (userDictionary) {
             //parse user data
@@ -418,15 +481,11 @@ request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
             self.openedArray = userDictionary[KEY_OPENED];
             self.viewController.completedArray = [self.completedArray mutableCopy];
             self.viewController.openedArray = [self.openedArray mutableCopy];
-            
-            if (userDictionary[KEY_SET_ORDER] && ![userDictionary[KEY_SET_ORDER] isKindOfClass:[NSNull class]]) {
-                
-            }
         }
         else {
             //create user data
             
-            NSDictionary* emptyDict = @{uniqueID:@{KEY_COMPLETED:@[DIVIDER_KEY],KEY_OPENED:@[DIVIDER_KEY]}};
+            NSDictionary* emptyDict = @{uniqueID:@{KEY_COMPLETED:@[DIVIDER_KEY],KEY_OPENED:@[DIVIDER_KEY],KEY_SET_ORDER:[self.dataArray copy]}};
             
             //check for 1st user state
             if (!data[userKey] || [data[userKey] isKindOfClass:[NSNull class]]) {
@@ -442,45 +501,6 @@ request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
             self.completedArray = [@[DIVIDER_KEY,DIVIDER_KEY] copy];
             self.openedArray = [@[DIVIDER_KEY,DIVIDER_KEY] copy];
         }
-        
-        //fetch list data
-        
-        data = snapshot.value[KEY_SETS];
-        
-        self.dataArray = ([data isKindOfClass:[NSDictionary class]])?([@[([((NSDictionary*)data).allKeys mutableCopy])] mutableCopy]):(nil);
-        
-        self.dataSourceArray = [self.dataArray mutableCopy];
-        
-        [self.tableView reloadData];
-        if (self.dataSourceArray.count) {
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-            BOOL isCoachMarkSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_COACH_MARK_SEEN];
-            if (!isCoachMarkSeen) {
-                [self ab_createCoachMarks];
-            }
-        }
-    }];
-}
-
-- (void) ab_fetchUpdatedData {
-    [self.databaseRef observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot *snapshot) {
-        
-        id data = snapshot.value[KEY_SETS];
-        
-        self.dataArray = ([data isKindOfClass:[NSDictionary class]])?([@[([((NSDictionary*)data).allKeys mutableCopy])] mutableCopy]):(nil);
-        
-        self.dataSourceArray = [self.dataArray mutableCopy];
-        
-        [self.tableView reloadData];
-        if (self.dataSourceArray.count) {
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-            BOOL isCoachMarkSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_COACH_MARK_SEEN];
-            if (!isCoachMarkSeen) {
-                [self ab_createCoachMarks];
-            }
-        }
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
     }];
 }
 
@@ -581,6 +601,7 @@ request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
     [tableView deleteSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.dataSourceArray removeObjectsAtIndexes:indexSet];
     [tableView endUpdates];
+    [self ab_updateDataSourceArray];
 }
 
 -(CGFloat)tableView:tableView heightForEmptySection:(int)section

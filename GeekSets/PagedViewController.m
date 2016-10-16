@@ -31,11 +31,13 @@
 
 @property (nonatomic) UIImageView* onboardingArrow;
 
+@property (nonatomic) UIImageView* arrowListIntro;
 @property (nonatomic) UIImageView* arrowListPrimary;
 @property (nonatomic) UIImageView* arrowListSecondary;
 @property (nonatomic) UIImageView* arrowInfoTickListImageView;
 @property (nonatomic) UIImageView* arrowInforLoginImageView;
 
+@property (nonatomic) UIImageView* onboardingIntroImageView;
 @property (nonatomic) UIImageView* primaryListImageView;
 @property (nonatomic) UIImageView* secondaryListImageView;
 @property (nonatomic) UIImageView* tickListImageView;
@@ -83,10 +85,13 @@
     
     self.onboardingArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"onboarding_arrow"]];
     
+    self.arrowListIntro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_info_intro"]];
     self.arrowListPrimary = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_info_primary"]];
     self.arrowListSecondary = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_info_secondary"]];
     self.arrowInfoTickListImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_info_tick_list"]];
     self.arrowInforLoginImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_info_login"]];
+    
+    self.onboardingIntroImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"onboarding_intro_screen"]];
     
     self.dashedLineView = [UIView new];
     
@@ -96,8 +101,10 @@
     [self.startButton setImage:[UIImage imageNamed:@"start_button"] forState:UIControlStateNormal];
     [self.startButton addTarget:self action:@selector(startButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
-    self.primaryListImageView.contentMode = self.amazonImageView.contentMode = self.ciscoImageView.contentMode = self.facebookImageView.contentMode = self.googleImageView.contentMode = self.microsoftImageView.contentMode = self.oracleImageView.contentMode = self.yahooImageView.contentMode = self.secondaryListImageView.contentMode = self.arrowListPrimary.contentMode = self.secondaryListImageView.contentMode = self.tickListImageView.contentMode = self.arrowImageView.contentMode = self.arrowInfoTickListImageView.contentMode = self.loginOnboardingImageView.contentMode = self.arrowInforLoginImageView.contentMode = self.startButton.contentMode = self.onboardingArrow.contentMode = UIViewContentModeScaleAspectFit;
+   self.arrowListIntro.contentMode = self.primaryListImageView.contentMode = self.amazonImageView.contentMode = self.ciscoImageView.contentMode = self.facebookImageView.contentMode = self.googleImageView.contentMode = self.microsoftImageView.contentMode = self.oracleImageView.contentMode = self.yahooImageView.contentMode = self.secondaryListImageView.contentMode = self.arrowListPrimary.contentMode = self.secondaryListImageView.contentMode = self.tickListImageView.contentMode = self.arrowImageView.contentMode = self.arrowInfoTickListImageView.contentMode = self.loginOnboardingImageView.contentMode = self.arrowInforLoginImageView.contentMode = self.startButton.contentMode = self.onboardingArrow.contentMode = self.onboardingIntroImageView.contentMode = UIViewContentModeScaleAspectFit;
   
+    [self.contentView addSubview:self.arrowListIntro];
+    [self.contentView addSubview:self.onboardingIntroImageView];
     [self.contentView addSubview:self.ciscoImageView];
     [self.contentView addSubview:self.primaryListImageView];
     [self.contentView addSubview:self.amazonImageView];
@@ -120,6 +127,7 @@
 }
 
 - (void) configureAnimations {
+    [self configureOnboardingIntroImageView];
     [self configurePrimaryListView];
     [self configureAmazonImageView];
     [self configureCiscoImageView];
@@ -130,6 +138,7 @@
     [self configureYahooImageView];
     [self configureSecondaryListImageView];
     [self configureOnboardingArrow];
+    [self configureArrowListIntroImageView];
     [self configureArrowListPrimaryImageView];
     [self configureArrowListSecondaryImageView];
     [self configureTickListImageView];
@@ -139,6 +148,15 @@
     [self configureArrowInfoLoginImageView];
     [self configureStartButton];
     [self animateCurrentFrame];
+}
+
+- (void) configureOnboardingIntroImageView {
+    [self keepView:self.onboardingIntroImageView onPages:@[@(0)] atTimes:@[@(0)]];
+    [self.onboardingIntroImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView.mas_top).offset(20);
+        make.width.lessThanOrEqualTo(self.scrollView);
+        make.width.equalTo(self.scrollView).multipliedBy(0.5).with.priorityHigh();
+    }];
 }
 
 - (void) configurePrimaryListView {
@@ -157,13 +175,13 @@
         make.centerY.equalTo(self.primaryListImageView.mas_centerY);
     }];
     
-    IFTTTHideAnimation *amazonHideAnimation = [IFTTTHideAnimation animationWithView:self.secondaryListImageView hideAt:0.9];
+    IFTTTHideAnimation *amazonHideAnimation = [IFTTTHideAnimation animationWithView:self.secondaryListImageView hideAt:1.9];
     [self.animator addAnimation:amazonHideAnimation];
     
     //shrink the secondary list into the background between pages 0 and 1
     IFTTTScaleAnimation *secondaryListScaleAnimation = [IFTTTScaleAnimation animationWithView:self.amazonImageView];
-    [secondaryListScaleAnimation addKeyframeForTime:0 scale:1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
-    [secondaryListScaleAnimation addKeyframeForTime:0.8 scale:0.7];
+    [secondaryListScaleAnimation addKeyframeForTime:1 scale:1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
+    [secondaryListScaleAnimation addKeyframeForTime:1.8 scale:0.7];
     [self.animator addAnimation:secondaryListScaleAnimation];
 }
 
@@ -224,17 +242,25 @@
         make.width.equalTo(self.scrollView).multipliedBy(0.5).with.priorityHigh();
     }];
     
-    IFTTTHideAnimation *secondaryListHideAnimation = [IFTTTHideAnimation animationWithView:self.secondaryListImageView hideAt:0];
+    IFTTTHideAnimation *secondaryListHideAnimation = [IFTTTHideAnimation animationWithView:self.secondaryListImageView hideAt:1];
     [self.animator addAnimation:secondaryListHideAnimation];
 
-    IFTTTHideAnimation *secondaryListShowAnimation = [IFTTTHideAnimation animationWithView:self.secondaryListImageView showAt:0.9];
+    IFTTTHideAnimation *secondaryListShowAnimation = [IFTTTHideAnimation animationWithView:self.secondaryListImageView showAt:1.9];
     [self.animator addAnimation:secondaryListShowAnimation];
     
     // grow the secondary list into the background between pages 0 and 1
     IFTTTScaleAnimation *secondaryListScaleAnimation = [IFTTTScaleAnimation animationWithView:self.secondaryListImageView];
-    [secondaryListScaleAnimation addKeyframeForTime:0 scale:0.1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
-    [secondaryListScaleAnimation addKeyframeForTime:1 scale:1];
+    [secondaryListScaleAnimation addKeyframeForTime:1 scale:0.1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
+    [secondaryListScaleAnimation addKeyframeForTime:2 scale:1];
     [self.animator addAnimation:secondaryListScaleAnimation];
+}
+
+- (void) configureArrowListIntroImageView {
+    [self keepView:self.arrowListIntro onPages:@[@(0)] atTimes:@[@(0)]];
+    
+    [self.arrowListIntro mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.onboardingIntroImageView.mas_bottom).offset(20);
+    }];
 }
 
 - (void) configureArrowListPrimaryImageView {
@@ -286,26 +312,26 @@
     
     // Fly the plane along the path
     self.arrowFlyingAnimation = [IFTTTPathPositionAnimation animationWithView:self.arrowImageView path:self.dashedLineLayer.path];
-    [self.arrowFlyingAnimation addKeyframeForTime:1 animationProgress:0];
-    [self.arrowFlyingAnimation addKeyframeForTime:2 animationProgress:1];
+    [self.arrowFlyingAnimation addKeyframeForTime:2 animationProgress:0];
+    [self.arrowFlyingAnimation addKeyframeForTime:3 animationProgress:1];
     [self.animator addAnimation:self.arrowFlyingAnimation];
     
     //hide the dashes upon completion
-    IFTTTHideAnimation *dashLinenHideAnimation = [IFTTTHideAnimation animationWithView:self.dashedLineView hideAt:1.9];
+    IFTTTHideAnimation *dashLinenHideAnimation = [IFTTTHideAnimation animationWithView:self.dashedLineView hideAt:2.9];
     [self.animator addAnimation:dashLinenHideAnimation];
     
     // Change the stroke end of the dashed line airplane path to match the plane's current position
     IFTTTLayerStrokeEndAnimation *planePathAnimation = [IFTTTLayerStrokeEndAnimation animationWithLayer:self.dashedLineLayer];
-    [planePathAnimation addKeyframeForTime:1 strokeEnd:0];
-    [planePathAnimation addKeyframeForTime:2 strokeEnd:1];
+    [planePathAnimation addKeyframeForTime:2 strokeEnd:0];
+    [planePathAnimation addKeyframeForTime:3 strokeEnd:1];
     [self.animator addAnimation:planePathAnimation];
     
     // Fade the plane path view in after page 1 and fade it out again after page 2.5
     IFTTTAlphaAnimation *planeAlphaAnimation = [IFTTTAlphaAnimation animationWithView:self.dashedLineView];
-    [planeAlphaAnimation addKeyframeForTime:1.06f alpha:0];
-    [planeAlphaAnimation addKeyframeForTime:1.08f alpha:1];
-    [planeAlphaAnimation addKeyframeForTime:2.5f alpha:1];
-    [planeAlphaAnimation addKeyframeForTime:3.f alpha:0];
+    [planeAlphaAnimation addKeyframeForTime:2.06f alpha:0];
+    [planeAlphaAnimation addKeyframeForTime:2.08f alpha:1];
+    [planeAlphaAnimation addKeyframeForTime:3.5f alpha:1];
+    [planeAlphaAnimation addKeyframeForTime:4.f alpha:0];
     [self.animator addAnimation:planeAlphaAnimation];
 }
 
@@ -347,11 +373,11 @@
                                                                                                                 constraint:arrowVerticalConstraint
                                                                                                                  attribute:IFTTTLayoutAttributeHeight
                                                                                                              referenceView:self.loginOnboardingImageView];
-    [arrowVerticalAnimation addKeyframeForTime:1 multiplier:1.14f];
-    [arrowVerticalAnimation addKeyframeForTime:2 multiplier:0.1f];
+    [arrowVerticalAnimation addKeyframeForTime:2 multiplier:1.14f];
+    [arrowVerticalAnimation addKeyframeForTime:3 multiplier:0.1f];
     [self.animator addAnimation:arrowVerticalAnimation];
     
-    IFTTTHideAnimation* arrowHideAnimation = [IFTTTHideAnimation animationWithView:self.onboardingArrow showAt:1.5];
+    IFTTTHideAnimation* arrowHideAnimation = [IFTTTHideAnimation animationWithView:self.onboardingArrow showAt:2.5];
     [self.animator addAnimation:arrowHideAnimation];
 }
 
@@ -387,8 +413,8 @@
     }];
     
     IFTTTScaleAnimation *startButtonScaleAnimation = [IFTTTScaleAnimation animationWithView:self.startButton];
-    [startButtonScaleAnimation addKeyframeForTime:2 scale:0.1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
-    [startButtonScaleAnimation addKeyframeForTime:3 scale:1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
+    [startButtonScaleAnimation addKeyframeForTime:3 scale:0.1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
+    [startButtonScaleAnimation addKeyframeForTime:4 scale:1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
     [self.animator addAnimation:startButtonScaleAnimation];
 }
 
