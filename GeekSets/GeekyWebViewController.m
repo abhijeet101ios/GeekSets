@@ -27,6 +27,10 @@
     [self setUpImageBackButton];
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+}
+
 - (void) viewDidAppear:(BOOL)animated {
     [self loadWebViewControllerForURL:self.url];
 }

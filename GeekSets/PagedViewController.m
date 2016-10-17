@@ -56,6 +56,12 @@
 
 @end
 
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define IS_IPHONE_4_OR_LESS (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height < 568.0)
+#define IS_IPHONE_5 (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 568.0)
+#define IS_IPHONE_6 (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 667.0)
+#define IS_IPHONE_6_PLUS (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 736.0)
+
 @implementation PagedViewController
 
 - (void)viewDidLoad {
@@ -107,17 +113,17 @@
     [self.contentView addSubview:self.onboardingIntroImageView];
     [self.contentView addSubview:self.ciscoImageView];
     [self.contentView addSubview:self.primaryListImageView];
-    [self.contentView addSubview:self.amazonImageView];
     [self.contentView addSubview:self.facebookImageView];
     [self.contentView addSubview:self.googleImageView];
     [self.contentView addSubview:self.microsoftImageView];
     [self.contentView addSubview:self.oracleImageView];
     [self.contentView addSubview:self.yahooImageView];
-    [self.contentView addSubview:self.onboardingArrow];
+    [self.contentView addSubview:self.amazonImageView];
     [self.contentView addSubview:self.secondaryListImageView];
     [self.contentView addSubview:self.arrowListPrimary];
     [self.contentView addSubview:self.arrowListSecondary];
     [self.contentView addSubview:self.tickListImageView];
+    [self.contentView addSubview:self.onboardingArrow];
     [self.contentView addSubview:self.dashedLineView];
     [self.contentView addSubview:self.arrowImageView];
     [self.contentView addSubview:self.arrowInfoTickListImageView];
@@ -156,7 +162,14 @@
         make.top.equalTo(self.contentView.mas_top).offset(20);
         make.width.lessThanOrEqualTo(self.scrollView);
         make.width.equalTo(self.scrollView).multipliedBy(0.5).with.priorityHigh();
+        make.height.equalTo(self.scrollView).multipliedBy(0.7).with.priorityHigh();
     }];
+    // grow the onboarding list into the background between pages 0 and 1
+    IFTTTScaleAnimation *onboardingListScaleAnimation = [IFTTTScaleAnimation animationWithView:self.onboardingIntroImageView];
+    [onboardingListScaleAnimation addKeyframeForTime:-1 scale:0.5 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
+    [onboardingListScaleAnimation addKeyframeForTime:0 scale:1];
+    [onboardingListScaleAnimation addKeyframeForTime:1 scale:0.5];
+    [self.animator addAnimation:onboardingListScaleAnimation];
 }
 
 - (void) configurePrimaryListView {
@@ -165,7 +178,15 @@
         make.top.equalTo(self.contentView.mas_top).offset(20);
         make.width.lessThanOrEqualTo(self.scrollView);
         make.width.equalTo(self.scrollView).multipliedBy(0.5).with.priorityHigh();
+        make.height.equalTo(self.scrollView).multipliedBy(0.7).with.priorityHigh();
     }];
+ 
+    // grow the primary list into the background between pages 0 and 1
+    IFTTTScaleAnimation *primaryListScaleAnimation = [IFTTTScaleAnimation animationWithView:self.primaryListImageView];
+    [primaryListScaleAnimation addKeyframeForTime:0 scale:0.5 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
+    [primaryListScaleAnimation addKeyframeForTime:1 scale:1];
+    [primaryListScaleAnimation addKeyframeForTime:2 scale:0.5];
+    [self.animator addAnimation:primaryListScaleAnimation];
 }
 
 - (void) configureAmazonImageView {
@@ -175,62 +196,99 @@
         make.centerY.equalTo(self.primaryListImageView.mas_centerY);
     }];
     
-    IFTTTHideAnimation *amazonHideAnimation = [IFTTTHideAnimation animationWithView:self.secondaryListImageView hideAt:1.9];
+    IFTTTHideAnimation *amazonHideAnimation = [IFTTTHideAnimation animationWithView:self.amazonImageView hideAt:1.99];
     [self.animator addAnimation:amazonHideAnimation];
     
+    CGFloat scale = (IS_IPHONE_6_PLUS)?(2.5):((IS_IPHONE_6)?(2.5):((IS_IPHONE_5)?(2):(2)));
+    
+    
     //shrink the secondary list into the background between pages 0 and 1
-    IFTTTScaleAnimation *secondaryListScaleAnimation = [IFTTTScaleAnimation animationWithView:self.amazonImageView];
-    [secondaryListScaleAnimation addKeyframeForTime:1 scale:1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
-    [secondaryListScaleAnimation addKeyframeForTime:1.8 scale:0.7];
-    [self.animator addAnimation:secondaryListScaleAnimation];
+    IFTTTScaleAnimation *amazonScaleAnimation = [IFTTTScaleAnimation animationWithView:self.amazonImageView];
+    [amazonScaleAnimation addKeyframeForTime:0.95 scale:1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
+    [amazonScaleAnimation addKeyframeForTime:1.99 scale:scale];
+    [amazonScaleAnimation addKeyframeForTime:0 scale:0.01];
+    [self.animator addAnimation:amazonScaleAnimation];
 }
 
 - (void) configureCiscoImageView {
-    [self keepView:self.ciscoImageView onPages:@[@(0.64)] atTimes:@[@(1)]];
+    [self keepView:self.ciscoImageView onPages:@[@(0.64),@(4),@(6)] atTimes:@[@(1),@(2),@(4)]];
     
     [self.ciscoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.primaryListImageView.mas_top).offset(100);
     }];
+    IFTTTScaleAnimation* ciscoScaleAnimation = [IFTTTScaleAnimation animationWithView:self.ciscoImageView];
+    [ciscoScaleAnimation addKeyframeForTime:0 scale:0.01];
+    [ciscoScaleAnimation addKeyframeForTime:0.9 scale:1.0];
+    [self.animator addAnimation:ciscoScaleAnimation];
 }
 
 - (void) configureFacebookImageView {
-    [self keepView:self.facebookImageView onPages:@[@(1.26),@(-1)] atTimes:@[@(1),@(2)]];
+    
+    CGFloat margin = (IS_IPHONE_6_PLUS)?(100):((IS_IPHONE_6)?(100):((IS_IPHONE_5)?(100):(60)));
+    
+    [self keepView:self.facebookImageView onPages:@[@(1.26),@(4),@(5)] atTimes:@[@(1),@(2),@(4)]];
     
     [self.facebookImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.primaryListImageView.mas_top).offset(100);
+        make.top.equalTo(self.primaryListImageView.mas_top).offset(margin);
     }];
+    IFTTTScaleAnimation* facebookScaleAnimation = [IFTTTScaleAnimation animationWithView:self.facebookImageView];
+    [facebookScaleAnimation addKeyframeForTime:0 scale:0.01];
+    [facebookScaleAnimation addKeyframeForTime:1.0 scale:1.0];
+    [self.animator addAnimation:facebookScaleAnimation];
 }
 
 - (void) configureGoogleImageView {
-    [self keepView:self.googleImageView onPages:@[@(1.34),@(-1)] atTimes:@[@(1),@(2)]];
+    [self keepView:self.googleImageView onPages:@[@(1.34),@(4),@(5)] atTimes:@[@(1),@(2),@(4)]];
     
     [self.googleImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.primaryListImageView.mas_bottom).offset(-80);
     }];
+    IFTTTScaleAnimation* googleScaleAnimation = [IFTTTScaleAnimation animationWithView:self.googleImageView];
+    [googleScaleAnimation addKeyframeForTime:0 scale:0.01];
+    [googleScaleAnimation addKeyframeForTime:1.0 scale:1.0];
+    [self.animator addAnimation:googleScaleAnimation];
 }
 
 - (void) configureMicrosoftImageView {
-    [self keepView:self.microsoftImageView onPages:@[@(0.64)] atTimes:@[@(1)]];
+    [self keepView:self.microsoftImageView onPages:@[@(0.64),@(3),@(6)] atTimes:@[@(1),@(2),@(3)]];
     
     [self.microsoftImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.primaryListImageView.mas_centerY).offset(-4);
     }];
+    IFTTTScaleAnimation* microsoftScaleAnimation = [IFTTTScaleAnimation animationWithView:self.microsoftImageView];
+    [microsoftScaleAnimation addKeyframeForTime:0 scale:0.01];
+    [microsoftScaleAnimation addKeyframeForTime:0.5 scale:1.0];
+    [self.animator addAnimation:microsoftScaleAnimation];
 }
 
 - (void) configureOracleImageView {
-    [self keepView:self.oracleImageView onPages:@[@(0.68)] atTimes:@[@(1)]];
+    
+    CGFloat topMargin = (IS_IPHONE_6_PLUS)?(-60):((IS_IPHONE_6)?(-60):((IS_IPHONE_5)?(-60):(-20)));
+    
+    [self keepView:self.oracleImageView onPages:@[@(0.68),@(3.5),@(6)] atTimes:@[@(1),@(2),@(3)]];
     
     [self.oracleImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.primaryListImageView.mas_bottom).offset(-60);
+        make.top.equalTo(self.primaryListImageView.mas_bottom).offset(topMargin);
     }];
+    IFTTTScaleAnimation* oracleScaleAnimation = [IFTTTScaleAnimation animationWithView:self.oracleImageView];
+    [oracleScaleAnimation addKeyframeForTime:0 scale:0.01];
+    [oracleScaleAnimation addKeyframeForTime:1.0 scale:1.0];
+    [self.animator addAnimation:oracleScaleAnimation];
 }
 
 - (void) configureYahooImageView {
-    [self keepView:self.yahooImageView onPages:@[@(0.85),@(-1)] atTimes:@[@(1),@(2)]];
+    
+    CGFloat topMargin = (IS_IPHONE_6_PLUS)?(24):((IS_IPHONE_6)?(24):((IS_IPHONE_5)?(24):(4)));
+    
+    [self keepView:self.yahooImageView onPages:@[@(0.85),@(4),@(5)] atTimes:@[@(1),@(2),@(4)]];
     
     [self.yahooImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.primaryListImageView.mas_top).offset(24);
+        make.top.equalTo(self.primaryListImageView.mas_top).offset(topMargin);
     }];
+    IFTTTScaleAnimation* yahooScaleAnimation = [IFTTTScaleAnimation animationWithView:self.yahooImageView];
+    [yahooScaleAnimation addKeyframeForTime:0 scale:0.01];
+    [yahooScaleAnimation addKeyframeForTime:0.7 scale:1.0];
+    [self.animator addAnimation:yahooScaleAnimation];
 }
 
 - (void) configureSecondaryListImageView {
@@ -240,24 +298,25 @@
         make.top.equalTo(self.contentView.mas_top).offset(20);
         make.width.lessThanOrEqualTo(self.scrollView);
         make.width.equalTo(self.scrollView).multipliedBy(0.5).with.priorityHigh();
+        make.height.equalTo(self.scrollView).multipliedBy(0.7).with.priorityHigh();
     }];
     
     IFTTTHideAnimation *secondaryListHideAnimation = [IFTTTHideAnimation animationWithView:self.secondaryListImageView hideAt:1];
     [self.animator addAnimation:secondaryListHideAnimation];
 
-    IFTTTHideAnimation *secondaryListShowAnimation = [IFTTTHideAnimation animationWithView:self.secondaryListImageView showAt:1.9];
+    IFTTTHideAnimation *secondaryListShowAnimation = [IFTTTHideAnimation animationWithView:self.secondaryListImageView showAt:1.99];
     [self.animator addAnimation:secondaryListShowAnimation];
     
     // grow the secondary list into the background between pages 0 and 1
     IFTTTScaleAnimation *secondaryListScaleAnimation = [IFTTTScaleAnimation animationWithView:self.secondaryListImageView];
-    [secondaryListScaleAnimation addKeyframeForTime:1 scale:0.1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
+  //  [secondaryListScaleAnimation addKeyframeForTime:1 scale:0.5 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
     [secondaryListScaleAnimation addKeyframeForTime:2 scale:1];
+    [secondaryListScaleAnimation addKeyframeForTime:3 scale:0.5];
     [self.animator addAnimation:secondaryListScaleAnimation];
 }
 
 - (void) configureArrowListIntroImageView {
     [self keepView:self.arrowListIntro onPages:@[@(0)] atTimes:@[@(0)]];
-    
     [self.arrowListIntro mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.onboardingIntroImageView.mas_bottom).offset(20);
     }];
@@ -286,15 +345,20 @@
         make.top.equalTo(self.contentView.mas_top).offset(20);
         make.width.lessThanOrEqualTo(self.scrollView);
         make.width.equalTo(self.scrollView).multipliedBy(0.5).with.priorityHigh();
+        make.height.equalTo(self.scrollView).multipliedBy(0.7).with.priorityHigh();
     }];
+    IFTTTScaleAnimation *arrowTickListScaleAnimation = [IFTTTScaleAnimation animationWithView:self.tickListImageView];
+    [arrowTickListScaleAnimation addKeyframeForTime:2 scale:0.5 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
+    [arrowTickListScaleAnimation addKeyframeForTime:3 scale:1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
+    [arrowTickListScaleAnimation addKeyframeForTime:4 scale:0.5 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
+    [self.animator addAnimation:arrowTickListScaleAnimation];
 }
 
 - (void) configureDashedLineView {
+    
     // Set up the view that contains the airplane view and its dashed line path view
     self.dashedLineLayer = [self dashedLineLayer];
     [self.dashedLineView.layer addSublayer:self.dashedLineLayer];
-    
-    self.dashedLineView.backgroundColor = [UIColor yellowColor];
     
     [self.dashedLineView addSubview:self.arrowImageView];
     [self.arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -337,10 +401,16 @@
 
 - (CGPathRef)dashedLinePath
 {
+    CGFloat endXCoordinate = (IS_IPHONE_6_PLUS)?(400):((IS_IPHONE_6)?(360):((IS_IPHONE_5)?(320):(320)));
+    
+    CGFloat startXCoordinate = (IS_IPHONE_6_PLUS)?(100):((IS_IPHONE_6)?(84):((IS_IPHONE_5)?(84):(84)));
+    
+    CGFloat yCoordinate = (IS_IPHONE_6_PLUS)?(-470):((IS_IPHONE_6)?(-420):((IS_IPHONE_5)?(-364):(-306)));
+    
     // Create a bezier path for the airplane to fly along
     UIBezierPath *airplanePath = [UIBezierPath bezierPath];
-    [airplanePath moveToPoint: CGPointMake(84, -420)];
-    [airplanePath addLineToPoint: CGPointMake(360, -420)];
+    [airplanePath moveToPoint: CGPointMake(startXCoordinate, yCoordinate)];
+    [airplanePath addLineToPoint: CGPointMake(endXCoordinate, yCoordinate)];
     return airplanePath.CGPath;
 }
 
@@ -361,8 +431,8 @@
 
 - (void) configureOnboardingArrow {
     [self keepView:self.onboardingArrow onPages:@[@(2.85)] atTimes:@[@(3)]];
-
-    NSLayoutConstraint *arrowVerticalConstraint = [NSLayoutConstraint constraintWithItem:self.onboardingArrow
+    
+   NSLayoutConstraint *arrowVerticalConstraint = [NSLayoutConstraint constraintWithItem:self.onboardingArrow
                                                                               attribute:NSLayoutAttributeCenterY
                                                                               relatedBy:NSLayoutRelationEqual
                                                                                  toItem:self.loginOnboardingImageView
@@ -374,7 +444,7 @@
                                                                                                                  attribute:IFTTTLayoutAttributeHeight
                                                                                                              referenceView:self.loginOnboardingImageView];
     [arrowVerticalAnimation addKeyframeForTime:2 multiplier:1.14f];
-    [arrowVerticalAnimation addKeyframeForTime:3 multiplier:0.1f];
+    [arrowVerticalAnimation addKeyframeForTime:3 multiplier:0.03f];
     [self.animator addAnimation:arrowVerticalAnimation];
     
     IFTTTHideAnimation* arrowHideAnimation = [IFTTTHideAnimation animationWithView:self.onboardingArrow showAt:2.5];
@@ -394,7 +464,13 @@
         make.top.equalTo(self.contentView.mas_top).offset(20);
         make.width.lessThanOrEqualTo(self.scrollView);
         make.width.equalTo(self.scrollView).multipliedBy(0.5).with.priorityHigh();
+        make.height.equalTo(self.scrollView).multipliedBy(0.7).with.priorityHigh();
     }];
+    
+    IFTTTScaleAnimation *loginOnboardingScaleAnimation = [IFTTTScaleAnimation animationWithView:self.loginOnboardingImageView];
+    [loginOnboardingScaleAnimation addKeyframeForTime:3 scale:0.5 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
+    [loginOnboardingScaleAnimation addKeyframeForTime:4 scale:1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
+    [self.animator addAnimation:loginOnboardingScaleAnimation];
 }
 
 - (void) configureArrowInfoLoginImageView {
@@ -422,6 +498,7 @@
      [[NSUserDefaults standardUserDefaults] setBool:YES forKey:KEY_IS_WALKTHROUGH_SEEN];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self dismissViewControllerAnimated:YES completion:nil];
+    [UIApplication sharedApplication].statusBarHidden = NO;
 }
 
 - (NSUInteger)numberOfPages
@@ -465,6 +542,14 @@
 - (void)animateCurrentFrame
 {
     [self.animator animate:self.pageOffset];
+}
+
+-(BOOL)shouldAutorotate {
+    return TRUE;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (BOOL) prefersStatusBarHidden {

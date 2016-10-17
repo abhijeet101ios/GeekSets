@@ -56,16 +56,16 @@
     [self createBannerAd];
     [self createInterstitialAd];
     
-    if (self.isMovingToParentViewController) {
-       //do nothing
-    }
-    else {
+    self.navigationController.navigationBarHidden = NO;
+    
+    if (!self.isMovingToParentViewController) {
         
         BOOL isTickListCoachMarkSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TICK_LIST_COACH_MARK_SEEN];
         if (!isTickListCoachMarkSeen) {
             [self ab_createTickCoachMarks];
         }
     }
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void) ab_createCoachMarks {
@@ -192,6 +192,7 @@
 - (void) createBannerAd {
     self.bannerView.adUnitID = @"ca-app-pub-3743202420941577/2951813244";
     self.bannerView.rootViewController = self;
+    self.bannerView.adSize = kGADAdSizeSmartBannerPortrait ;
     [self.bannerView loadRequest:[GADRequest request]];
 }
 

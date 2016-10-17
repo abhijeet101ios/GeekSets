@@ -35,11 +35,15 @@
         [[NSUserDefaults standardUserDefaults] setValue:uniqueID forKey:UNIQUE_ID];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-   //set cursor color for the search bar text field
-    [[UITextField appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]] setTintColor:[UIColor darkTextColor]];
+    
+    if( [UIDevice currentDevice].systemVersion.floatValue >= 9.0 )
+    {
+        //set cursor color for the search bar text field
+        [[UITextField appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]] setTintColor:[UIColor darkTextColor]];
+    }
     
     [Fabric with:@[[Crashlytics class]]];
-
+    [[Fabric sharedSDK] setDebug: YES];
     return YES;
 }
 

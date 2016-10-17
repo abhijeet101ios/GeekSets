@@ -47,7 +47,11 @@
 
 @property (nonatomic) int totalBubblesCount;
 
+@property (weak, nonatomic) IBOutlet UILabel *logoutMessageLabel;
+
 @property(weak, nonatomic) IBOutlet GIDSignInButton *signInButton;
+
+@property (weak, nonatomic) IBOutlet UIView *logoutView;
 
 @property (nonatomic)  GADInterstitial* interstitial;
 
@@ -78,6 +82,8 @@
     
     self.userDatabaseRef = [[FIRDatabase database] referenceFromURL:@"https://amazonsets-298b8.firebaseio.com/"];
     
+    [self ab_checkForWalkthroughScreen];
+    
     [self createBubbles];
     
     [self ab_addSearchFunctionality];
@@ -91,41 +97,73 @@
     self.title = @"All";
     self.navigationController.navigationBarHidden = YES;
     
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-     [self ab_checkForWalkthroughScreen];
     
     [self ab_fetchUserData];
 }
 
 - (void) viewDidAppear:(BOOL) animated {
     [self showInterstitialAd];
+    if (!self.isMovingToParentViewController) {
+        
+        BOOL isTickListCoachMarkSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_REORDER_COACH_MARK_SEEN];
+        if (!isTickListCoachMarkSeen) {
+            [self ab_createReorderCoachMarks];
+        }
+    }
 }
 
 - (void) ab_createCoachMarks {
-    // Setup coach marks
-    
-    CGRect rectInTableView = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    CGRect coachmark1 = [self.tableView convertRect:rectInTableView toView:[self.tableView superview]];
-    
-    // Setup coach marks
-    NSArray *coachMarks = @[
-                            @{
-                                @"rect": [NSValue valueWithCGRect:coachmark1],
-                                @"caption": @"Select the company",
-                                @"position":[NSNumber numberWithInteger:LABEL_POSITION_BOTTOM],
-                                @"alignment":[NSNumber numberWithInteger:LABEL_ALIGNMENT_RIGHT],
-                                @"showArrow":[NSNumber numberWithBool:YES]
-                                }];
-    
-    MPCoachMarks *coachMarksView = [[MPCoachMarks alloc] initWithFrame:self.navigationController.view.bounds coachMarks:coachMarks];
-    [self.navigationController.view addSubview:coachMarksView];
-    [coachMarksView start];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:KEY_IS_TOPIC_LIST_COACH_MARK_SEEN];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_COACH_MARK_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_LOGIN_SCREEN_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN]) {
+        // Setup coach marks
+        
+        CGRect rectInTableView = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        CGRect coachmark1 = [self.tableView convertRect:rectInTableView toView:[self.tableView superview]];
+        
+        // Setup coach marks
+        NSArray *coachMarks = @[
+                                @{
+                                    @"rect": [NSValue valueWithCGRect:coachmark1],
+                                    @"caption": @"Select the company",
+                                    @"position":[NSNumber numberWithInteger:LABEL_POSITION_BOTTOM],
+                                    @"alignment":[NSNumber numberWithInteger:LABEL_ALIGNMENT_RIGHT],
+                                    @"showArrow":[NSNumber numberWithBool:YES]
+                                    }];
+        
+        MPCoachMarks *coachMarksView = [[MPCoachMarks alloc] initWithFrame:self.navigationController.view.bounds coachMarks:coachMarks];
+        [self.navigationController.view addSubview:coachMarksView];
+        [coachMarksView start];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:KEY_IS_TOPIC_LIST_COACH_MARK_SEEN];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void) ab_createReorderCoachMarks {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_REORDER_COACH_MARK_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_LOGIN_SCREEN_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN]) {
+        // Setup coach marks
+        
+        CGRect rectInTableView = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        CGRect coachmark1 = [self.tableView convertRect:rectInTableView toView:[self.tableView superview]];
+        
+        // Setup coach marks
+        NSArray *coachMarks = @[@{
+                                    @"rect": [NSValue valueWithCGRect:coachmark1],
+                                    @"caption": @"Drap and Drop to reorder the list of companies",
+                                    @"position":[NSNumber numberWithInteger:LABEL_POSITION_BOTTOM],
+                                    @"alignment":[NSNumber numberWithInteger:LABEL_ALIGNMENT_RIGHT],
+                                    @"showArrow":[NSNumber numberWithBool:YES]
+                                    }];
+        
+        MPCoachMarks *coachMarksView = [[MPCoachMarks alloc] initWithFrame:self.navigationController.view.bounds coachMarks:coachMarks];
+        [self.navigationController.view addSubview:coachMarksView];
+        [coachMarksView start];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:KEY_IS_TOPIC_LIST_REORDER_COACH_MARK_SEEN];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 - (void) ab_checkForWalkthroughScreen {
@@ -147,17 +185,20 @@
 }
 
 - (void) leftBarPressed:(UIButton*) button {
+    
+    self.navigationController.navigationBarHidden = YES;
+    
     [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth *_Nonnull auth,
                                                     FIRUser *_Nullable user) {
         if (user != nil) {
             // User is signed in.
         
-            //TODO:: show logged in status
-            
+            //show logged in status
+            [self ab_showLogoutScreen:YES];
         }
         else {
        //show login view
-            self.loginView.hidden = NO;
+            [self ab_showLoginScreen:YES];
         }
     }];
 }
@@ -294,6 +335,14 @@
         [floatingView animateAfterDuration:index];
     }
 }
+- (IBAction)signOutPressed:(UIButton *)sender {
+    NSError *error;
+    [[FIRAuth auth] signOut:&error];
+    if (!error) {
+        // Sign-out succeeded
+        [self ab_showLoginScreen:NO];
+    }
+}
 
 - (void) removeIntroView {
     
@@ -307,7 +356,7 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             // User is signed in.
-            self.loginView.hidden = YES;
+            [self ab_showLoginScreen:NO];
             
             self.navigationItem.leftBarButtonItem = nil;
             
@@ -316,13 +365,12 @@
             [self createBannerAd];
             
             [self showInterstitialAd];
-        }
-        else if (![[NSUserDefaults standardUserDefaults] valueForKey:KEY_IS_LOGIN_SCREEN_SHOWN] || ![[[NSUserDefaults standardUserDefaults] valueForKey:KEY_IS_LOGIN_SCREEN_SHOWN] boolValue]) {
-            // No user is signed in.
-            self.loginView.hidden = NO;
             
-            [[NSUserDefaults standardUserDefaults] setValue:@YES forKey:KEY_IS_LOGIN_SCREEN_SHOWN];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+            [UIApplication sharedApplication].statusBarHidden = NO;
+        }
+        else if (![[NSUserDefaults standardUserDefaults] valueForKey:KEY_IS_LOGIN_SCREEN_SEEN] || ![[[NSUserDefaults standardUserDefaults] valueForKey:KEY_IS_LOGIN_SCREEN_SEEN] boolValue]) {
+            // No user is signed in.
+            [self ab_showLoginScreen:YES];
         }
     }];
     
@@ -336,19 +384,36 @@
 
 #pragma mark - Login Callback methods
 
+- (void) ab_showLogoutScreen:(BOOL) showLogoutScreen {
+    self.logoutView.hidden = !showLogoutScreen;
+}
+
+- (void) ab_showLoginScreen:(BOOL) showLoginScreen {
+    self.loginView.hidden = !showLoginScreen;
+    
+    if (!showLoginScreen) {
+        self.navigationController.navigationBarHidden = NO;
+    }
+}
+
 - (void) loginSuccessDone {
-    self.loginView.hidden = YES;
+    [self ab_showLoginScreen:NO];
     [self createBannerAd];
     [self createInterstitialAd];
     
     //TODO:: next version
     //show user profile status here
     self.navigationItem.leftBarButtonItem = nil;
+    
+    [[NSUserDefaults standardUserDefaults] setValue:@YES forKey:KEY_IS_LOGIN_SCREEN_SEEN];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self ab_createCoachMarks];
 }
 
 
 - (void) loginFailed {
-    self.loginView.hidden = NO;
+    [self ab_showLoginScreen:YES];
 }
 
 #pragma mark - Ad methods
@@ -367,6 +432,7 @@
 - (void) createBannerAd {
     self.bannerView.adUnitID = @"ca-app-pub-3743202420941577/2951813244";
     self.bannerView.rootViewController = self;
+    self.bannerView.adSize = kGADAdSizeSmartBannerPortrait ;
     [self.bannerView loadRequest:[GADRequest request]];
 }
 
@@ -450,8 +516,10 @@ request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
         self.dataArray = ([data isKindOfClass:[NSDictionary class]])?([@[([((NSDictionary*)data).allKeys mutableCopy])] mutableCopy]):(nil);
         
         self.dataSourceArray = [self.dataArray mutableCopy];
-        
-        [self ab_sortDataSourceArray];
+       
+        if (self.setOrderArray.count) {
+            [self ab_sortDataSourceArray];
+        }
         
         [self.tableView reloadData];
         
@@ -463,14 +531,6 @@ request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
             }
         }
 
-        if (self.dataSourceArray.count) {
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-            BOOL isCoachMarkSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_COACH_MARK_SEEN];
-            if (!isCoachMarkSeen) {
-                [self ab_createCoachMarks];
-            }
-        }
-        
         //fetch user data
         
         data = snapshot.value;
@@ -563,7 +623,10 @@ request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
 }
 
 - (IBAction)guestButtonPressed:(UIButton *)sender {
-    self.loginView.hidden = YES;
+    [self ab_showLoginScreen:NO];
+    [[NSUserDefaults standardUserDefaults] setValue:@YES forKey:KEY_IS_LOGIN_SCREEN_SEEN];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self ab_createCoachMarks];
 }
 #pragma mark -
 
