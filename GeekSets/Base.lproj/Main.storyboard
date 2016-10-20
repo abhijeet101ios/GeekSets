@@ -292,55 +292,6 @@
                                     <constraint firstItem="TZt-oA-hdC" firstAttribute="centerY" secondItem="b9x-ZC-uNu" secondAttribute="centerY" multiplier="5:10" id="urb-N2-Igm"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hmS-OP-ZDk" userLabel="Logout View">
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Er-MJ-8Xq">
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ojr-CX-7lw" userLabel="Logout Button" customClass="UIButton">
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="OJd-7c-6Hc"/>
-                                            <constraint firstAttribute="width" constant="44" id="xnj-Pv-anM"/>
-                                        </constraints>
-                                        <connections>
-                                            <action selector="signOutPressed:" destination="mUU-Hu-Ung" eventType="valueChanged" id="e8x-AX-1QX"/>
-                                        </connections>
-                                    </view>
-                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login" translatesAutoresizingMaskIntoConstraints="NO" id="B6c-sH-wqO"/>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logged in as " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vfq-1I-Ie7" userLabel="Logout Message Label">
-                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.76078431369999999" blue="0.42745098040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GgR-AP-tfQ" userLabel="Guest Button">
-                                        <state key="normal" title="No, Continue as a guest">
-                                            <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="guestButtonPressed:" destination="mUU-Hu-Ung" eventType="touchUpInside" id="OJF-mt-8Jx"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="B6c-sH-wqO" firstAttribute="width" secondItem="hmS-OP-ZDk" secondAttribute="width" multiplier="7:10" id="462-gG-TVf"/>
-                                    <constraint firstItem="Ojr-CX-7lw" firstAttribute="centerY" secondItem="hmS-OP-ZDk" secondAttribute="centerY" multiplier="3:2" id="5eK-UG-Ttt"/>
-                                    <constraint firstItem="B6c-sH-wqO" firstAttribute="height" secondItem="hmS-OP-ZDk" secondAttribute="height" multiplier="1:2" id="7xu-JK-yyy"/>
-                                    <constraint firstItem="7Er-MJ-8Xq" firstAttribute="top" secondItem="hmS-OP-ZDk" secondAttribute="top" id="Cu2-k4-Ka8"/>
-                                    <constraint firstAttribute="bottom" secondItem="7Er-MJ-8Xq" secondAttribute="bottom" id="GpG-SA-F9R"/>
-                                    <constraint firstItem="Vfq-1I-Ie7" firstAttribute="top" secondItem="B6c-sH-wqO" secondAttribute="bottom" id="M1T-kw-jXp"/>
-                                    <constraint firstItem="Vfq-1I-Ie7" firstAttribute="centerX" secondItem="hmS-OP-ZDk" secondAttribute="centerX" id="Nzz-aD-N5L"/>
-                                    <constraint firstAttribute="trailing" secondItem="7Er-MJ-8Xq" secondAttribute="trailing" id="YMC-OI-iJe"/>
-                                    <constraint firstItem="B6c-sH-wqO" firstAttribute="centerX" secondItem="hmS-OP-ZDk" secondAttribute="centerX" id="cLC-Ok-1cu"/>
-                                    <constraint firstItem="B6c-sH-wqO" firstAttribute="centerY" secondItem="hmS-OP-ZDk" secondAttribute="centerY" multiplier="5:10" id="lVd-Rq-QSo"/>
-                                    <constraint firstItem="Ojr-CX-7lw" firstAttribute="centerX" secondItem="hmS-OP-ZDk" secondAttribute="centerX" id="mQt-9S-maS"/>
-                                    <constraint firstItem="GgR-AP-tfQ" firstAttribute="top" secondItem="Ojr-CX-7lw" secondAttribute="bottom" constant="14" id="mxF-XQ-JUg"/>
-                                    <constraint firstItem="7Er-MJ-8Xq" firstAttribute="leading" secondItem="hmS-OP-ZDk" secondAttribute="leading" id="rnf-Ek-sVG"/>
-                                    <constraint firstItem="GgR-AP-tfQ" firstAttribute="centerX" secondItem="Ojr-CX-7lw" secondAttribute="centerX" id="sZt-Pr-rgs"/>
-                                    <constraint firstItem="Vfq-1I-Ie7" firstAttribute="width" secondItem="hmS-OP-ZDk" secondAttribute="width" multiplier="4:5" id="uZc-bg-Pl4"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I6b-Na-1X9" userLabel="Bubble Background View">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
@@ -364,6 +315,54 @@
                                         <exclude reference="b05-al-62Z"/>
                                     </mask>
                                 </variation>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hmS-OP-ZDk" userLabel="Logout View">
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="B6c-sH-wqO" userLabel="Logged in User Image">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="Ubo-g9-JmU"/>
+                                            <constraint firstAttribute="height" constant="40" id="z23-Mx-3ej"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vfq-1I-Ie7" userLabel="Logout Message Label">
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.76078431369999999" blue="0.42745098040000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b93-TC-lni" userLabel="Logout Button">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="12n-fq-CZf"/>
+                                            <constraint firstAttribute="height" constant="30" id="b3A-aW-aCi"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
+                                        <state key="normal" title="Logout">
+                                            <color key="titleColor" red="1" green="0.23921568630000001" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="logoutPressed:" destination="mUU-Hu-Ung" eventType="touchUpInside" id="lCm-bK-1sq"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pCA-XN-UyN" userLabel="Not Now Button">
+                                        <state key="normal" title="Not Now">
+                                            <color key="titleColor" red="0.0" green="0.76078431369999999" blue="0.42745098040000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="notNowPressed:" destination="mUU-Hu-Ung" eventType="touchUpInside" id="ApD-rl-OvB"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="Vfq-1I-Ie7" firstAttribute="top" secondItem="B6c-sH-wqO" secondAttribute="bottom" constant="20" id="M1T-kw-jXp"/>
+                                    <constraint firstItem="Vfq-1I-Ie7" firstAttribute="centerX" secondItem="hmS-OP-ZDk" secondAttribute="centerX" id="Nzz-aD-N5L"/>
+                                    <constraint firstItem="B6c-sH-wqO" firstAttribute="centerX" secondItem="hmS-OP-ZDk" secondAttribute="centerX" id="cLC-Ok-1cu"/>
+                                    <constraint firstItem="b93-TC-lni" firstAttribute="centerX" secondItem="hmS-OP-ZDk" secondAttribute="centerX" id="dIY-6V-Sbg"/>
+                                    <constraint firstItem="pCA-XN-UyN" firstAttribute="top" secondItem="b93-TC-lni" secondAttribute="bottom" constant="20" id="dae-0f-xek"/>
+                                    <constraint firstItem="B6c-sH-wqO" firstAttribute="centerY" secondItem="hmS-OP-ZDk" secondAttribute="centerY" multiplier="1:2" id="gdV-R5-Mfx"/>
+                                    <constraint firstItem="b93-TC-lni" firstAttribute="centerY" secondItem="hmS-OP-ZDk" secondAttribute="centerY" id="pra-cw-dXN"/>
+                                    <constraint firstItem="Vfq-1I-Ie7" firstAttribute="width" secondItem="hmS-OP-ZDk" secondAttribute="width" multiplier="4:5" id="uZc-bg-Pl4"/>
+                                    <constraint firstItem="pCA-XN-UyN" firstAttribute="centerX" secondItem="b93-TC-lni" secondAttribute="centerX" id="yNV-oC-pWS"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -406,11 +405,11 @@
                             <mask key="constraints">
                                 <exclude reference="JHl-ri-RdL"/>
                                 <exclude reference="O8A-bO-63V"/>
+                                <exclude reference="Rxf-Xd-QDd"/>
                                 <exclude reference="h8s-PD-fog"/>
                                 <exclude reference="oRT-mk-cf0"/>
                                 <exclude reference="N5r-Ij-o9A"/>
                                 <exclude reference="xwb-2o-4eB"/>
-                                <exclude reference="Rxf-Xd-QDd"/>
                             </mask>
                         </variation>
                     </view>
@@ -419,6 +418,7 @@
                     <connections>
                         <outlet property="bannerView" destination="aeM-ZN-7nZ" id="xbp-qJ-ege"/>
                         <outlet property="bubbleBackgroundView" destination="I6b-Na-1X9" id="VER-gM-qwX"/>
+                        <outlet property="loggedInUserImageView" destination="B6c-sH-wqO" id="Gad-5K-n5a"/>
                         <outlet property="loginView" destination="b9x-ZC-uNu" id="Ip5-QK-RfC"/>
                         <outlet property="logoutMessageLabel" destination="Vfq-1I-Ie7" id="jvp-Z8-ViJ"/>
                         <outlet property="logoutView" destination="hmS-OP-ZDk" id="qFz-L8-nd8"/>
@@ -509,7 +509,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hsC-Ct-sJz" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="h9X-NP-Wz4">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="h9X-NP-Wz4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -544,7 +544,8 @@
     <resources>
         <image name="back_arrow" width="13" height="23"/>
         <image name="geeksets_logo" width="76" height="76"/>
-        <image name="login" width="539" height="488"/>
+        <image name="login" width="441" height="367"/>
+        <image name="profile_placeholder" width="32" height="42"/>
         <image name="reminder_unselected" width="26" height="26"/>
     </resources>
 </document>

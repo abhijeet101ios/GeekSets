@@ -15,6 +15,7 @@
 #import "DragAndDropTableView.h"
 #import "PagedViewController.h"
 #import "MPCoachMarks.h"
+#import "Utility.h"
 
 @import Firebase;
 
@@ -47,6 +48,8 @@
 
 @property (nonatomic) int totalBubblesCount;
 
+@property (weak, nonatomic) IBOutlet UIImageView *loggedInUserImageView;
+
 @property (weak, nonatomic) IBOutlet UILabel *logoutMessageLabel;
 
 @property(weak, nonatomic) IBOutlet GIDSignInButton *signInButton;
@@ -61,6 +64,10 @@
 
 @property (weak, nonatomic) ViewController* viewController;
 
+@property (nonatomic) BOOL isBubbleScreenVisible;
+
+@property (nonatomic) BOOL isInterstitialAdToBeStopped;
+@property (nonatomic) BOOL isGlobalInterstitialAdFlagDisabled;
 @end
 
 #define KEY_SETS @"sets"
@@ -92,8 +99,6 @@
     
     [self ab_customRightBarButton];
     
-    [self createInterstitialAd];
-    
     self.title = @"All";
     self.navigationController.navigationBarHidden = YES;
     
@@ -113,6 +118,9 @@
         BOOL isTickListCoachMarkSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_REORDER_COACH_MARK_SEEN];
         if (!isTickListCoachMarkSeen) {
             [self ab_createReorderCoachMarks];
+        }
+        else {
+            [self createInterstitialAd];
         }
     }
 }
@@ -152,7 +160,7 @@
         // Setup coach marks
         NSArray *coachMarks = @[@{
                                     @"rect": [NSValue valueWithCGRect:coachmark1],
-                                    @"caption": @"Drap and Drop to reorder the list of companies",
+                                    @"caption": @"Drag and Drop to reorder the list of companies",
                                     @"position":[NSNumber numberWithInteger:LABEL_POSITION_BOTTOM],
                                     @"alignment":[NSNumber numberWithInteger:LABEL_ALIGNMENT_RIGHT],
                                     @"showArrow":[NSNumber numberWithBool:YES]
@@ -247,6 +255,7 @@
     viewController.topicName = dataTopic;
     viewController.completedArray = [self.completedArray mutableCopy];
     viewController.openedArray = [self.openedArray mutableCopy];
+    self.isInterstitialAdToBeStopped = NO;
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
@@ -315,6 +324,8 @@
 
 - (void) createBubbles {
     
+    self.isBubbleScreenVisible = YES;
+    
     self.totalBubblesCount = 1;
     
     for (int index = 0; index < self.totalBubblesCount; index++) {
@@ -346,19 +357,15 @@
 
 - (void) removeIntroView {
     
+    self.isBubbleScreenVisible = NO;
+    
     [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth *_Nonnull auth,
                                                     FIRUser *_Nullable user) {
         if (user != nil) {
             
-            NSString* initialSubstring = [[user.email componentsSeparatedByString:@"@"] firstObject];
-            
-            [[NSUserDefaults standardUserDefaults] setValue:initialSubstring forKey:UNIQUE_ID];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
             // User is signed in.
             [self ab_showLoginScreen:NO];
-            
-            self.navigationItem.leftBarButtonItem = nil;
+            [self ab_showLogoutScreen:NO];
             
             self.navigationController.navigationBarHidden = NO;
             
@@ -386,6 +393,12 @@
 
 - (void) ab_showLogoutScreen:(BOOL) showLogoutScreen {
     self.logoutView.hidden = !showLogoutScreen;
+    if (showLogoutScreen) {
+        self.logoutMessageLabel.text = [FIRAuth auth].currentUser.displayName;
+        if ([FIRAuth auth].currentUser.photoURL) {
+            self.loggedInUserImageView.image = [UIImage imageWithData:[[NSData alloc] initWithContentsOfURL:[FIRAuth auth].currentUser.photoURL]];
+        }
+    }
 }
 
 - (void) ab_showLoginScreen:(BOOL) showLoginScreen {
@@ -399,11 +412,6 @@
 - (void) loginSuccessDone {
     [self ab_showLoginScreen:NO];
     [self createBannerAd];
-    [self createInterstitialAd];
-    
-    //TODO:: next version
-    //show user profile status here
-    self.navigationItem.leftBarButtonItem = nil;
     
     [[NSUserDefaults standardUserDefaults] setValue:@YES forKey:KEY_IS_LOGIN_SCREEN_SEEN];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -437,15 +445,19 @@
 }
 
 - (GADInterstitial *)createInterstitialAd {
-    self.interstitial =
-    [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3743202420941577/5605948044"];
-    
-    GADRequest *request = [GADRequest request];
-    // Request test ads on devices you specify. Your test device ID is printed to the console when
-    // an ad request is made.
-request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
-    [self.interstitial loadRequest:request];
-    return self.interstitial;
+    if (!self.isGlobalInterstitialAdFlagDisabled && !self.isInterstitialAdToBeStopped) {
+        
+        self.interstitial =
+        [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3743202420941577/5605948044"];
+        
+        GADRequest *request = [GADRequest request];
+        // Request test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made.
+        request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
+        [self.interstitial loadRequest:request];
+        return self.interstitial;
+    }
+    return nil;
 }
 
 - (void)interstitialDidDismissScreen:(GADInterstitial *)interstitial {
@@ -453,8 +465,11 @@ request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
 }
 
 - (void) showInterstitialAd {
-    if ([self.interstitial isReady]) {
-        [self.interstitial presentFromRootViewController:self];
+    if (!self.isGlobalInterstitialAdFlagDisabled && !self.isInterstitialAdToBeStopped) {
+        if ([self.interstitial isReady]) {
+            self.isInterstitialAdToBeStopped = YES;
+            [self.interstitial presentFromRootViewController:self];
+        }
     }
 }
 
@@ -484,7 +499,7 @@ request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
 
 - (void) ab_updateDataSourceArray {
     
-    NSString* uniqueID = [[NSUserDefaults standardUserDefaults] valueForKey:UNIQUE_ID];
+    NSString* uniqueID = [[Utility sharedInsance] ab_getUserID];
     
     NSString* userKey = @"users";
     
@@ -500,7 +515,10 @@ request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
         
         id data = snapshot.value;
         
-        NSString* uniqueID = [[NSUserDefaults standardUserDefaults] valueForKey:UNIQUE_ID];
+        //update interstitialad status
+        self.isGlobalInterstitialAdFlagDisabled = [data[KEY_IS_INTERSTITIAL_AD_DISABLED] boolValue];
+        
+        NSString* uniqueID =  [[Utility sharedInsance] ab_getUserID];
         
         NSString* userKey = @"users";
         
@@ -670,6 +688,19 @@ request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
 -(CGFloat)tableView:tableView heightForEmptySection:(int)section
 {
     return 10;
+}
+
+#pragma mark - Logout button callback
+
+- (IBAction)logoutPressed:(UIButton *)sender {
+    NSError* error;
+    [[FIRAuth auth] signOut:&error];
+    [self ab_showLogoutScreen:NO];
+    [self ab_showLoginScreen:YES];
+}
+- (IBAction)notNowPressed:(UIButton *)sender {
+    [self ab_showLogoutScreen:NO];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 @end

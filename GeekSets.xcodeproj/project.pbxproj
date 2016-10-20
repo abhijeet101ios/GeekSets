@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8CE6EFC6BDFBECF9EFF90EC8 /* libPods-GeekSetsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 761A00E81B4541E2FC9FB392 /* libPods-GeekSetsTests.a */; };
 		CC15C2AAA74BAE5DB2792D08 /* libPods-GeekSetsUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A2AF3F43C08F90440830EEB /* libPods-GeekSetsUITests.a */; };
+		EE06CF681DB8931A00CDF846 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = EE06CF671DB8931A00CDF846 /* Utility.m */; };
 		EEAE294A1DAEC5FA0067C193 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE29491DAEC5FA0067C193 /* main.m */; };
 		EEAE294D1DAEC5FA0067C193 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE294C1DAEC5FA0067C193 /* AppDelegate.m */; };
 		EEAE29501DAEC5FA0067C193 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE294F1DAEC5FA0067C193 /* ViewController.m */; };
@@ -54,6 +55,8 @@
 		91FF90BAF0DCEDC662F5D61F /* Pods-GeekSets.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GeekSets.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GeekSets/Pods-GeekSets.debug.xcconfig"; sourceTree = "<group>"; };
 		B2605DCD6D05D89BFE55E52D /* Pods-GeekSets.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GeekSets.release.xcconfig"; path = "Pods/Target Support Files/Pods-GeekSets/Pods-GeekSets.release.xcconfig"; sourceTree = "<group>"; };
 		E720A3FD077EF14018AFDC23 /* Pods-GeekSetsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GeekSetsUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GeekSetsUITests/Pods-GeekSetsUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		EE06CF661DB8931A00CDF846 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		EE06CF671DB8931A00CDF846 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
 		EEAE29451DAEC5FA0067C193 /* GeekSets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeekSets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEAE29491DAEC5FA0067C193 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EEAE294B1DAEC5FA0067C193 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -185,6 +188,8 @@
 				EEAE29561DAEC5FA0067C193 /* LaunchScreen.storyboard */,
 				EEAE29591DAEC5FA0067C193 /* Info.plist */,
 				EEAE29481DAEC5FA0067C193 /* Supporting Files */,
+				EE06CF661DB8931A00CDF846 /* Utility.h */,
+				EE06CF671DB8931A00CDF846 /* Utility.m */,
 			);
 			path = GeekSets;
 			sourceTree = "<group>";
@@ -494,6 +499,7 @@
 			files = (
 				EEAE29921DAECDE40067C193 /* PagedViewController.m in Sources */,
 				EEAE29871DAEC8EF0067C193 /* AmazonSetTableViewCell.m in Sources */,
+				EE06CF681DB8931A00CDF846 /* Utility.m in Sources */,
 				EEAE29501DAEC5FA0067C193 /* ViewController.m in Sources */,
 				EEAE294D1DAEC5FA0067C193 /* AppDelegate.m in Sources */,
 				EEAE294A1DAEC5FA0067C193 /* main.m in Sources */,

@@ -13,6 +13,7 @@
 #import "ImageFloatingAnimationView.h"
 #import "CommonConstants.h"
 #import "MPCoachMarks.h"
+#import "Utility.h"
 
 
 @import GoogleMobileAds;
@@ -1248,7 +1249,7 @@
 
 - (void) ab_writeUpdateStatus {
   
-    NSString* uniqueID = [[NSUserDefaults standardUserDefaults] valueForKey:UNIQUE_ID];
+    NSString* uniqueID =  [[Utility sharedInsance] ab_getUserID];
     
     NSString* userKey = @"users";
     

@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "CommonConstants.h"
+#import "Utility.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
@@ -29,16 +30,12 @@
     [GIDSignIn sharedInstance].clientID = [FIRApp defaultApp].options.clientID;
     [GIDSignIn sharedInstance].delegate = self;
     
-    if (![[NSUserDefaults standardUserDefaults] valueForKey:UNIQUE_ID]) {
-        NSString* uniqueID = [self randomStringWithLength:10];
-        
-        [[NSUserDefaults standardUserDefaults] setValue:uniqueID forKey:UNIQUE_ID];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+    [[Utility sharedInsance] ab_getUserID];
     
     if( [UIDevice currentDevice].systemVersion.floatValue >= 9.0 )
     {
         //set cursor color for the search bar text field
+        //not supported below iOS 9.0
         [[UITextField appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]] setTintColor:[UIColor darkTextColor]];
     }
     
