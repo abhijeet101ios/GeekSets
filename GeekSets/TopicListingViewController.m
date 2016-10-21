@@ -46,8 +46,6 @@
 
 @property (nonatomic) int removedBubblesCount;
 
-@property (nonatomic) int totalBubblesCount;
-
 @property (weak, nonatomic) IBOutlet UIImageView *loggedInUserImageView;
 
 @property (weak, nonatomic) IBOutlet UILabel *logoutMessageLabel;
@@ -70,7 +68,11 @@
 
 @property (nonatomic) BOOL isGlobalInterstitialAdFlagDisabled;
 
+@property (nonatomic) BOOL isNetworkRequestCompleted;
+
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bannerAdHeight;
+@property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
+@property (weak, nonatomic) IBOutlet UILabel *intializingLabel;
 
 @end
 
@@ -104,6 +106,8 @@
     
     [self ab_customRightBarButton];
     
+    [self ab_customizeTitleBackgroundScreen];
+    
     self.title = @"All";
     self.navigationController.navigationBarHidden = YES;
     
@@ -128,6 +132,13 @@
             [self createInterstitialAd];
         }
     }
+}
+
+- (void) ab_customizeTitleBackgroundScreen {
+    self.intializingLabel.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+    self.intializingLabel.layer.shadowOffset = CGSizeMake(3, 3);
+    self.intializingLabel.layer.shadowOpacity = 0.6;
+    self.intializingLabel.layer.shadowRadius = 1.0;
 }
 
 - (void) ab_createCoachMarks {
@@ -331,24 +342,30 @@
     
     self.isBubbleScreenVisible = YES;
     
-    self.totalBubblesCount = 1;
+    int maxBubbleCount = 5000;
     
-    for (int index = 0; index < self.totalBubblesCount; index++) {
-        
-        int randomIndex = [self getRandomBubbleIndex];
-        
-        ImageFloatingAnimationView* floatingView= [[ImageFloatingAnimationView alloc] initWithStartingPoint:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height) image:[self getImageForBubbleIndex:randomIndex]];
-        [floatingView addImage:[self getImageForBubbleIndex:randomIndex]];
-        floatingView.minFloatObjectSize = floatingView.maxFloatObjectSize = 180;
-        floatingView.animationDuration = [self getRandomBubbleTime];
-        floatingView.imageViewAnimationCompleted = ^(UIImageView* imageView) {
-            self.removedBubblesCount++;
-            if (self.removedBubblesCount == self.totalBubblesCount) {
-                [self removeIntroView];
-            }
-        };
-        [self.bubbleBackgroundView addSubview:floatingView];
-        [floatingView animateAfterDuration:index];
+    int minBubbleCount = 1;
+    
+    for (int index = 0; index < maxBubbleCount; index++) {
+        if (index%7 == 0) {
+            int randomIndex = [self getRandomBubbleIndex];
+            
+            ImageFloatingAnimationView* floatingView= [[ImageFloatingAnimationView alloc] initWithStartingPoint:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height) image:[self getImageForBubbleIndex:randomIndex]];
+            [floatingView addImage:[self getImageForBubbleIndex:randomIndex]];
+            floatingView.minFloatObjectSize = floatingView.maxFloatObjectSize = 180;
+            floatingView.animationDuration = [self getRandomBubbleTime];
+            floatingView.imageViewAnimationCompleted = ^(UIImageView* imageView) {
+                self.removedBubblesCount++;
+                if (self.removedBubblesCount >= minBubbleCount) {
+                    if (self.isNetworkRequestCompleted) {
+                        [self removeIntroView];
+                    }
+                }
+            };
+            [self.bubbleBackgroundView addSubview:floatingView];
+            [floatingView animateAfterDuration:index];
+        }
+       
     }
 }
 - (IBAction)signOutPressed:(UIButton *)sender {
@@ -363,6 +380,10 @@
 - (void) removeIntroView {
     
     self.isBubbleScreenVisible = NO;
+    
+    if ([FIRAuth auth].currentUser) {
+        self.navigationController.navigationBarHidden = NO;
+    }
     
     [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth *_Nonnull auth,
                                                     FIRUser *_Nullable user) {
@@ -537,6 +558,8 @@
     [self.userDatabaseRef observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
         
         id data = snapshot.value;
+        
+        self.isNetworkRequestCompleted = YES;
         
         //update interstitialad status
         self.isGlobalInterstitialAdFlagDisabled = [data[KEY_IS_INTERSTITIAL_AD_DISABLED] boolValue];

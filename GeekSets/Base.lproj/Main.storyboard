@@ -286,7 +286,13 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fqc-kD-AMf" userLabel="Title Background View">
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="geeksets_logo" translatesAutoresizingMaskIntoConstraints="NO" id="cEp-kc-K5a" userLabel="geeksets image view">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Initializing data..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ppb-4q-jV4" userLabel="Intializing label">
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.76078431369999999" blue="0.42745098040000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="geeksets_logo" translatesAutoresizingMaskIntoConstraints="NO" id="cEp-kc-K5a" userLabel="Logo Image View">
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="7Wu-Mr-cAb"/>
                                             <constraint firstAttribute="width" secondItem="cEp-kc-K5a" secondAttribute="height" multiplier="1:1" id="J8E-ab-PrY"/>
@@ -295,8 +301,10 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstItem="ppb-4q-jV4" firstAttribute="top" secondItem="cEp-kc-K5a" secondAttribute="bottom" constant="24" id="2af-a0-EAn"/>
                                     <constraint firstAttribute="height" constant="486" id="b05-al-62Z"/>
                                     <constraint firstItem="cEp-kc-K5a" firstAttribute="centerX" secondItem="fqc-kD-AMf" secondAttribute="centerX" id="c2e-bH-YDp"/>
+                                    <constraint firstItem="ppb-4q-jV4" firstAttribute="centerX" secondItem="fqc-kD-AMf" secondAttribute="centerX" id="fSF-Sb-BdT"/>
                                     <constraint firstItem="cEp-kc-K5a" firstAttribute="centerY" secondItem="fqc-kD-AMf" secondAttribute="centerY" id="y1W-2D-hAa"/>
                                 </constraints>
                                 <variation key="default">
@@ -408,8 +416,10 @@
                         <outlet property="bannerAdHeight" destination="u7h-CU-x7N" id="nFg-RV-45v"/>
                         <outlet property="bannerView" destination="aeM-ZN-7nZ" id="xbp-qJ-ege"/>
                         <outlet property="bubbleBackgroundView" destination="I6b-Na-1X9" id="VER-gM-qwX"/>
+                        <outlet property="intializingLabel" destination="ppb-4q-jV4" id="H0w-ZJ-78g"/>
                         <outlet property="loggedInUserImageView" destination="B6c-sH-wqO" id="Gad-5K-n5a"/>
                         <outlet property="loginView" destination="b9x-ZC-uNu" id="Ip5-QK-RfC"/>
+                        <outlet property="logoImageView" destination="cEp-kc-K5a" id="cIv-Vs-ebA"/>
                         <outlet property="logoutMessageLabel" destination="Vfq-1I-Ie7" id="jvp-Z8-ViJ"/>
                         <outlet property="logoutView" destination="hmS-OP-ZDk" id="qFz-L8-nd8"/>
                         <outlet property="signInButton" destination="Bbg-Qz-Tdq" id="QRc-PC-OKS"/>
@@ -510,7 +520,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hsC-Ct-sJz" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="h9X-NP-Wz4">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="h9X-NP-Wz4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
