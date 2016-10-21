@@ -7,14 +7,15 @@ target 'GeekSets' do
 
   # Pods for GeekSets
 pod 'Firebase/Core'
-  pod 'Firebase/AdMob'
+pod 'Firebase/AdMob'
+pod 'Firebase/Messaging'
 pod 'Firebase/Auth'
 pod 'GoogleSignIn'
 pod 'DZNWebViewController'
-pod "JRMFloatingAnimation"
+pod 'JRMFloatingAnimation'
 pod 'Firebase/Database'
 pod 'DragAndDropTableView', '~> 0.1'
-pod “JazzHands”
+pod 'JazzHands'
 pod 'Masonry'
 pod 'MPCoachMarks'
 pod 'Fabric'

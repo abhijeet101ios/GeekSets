@@ -12,6 +12,13 @@
 
 #endif /* CommonConstants_h */
 
+typedef enum {
+    interstitialAd,
+    bannerAdTopicList,
+    bannerAdSetList,
+    bannerAdWebView    
+} adType;
+
 #define APP_COLOR [UIColor colorWithRed:0 green:194.0/255.0 blue:109.0/255.0 alpha:0.8]
 #define UNIQUE_ID @"unique_id"
 #define DIVIDER_KEY @"divider101"
@@ -21,7 +28,6 @@
 #define KEY_COMPLETED @"completed"
 #define KEY_OPENED @"opened"
 #define KEY_SET_ORDER @"setOrder"
-#define KEY_IS_INTERSTITIAL_AD_DISABLED @"isInterstitialAdDisabled"
 #define KEY_IS_LOGIN_SCREEN_SEEN @"isLoginScreenShown"
 #define KEY_IS_WALKTHROUGH_SEEN @"isWalkthroughSeen"
 #define KEY_IS_TOPIC_LIST_COACH_MARK_SEEN @"isTopicListCoachMarkSeen"
@@ -29,3 +35,8 @@
 #define KEY_IS_SET_LIST_COACH_MARK_SEEN @"isSetListCoachMarkSeen"
 #define KEY_IS_TICK_LIST_COACH_MARK_SEEN @"isTickListCoachMarkSeen"
 
+//ad related values
+#define KEY_IS_INTERSTITIAL_AD_DISABLED @"isInterstitialAdDisabled"
+#define KEY_IS_TOPIC_LIST_BANNER_AD_DISABLED @"isTopicListBannerAdDisabled"
+#define KEY_IS_SET_LIST_BANNER_AD_DISABLED @"isSetListBannerAdDisabled"
+#define KEY_IS_WEB_VIEW_BANNER_AD_DISABLED @"isWebViewBannerAdDisabled"

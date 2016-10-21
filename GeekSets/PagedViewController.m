@@ -487,11 +487,6 @@
     [self.startButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView.mas_bottom).offset(-20);
     }];
-    
-    IFTTTScaleAnimation *startButtonScaleAnimation = [IFTTTScaleAnimation animationWithView:self.startButton];
-    [startButtonScaleAnimation addKeyframeForTime:3 scale:0.1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
-    [startButtonScaleAnimation addKeyframeForTime:4 scale:1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
-    [self.animator addAnimation:startButtonScaleAnimation];
 }
 
 - (void) startButtonPressed:(UIButton*) startButton {

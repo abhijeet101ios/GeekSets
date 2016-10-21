@@ -7,7 +7,6 @@
 //
 
 #import "Utility.h"
-#import "CommonConstants.h"
 
 @import Firebase;
 
@@ -30,16 +29,16 @@ static Utility* sharedInstance;
 }
 
 - (NSString*) ab_getUserID {
-    if ( [FIRAuth auth].currentUser) {
+    if ([FIRAuth auth].currentUser) {
         //logged in user
-        return [FIRAuth auth].currentUser.email;
+        return [[[FIRAuth auth].currentUser.email componentsSeparatedByString:@"."] firstObject];
     }
     else {
         //guest user
         if (![self ab_getGuestUserID]) {
             [self ab_setGuestUserID];
         }
-        [self ab_getGuestUserID];
+      return [self ab_getGuestUserID];
     }
     return nil;
 }
@@ -66,9 +65,9 @@ static Utility* sharedInstance;
         //fetch list data
         NSDictionary* userDataDictionary = data[userKey][uniqueID];
        
-        NSDictionary* migratedDataDictionary = @{};
+        NSDictionary* migratedDataDictionary = @{[FIRAuth auth].currentUser.email:userDataDictionary};
         
-        [[self.userDatabaseRef child:userKey] updateChildValues:emptyDict];
+        [[self.userDatabaseRef child:userKey] updateChildValues:migratedDataDictionary];
         
     }];
 }
@@ -84,6 +83,55 @@ static Utility* sharedInstance;
     }
     return randomString;
 }
+
+#pragma mark - Ad related info storage
+
+- (NSString*) getKeyForAdType:(adType) adType {
+    NSString* adKeyString;
+    
+    switch (adType) {
+        case interstitialAd:
+            adKeyString = KEY_IS_INTERSTITIAL_AD_DISABLED;
+            break;
+            
+        case bannerAdTopicList:
+            adKeyString = KEY_IS_TOPIC_LIST_BANNER_AD_DISABLED;
+            break;
+            
+        case bannerAdSetList:
+            adKeyString = KEY_IS_SET_LIST_BANNER_AD_DISABLED;
+            break;
+            
+        case bannerAdWebView:
+            adKeyString = KEY_IS_WEB_VIEW_BANNER_AD_DISABLED;
+            break;
+        default:
+            return nil;
+    }
+    return adKeyString;
+}
+
+- (BOOL) getIsAdDisabled:(adType) adType {
+    NSString* adKeyString = [self getKeyForAdType:adType];
+    if (!adKeyString) {
+        return YES;
+    }
+    return [[NSUserDefaults standardUserDefaults] boolForKey:adKeyString];
+}
+
+- (void) setIsAdDisabled:(BOOL) isDisabled forAdType:(adType) adType {
+    
+    NSString* adKeyString = [self getKeyForAdType:adType];
+    
+    if (!adKeyString) {
+        return;
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setBool:isDisabled forKey:adKeyString];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+
 
 
 @end

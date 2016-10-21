@@ -10,6 +10,7 @@
 		8CE6EFC6BDFBECF9EFF90EC8 /* libPods-GeekSetsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 761A00E81B4541E2FC9FB392 /* libPods-GeekSetsTests.a */; };
 		CC15C2AAA74BAE5DB2792D08 /* libPods-GeekSetsUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A2AF3F43C08F90440830EEB /* libPods-GeekSetsUITests.a */; };
 		EE06CF681DB8931A00CDF846 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = EE06CF671DB8931A00CDF846 /* Utility.m */; };
+		EE06CF6A1DB8BB7900CDF846 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE06CF691DB8BB7900CDF846 /* MapKit.framework */; };
 		EEAE294A1DAEC5FA0067C193 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE29491DAEC5FA0067C193 /* main.m */; };
 		EEAE294D1DAEC5FA0067C193 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE294C1DAEC5FA0067C193 /* AppDelegate.m */; };
 		EEAE29501DAEC5FA0067C193 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE294F1DAEC5FA0067C193 /* ViewController.m */; };
@@ -57,6 +58,8 @@
 		E720A3FD077EF14018AFDC23 /* Pods-GeekSetsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GeekSetsUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GeekSetsUITests/Pods-GeekSetsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		EE06CF661DB8931A00CDF846 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
 		EE06CF671DB8931A00CDF846 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
+		EE06CF691DB8BB7900CDF846 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		EE06CF6D1DB8BB8300CDF846 /* GeekSets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GeekSets.entitlements; sourceTree = "<group>"; };
 		EEAE29451DAEC5FA0067C193 /* GeekSets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeekSets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEAE29491DAEC5FA0067C193 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EEAE294B1DAEC5FA0067C193 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -94,6 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE06CF6A1DB8BB7900CDF846 /* MapKit.framework in Frameworks */,
 				F286E93564F7F9956F6559EB /* libPods-GeekSets.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -133,6 +137,7 @@
 		BDEDCDE43EA614DA9FA3C44E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE06CF691DB8BB7900CDF846 /* MapKit.framework */,
 				1D79BB82B4B7D7DEFAEF2B43 /* libPods-GeekSets.a */,
 				761A00E81B4541E2FC9FB392 /* libPods-GeekSetsTests.a */,
 				6A2AF3F43C08F90440830EEB /* libPods-GeekSetsUITests.a */,
@@ -165,6 +170,7 @@
 		EEAE29471DAEC5FA0067C193 /* GeekSets */ = {
 			isa = PBXGroup;
 			children = (
+				EE06CF6D1DB8BB8300CDF846 /* GeekSets.entitlements */,
 				EEAE29901DAECDE40067C193 /* PagedViewController.h */,
 				EEAE29911DAECDE40067C193 /* PagedViewController.m */,
 				EEAE297B1DAEC8EF0067C193 /* AmazonSetTableViewCell.h */,
@@ -297,6 +303,30 @@
 					EEAE29441DAEC5FA0067C193 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 7G4HHVAG9A;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.DataProtection = {
+								enabled = 0;
+							};
+							com.apple.HealthKit = {
+								enabled = 0;
+							};
+							com.apple.InterAppAudio = {
+								enabled = 0;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.WAC = {
+								enabled = 0;
+							};
+						};
 					};
 					EEAE295D1DAEC5FA0067C193 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -650,14 +680,17 @@
 			baseConfigurationReference = 91FF90BAF0DCEDC662F5D61F /* Pods-GeekSets.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GeekSets/GeekSets.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 7G4HHVAG9A;
 				INFOPLIST_FILE = GeekSets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.abhijeet.AmozonPracticeApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -666,8 +699,10 @@
 			baseConfigurationReference = B2605DCD6D05D89BFE55E52D /* Pods-GeekSets.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = GeekSets/GeekSets.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 7G4HHVAG9A;
 				INFOPLIST_FILE = GeekSets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

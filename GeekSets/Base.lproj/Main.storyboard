@@ -130,14 +130,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nvA-dc-cjh" customClass="GADBannerView">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="Omb-PF-Crq"/>
-                                    <constraint firstAttribute="height" constant="50" id="qLW-RC-PYY"/>
+                                    <constraint firstAttribute="height" constant="64" id="qLW-RC-PYY"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Omb-PF-Crq"/>
-                                    </mask>
-                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -165,6 +159,7 @@
                     <navigationItem key="navigationItem" title="GeeksSet" id="oN0-ag-dO0"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
+                        <outlet property="bannerAdHeight" destination="qLW-RC-PYY" id="oVu-Xc-Ztj"/>
                         <outlet property="bannerView" destination="nvA-dc-cjh" id="Ukg-7L-xpq"/>
                         <outlet property="bubbleBackgroundView" destination="I6b-Na-1X9" id="uI9-ZJ-Fjk"/>
                         <outlet property="segmentedControl" destination="zvD-qK-zgc" id="6yQ-NJ-krh"/>
@@ -190,14 +185,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aeM-ZN-7nZ" customClass="GADBannerView">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="CtD-ZP-8xV"/>
                                     <constraint firstAttribute="height" constant="50" id="u7h-CU-x7N"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="CtD-ZP-8xV"/>
-                                    </mask>
-                                </variation>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Kl1-Rd-zNO" customClass="DragAndDropTableView">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -416,6 +405,7 @@
                     <navigationItem key="navigationItem" id="MZh-bB-Qwx"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
+                        <outlet property="bannerAdHeight" destination="u7h-CU-x7N" id="nFg-RV-45v"/>
                         <outlet property="bannerView" destination="aeM-ZN-7nZ" id="xbp-qJ-ege"/>
                         <outlet property="bubbleBackgroundView" destination="I6b-Na-1X9" id="VER-gM-qwX"/>
                         <outlet property="loggedInUserImageView" destination="B6c-sH-wqO" id="Gad-5K-n5a"/>
@@ -476,17 +466,26 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hqn-4G-Ltq" userLabel="Container View">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="neH-5h-VSE" userLabel="Banner View" customClass="GADBannerView">
+                                <color key="backgroundColor" red="0.0" green="0.76078431369999999" blue="0.42745098040000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="JvD-OV-Rar"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Hqn-4G-Ltq" secondAttribute="trailing" id="2NR-Bn-hap"/>
                             <constraint firstItem="Hqn-4G-Ltq" firstAttribute="leading" secondItem="kdA-Uu-v4d" secondAttribute="leading" id="7n3-v9-dp4"/>
+                            <constraint firstItem="neH-5h-VSE" firstAttribute="top" secondItem="Hqn-4G-Ltq" secondAttribute="bottom" id="AVz-wO-csd"/>
+                            <constraint firstItem="neH-5h-VSE" firstAttribute="leading" secondItem="kdA-Uu-v4d" secondAttribute="leading" id="Mjn-P1-Ju9"/>
                             <constraint firstAttribute="trailing" secondItem="ChC-mv-cTf" secondAttribute="trailing" id="Q3j-UG-BGs"/>
                             <constraint firstItem="ChC-mv-cTf" firstAttribute="leading" secondItem="kdA-Uu-v4d" secondAttribute="leading" id="VUZ-gf-jJI"/>
-                            <constraint firstAttribute="bottom" secondItem="Hqn-4G-Ltq" secondAttribute="bottom" id="X9d-vP-87y"/>
                             <constraint firstItem="Hqn-4G-Ltq" firstAttribute="top" secondItem="ChC-mv-cTf" secondAttribute="bottom" id="eJy-oO-a3q"/>
                             <constraint firstItem="ChC-mv-cTf" firstAttribute="top" secondItem="kdA-Uu-v4d" secondAttribute="top" constant="20" symbolic="YES" id="gg3-7c-Uhg"/>
                             <constraint firstItem="ChC-mv-cTf" firstAttribute="top" secondItem="Emm-qf-qaL" secondAttribute="bottom" id="oEw-mo-8Oy"/>
+                            <constraint firstAttribute="bottom" secondItem="neH-5h-VSE" secondAttribute="bottom" id="qai-DP-YXI"/>
+                            <constraint firstAttribute="trailing" secondItem="neH-5h-VSE" secondAttribute="trailing" id="xNL-NZ-qtc"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -496,6 +495,8 @@
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
+                        <outlet property="bannerAdHeight" destination="JvD-OV-Rar" id="vus-5A-RPI"/>
+                        <outlet property="bannerView" destination="neH-5h-VSE" id="f4I-80-k0Q"/>
                         <outlet property="containerView" destination="Hqn-4G-Ltq" id="fXm-gL-SY5"/>
                     </connections>
                 </viewController>

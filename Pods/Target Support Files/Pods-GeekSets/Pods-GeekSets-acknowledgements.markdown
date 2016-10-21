@@ -69,6 +69,10 @@ Copyright 2016 Google
 
 Copyright 2016 Google
 
+## FirebaseMessaging
+
+Copyright 2016 Google
+
 ## Google-Mobile-Ads-SDK
 
 Copyright 2011 Google Inc. All Rights Reserved.
@@ -80,6 +84,10 @@ Copyright 2016 Google
 ## GoogleAuthUtilities
 
 Copyright 2016 Google
+
+## GoogleIPhoneUtilities
+
+Copyright 2015 Google Inc.
 
 ## GoogleInterchangeUtilities
 

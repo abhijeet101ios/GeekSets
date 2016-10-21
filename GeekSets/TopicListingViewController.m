@@ -67,7 +67,11 @@
 @property (nonatomic) BOOL isBubbleScreenVisible;
 
 @property (nonatomic) BOOL isInterstitialAdToBeStopped;
+
 @property (nonatomic) BOOL isGlobalInterstitialAdFlagDisabled;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bannerAdHeight;
+
 @end
 
 #define KEY_SETS @"sets"
@@ -78,6 +82,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
     self.view.backgroundColor = APP_COLOR;
     
@@ -367,10 +372,20 @@
             [self ab_showLoginScreen:NO];
             [self ab_showLogoutScreen:NO];
             
+            //migrate DB if required
+           // [[Utility sharedInsance] ab_migrateDB];
+            
             self.navigationController.navigationBarHidden = NO;
             
-            [self createBannerAd];
+            BOOL isBannerAdDisabled = [[Utility sharedInsance] getIsAdDisabled:bannerAdTopicList];
             
+            if (isBannerAdDisabled) {
+                self.bannerAdHeight.constant = 0;
+            }
+            else {
+                [self createBannerAd];
+            }
+  
             [self showInterstitialAd];
             
             [UIApplication sharedApplication].statusBarHidden = NO;
@@ -411,7 +426,15 @@
 
 - (void) loginSuccessDone {
     [self ab_showLoginScreen:NO];
-    [self createBannerAd];
+  
+    BOOL isBannerAdDisabled = [[Utility sharedInsance] getIsAdDisabled:bannerAdTopicList];
+    
+    if (isBannerAdDisabled) {
+        self.bannerAdHeight.constant = 0;
+    }
+    else {
+        [self createBannerAd];
+    }
     
     [[NSUserDefaults standardUserDefaults] setValue:@YES forKey:KEY_IS_LOGIN_SCREEN_SEEN];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -517,6 +540,10 @@
         
         //update interstitialad status
         self.isGlobalInterstitialAdFlagDisabled = [data[KEY_IS_INTERSTITIAL_AD_DISABLED] boolValue];
+        [[Utility sharedInsance] setIsAdDisabled:[data[KEY_IS_INTERSTITIAL_AD_DISABLED] boolValue] forAdType:interstitialAd];
+        [[Utility sharedInsance] setIsAdDisabled:[data[KEY_IS_TOPIC_LIST_BANNER_AD_DISABLED] boolValue] forAdType:bannerAdTopicList];
+        [[Utility sharedInsance] setIsAdDisabled:[data[KEY_IS_SET_LIST_BANNER_AD_DISABLED] boolValue] forAdType:bannerAdSetList];
+        [[Utility sharedInsance] setIsAdDisabled:[data[KEY_IS_WEB_VIEW_BANNER_AD_DISABLED] boolValue] forAdType:bannerAdWebView];
         
         NSString* uniqueID =  [[Utility sharedInsance] ab_getUserID];
         

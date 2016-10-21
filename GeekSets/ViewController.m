@@ -33,6 +33,12 @@
 
 @property (nonatomic)  GADInterstitial* interstitial;
 
+@property (nonatomic) BOOL isInterstitialAdToBeStopped;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bannerAdHeight;
+
+@property (nonatomic) NSDate* lastInterstitialAdDate;
+
 @end
 
 
@@ -54,8 +60,24 @@
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self ab_fetchUpdatedData];
-    [self createBannerAd];
-    [self createInterstitialAd];
+  
+    BOOL isBannerAdDisabled = [[Utility sharedInsance] getIsAdDisabled:bannerAdSetList];
+    
+    if (isBannerAdDisabled) {
+        self.bannerAdHeight.constant = 0;
+    }
+    else {
+        [self createBannerAd];
+    }
+   
+    if (!self.isMovingToParentViewController) {
+        [self createInterstitialAd];
+        if (self.lastInterstitialAdDate) {
+            NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:self.lastInterstitialAdDate];
+                self.isInterstitialAdToBeStopped = (timeInterval < 2*60);
+          }
+        self.lastInterstitialAdDate = [NSDate date];
+    }
     
     self.navigationController.navigationBarHidden = NO;
     
@@ -179,16 +201,16 @@
 }
 
 
-- (void) createInterstitialAd {
-        self.interstitial =
-        [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3940256099942544/4411468910"];
-        
-        GADRequest *request = [GADRequest request];
-        // Request test ads on devices you specify. Your test device ID is printed to the console when
-        // an ad request is made.
-        request.testDevices = @[ kGADSimulatorID, @"2077ef9a63d2b398840261c8221a0c9b" ];
-        [self.interstitial loadRequest:request];
-}
+//- (void) createInterstitialAd {
+//        self.interstitial =
+//        [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3940256099942544/4411468910"];
+//        
+//        GADRequest *request = [GADRequest request];
+//        // Request test ads on devices you specify. Your test device ID is printed to the console when
+//        // an ad request is made.
+//        request.testDevices = @[ kGADSimulatorID, @"2077ef9a63d2b398840261c8221a0c9b" ];
+//        [self.interstitial loadRequest:request];
+//}
 
 - (void) createBannerAd {
     self.bannerView.adUnitID = @"ca-app-pub-3743202420941577/2951813244";
@@ -1328,8 +1350,53 @@
 //                                                                       kFIRParameterItemID:urlString
 //                                                                       }];
     GeekyWebViewController* webViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([GeekyWebViewController class])];
+    self.isInterstitialAdToBeStopped = NO;
     webViewController.url = urlString;
     [self.navigationController pushViewController:webViewController animated:YES];
+}
+
+#pragma mark - Interstitial Ad Methods
+
+- (GADInterstitial *)createInterstitialAd {
+    
+    BOOL isInterstitialAdDisabled = [[Utility sharedInsance] getIsAdDisabled:interstitialAd];
+    
+    if (!isInterstitialAdDisabled && !self.isInterstitialAdToBeStopped) {
+        
+        self.interstitial =
+        [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3743202420941577/5605948044"];
+        
+        GADRequest *request = [GADRequest request];
+        // Request test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made.
+        request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
+        [self.interstitial loadRequest:request];
+        return self.interstitial;
+    }
+    return nil;
+}
+
+- (void)interstitialDidDismissScreen:(GADInterstitial *)interstitial {
+    self.interstitial = [self createInterstitialAd];
+}
+
+- (void) showInterstitialAd {
+    BOOL isInterstitialAdDisabled = [[Utility sharedInsance] getIsAdDisabled:interstitialAd];
+    
+    if (!isInterstitialAdDisabled && !self.isInterstitialAdToBeStopped) {
+        if ([self.interstitial isReady]) {
+            self.isInterstitialAdToBeStopped = YES;
+            [self.interstitial presentFromRootViewController:self];
+        }
+    }
+}
+
+#pragma mark - Interstitial delegate
+
+- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
+    // Retrying failed interstitial loads is a rudimentary way of handling these errors.
+    // For more fine-grained error handling, take a look at the values in GADErrorCode.
+    self.interstitial = [self createInterstitialAd];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
