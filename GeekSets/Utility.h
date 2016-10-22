@@ -15,6 +15,9 @@
 - (NSString*) ab_getUserID;
 - (void) ab_migrateDB;
 
+- (BOOL) isTopicListSubsequentInvocation;
+- (void) setTopicListSubsequentInvocation;
+
 - (BOOL) getIsAdDisabled:(adType) adType;
 - (void) setIsAdDisabled:(BOOL) isDisabled forAdType:(adType) adType;
 

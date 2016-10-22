@@ -125,7 +125,9 @@
     
     CGFloat coachMarkDimension = MAX(coachmark1.size.width, coachmark1.size.height);
     
-    coachmark1 = CGRectMake(coachmark1.origin.x, coachmark1.origin.y + 37, coachMarkDimension, coachMarkDimension);
+    CGFloat offSetMargin = (IS_IPHONE_6_PLUS)?(37):((IS_IPHONE_6)?(37):((IS_IPHONE_5)?(37):(-7.5)));
+    
+    coachmark1 = CGRectMake(coachmark1.origin.x, coachmark1.origin.y + offSetMargin, coachMarkDimension, coachMarkDimension);
     
     // Setup coach marks
     NSArray *coachMarks = @[

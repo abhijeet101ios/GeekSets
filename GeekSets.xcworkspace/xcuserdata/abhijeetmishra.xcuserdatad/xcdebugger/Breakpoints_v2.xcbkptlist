@@ -50,27 +50,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GeekSets/TopicListingViewController.m"
-            timestampString = "498741692.48501"
+            timestampString = "498824731.063053"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GeekSets/TopicListingViewController.m"
-            timestampString = "498741695.732342"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "213"
-            endingLineNumber = "213"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
             landmarkName = "-leftBarPressed:"
             landmarkType = "7">
          </BreakpointContent>
@@ -82,11 +66,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GeekSets/TopicListingViewController.m"
-            timestampString = "498741967.286934"
+            timestampString = "498824731.063053"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "399"
-            endingLineNumber = "399"
+            startingLineNumber = "412"
+            endingLineNumber = "412"
             landmarkName = "-removeIntroView"
             landmarkType = "7">
          </BreakpointContent>
@@ -98,11 +82,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GeekSets/TopicListingViewController.m"
-            timestampString = "498741967.286934"
+            timestampString = "498824731.063053"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "444"
-            endingLineNumber = "444"
+            startingLineNumber = "457"
+            endingLineNumber = "457"
             landmarkName = "-ab_showLoginScreen:"
             landmarkType = "7">
          </BreakpointContent>
@@ -114,11 +98,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GeekSets/TopicListingViewController.m"
-            timestampString = "498741967.286934"
+            timestampString = "498825558.57983"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "753"
-            endingLineNumber = "753"
+            startingLineNumber = "778"
+            endingLineNumber = "778"
             landmarkName = "-notNowPressed:"
             landmarkType = "7">
          </BreakpointContent>
@@ -129,30 +113,46 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GeekSets/TopicListingViewController.m"
-            timestampString = "498741967.286934"
+            filePath = "GeekSets/PagedViewController.m"
+            timestampString = "498826090.136904"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "416"
-            endingLineNumber = "416"
-            landmarkName = "-removeIntroView"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
+            landmarkName = "-animateGeekSetsImageView"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GeekSets/TopicListingViewController.m"
-            timestampString = "498741967.286934"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "385"
-            endingLineNumber = "385"
-            landmarkName = "-removeIntroView"
-            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__47-[PagedViewController animateGeekSetsImageView]_block_invoke.276"
+                  moduleName = "GeekSets"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/abhijeetmishra/Documents/Learning/GeekSets/GeekSets/PagedViewController.m"
+                  timestampString = "498826252.961426"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "214"
+                  endingLineNumber = "214"
+                  offsetFromSymbolStart = "59">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__47-[PagedViewController animateGeekSetsImageView]_block_invoke_2"
+                  moduleName = "GeekSets"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/abhijeetmishra/Documents/Learning/GeekSets/GeekSets/PagedViewController.m"
+                  timestampString = "498826252.96773"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "214"
+                  endingLineNumber = "214"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

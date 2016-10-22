@@ -131,7 +131,16 @@ static Utility* sharedInstance;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+#pragma mark - Topic List First Invocation 
 
+
+- (BOOL) isTopicListSubsequentInvocation {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_SUBSEQUENT_INVOCATION];
+}
+- (void) setTopicListSubsequentInvocation {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:KEY_IS_TOPIC_LIST_SUBSEQUENT_INVOCATION];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 
 @end

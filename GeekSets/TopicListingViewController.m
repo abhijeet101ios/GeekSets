@@ -19,7 +19,7 @@
 
 @import Firebase;
 
-@interface TopicListingViewController () <UITableViewDataSource, UITableViewDelegate, GIDSignInUIDelegate, UISearchResultsUpdating, UISearchBarDelegate, GADInterstitialDelegate>
+@interface TopicListingViewController () <PagedViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, GIDSignInUIDelegate, UISearchResultsUpdating, UISearchBarDelegate, GADInterstitialDelegate>
 
 @property (weak, nonatomic) IBOutlet DragAndDropTableView *tableView;
 
@@ -53,6 +53,7 @@
 @property(weak, nonatomic) IBOutlet GIDSignInButton *signInButton;
 
 @property (weak, nonatomic) IBOutlet UIView *logoutView;
+@property (weak, nonatomic) IBOutlet UIView *whiteBackgroundCoverView;
 
 @property (nonatomic)  GADInterstitial* interstitial;
 
@@ -96,9 +97,16 @@
     
     self.userDatabaseRef = [[FIRDatabase database] referenceFromURL:@"https://amazonsets-298b8.firebaseio.com/"];
     
-    [self ab_checkForWalkthroughScreen];
+    BOOL isWalkthroughScreenSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN];
     
-    [self createBubbles];
+    self.whiteBackgroundCoverView.hidden = isWalkthroughScreenSeen;
+    
+    if (isWalkthroughScreenSeen) {
+        [self createBubbles];
+    }
+    else {
+        [self ab_checkForWalkthroughScreen];
+    }
     
     [self ab_addSearchFunctionality];
     
@@ -167,7 +175,7 @@
 }
 
 - (void) ab_createReorderCoachMarks {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_REORDER_COACH_MARK_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_LOGIN_SCREEN_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN]) {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_REORDER_COACH_MARK_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_LOGIN_SCREEN_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN] && self.bubbleBackgroundView.hidden) {
         // Setup coach marks
         
         CGRect rectInTableView = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -191,11 +199,9 @@
 }
 
 - (void) ab_checkForWalkthroughScreen {
-    BOOL isWalkthroughSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN];
-    if (!isWalkthroughSeen) {
-        PagedViewController* onboardingViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([PagedViewController class])];
-        [self presentViewController:onboardingViewController animated:NO completion:nil];
-    }
+    PagedViewController* onboardingViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([PagedViewController class])];
+    onboardingViewController.pagedViewControllerDelegate = self;
+    [self presentViewController:onboardingViewController animated:NO completion:nil];
 }
 
 - (void) ab_customRightBarButton {
@@ -381,8 +387,15 @@
     
     self.isBubbleScreenVisible = NO;
     
-    if ([FIRAuth auth].currentUser) {
+    BOOL isWalkthroughSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN];
+    
+    if ([[Utility sharedInsance] isTopicListSubsequentInvocation]) {
         self.navigationController.navigationBarHidden = NO;
+    }
+    else {
+        if (isWalkthroughSeen) {
+            [[Utility sharedInsance] setTopicListSubsequentInvocation];
+        }
     }
     
     [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth *_Nonnull auth,
@@ -682,7 +695,7 @@
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return UITableViewCellEditingStyleDelete;
+    return UITableViewCellEditingStyleNone;
 }
 
 
@@ -738,6 +751,18 @@
 -(CGFloat)tableView:tableView heightForEmptySection:(int)section
 {
     return 10;
+}
+
+#pragma mark - PagedViewControllerDelegate callback methods
+
+- (void) dismissButtonPressed {
+    self.whiteBackgroundCoverView.hidden = YES;
+    if (!self.isNetworkRequestCompleted) {
+        [self createBubbles];
+    }
+    else {
+        [self removeIntroView];
+    }
 }
 
 #pragma mark - Logout button callback

@@ -10,6 +10,14 @@
 
 #import "IFTTTAnimatedPagingScrollViewController.h"
 
+@protocol PagedViewControllerDelegate <NSObject>
+
+- (void) dismissButtonPressed;
+
+@end
+
 @interface PagedViewController : IFTTTAnimatedPagingScrollViewController
+
+@property (nonatomic, weak) id <PagedViewControllerDelegate> pagedViewControllerDelegate;
 
 @end
