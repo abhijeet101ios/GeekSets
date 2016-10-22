@@ -548,10 +548,7 @@
             [self.setOrderArray addObject:newSet];
         }
     }
-    
     self.dataSourceArray = [@[[self.setOrderArray mutableCopy]] mutableCopy];
-
-    
 }
 
 - (void) ab_updateDataSourceArray {
@@ -757,6 +754,7 @@
 
 - (void) dismissButtonPressed {
     self.whiteBackgroundCoverView.hidden = YES;
+    [[Utility sharedInsance] registerForPushNotifications];
     if (!self.isNetworkRequestCompleted) {
         [self createBubbles];
     }

@@ -103,11 +103,15 @@
     
     self.onboardingArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"onboarding_arrow"]];
     
-    self.arrowListIntro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_info_intro"]];
-    self.arrowListPrimary = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_info_primary"]];
-    self.arrowListSecondary = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_info_secondary"]];
-    self.arrowInfoTickListImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_info_tick_list"]];
-    self.arrowInforLoginImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow_info_login"]];
+    BOOL isSmallDevice = (IS_IPHONE_4_OR_LESS || IS_IPHONE_5);
+    
+    self.arrowListIntro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:(isSmallDevice?(@"arrow_info_intro"):(@"big_arrow_info_intro"))]];
+    self.arrowListPrimary = [[UIImageView alloc] initWithImage:[UIImage imageNamed:(isSmallDevice?(@"arrow_info_primary"):(@"big_arrow_info_primary"))]];
+    self.arrowListSecondary = [[UIImageView alloc] initWithImage:[UIImage imageNamed:(isSmallDevice?(@"arrow_info_secondary"):(@"big_arrow_info_secondary"))]];
+    self.arrowInfoTickListImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:(isSmallDevice?(@"arrow_info_tick_list"):(@"big_arrow_info_tick_list"))]];
+    self.arrowInforLoginImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:(isSmallDevice?(@"arrow_info_login"):(@"big_arrow_info_login"))]];
+    
+    self.arrowListIntro.hidden = YES;
     
     self.dashedLineView = [UIView new];
     
@@ -191,7 +195,7 @@
         make.height.equalTo(@60);
     }];
     
-   CGFloat verticalConstraintMargin = (IS_IPHONE_6_PLUS)?(-36):((IS_IPHONE_6)?(-36):((IS_IPHONE_5)?(-36):(-16)));
+   CGFloat verticalConstraintMargin = (IS_IPHONE_6_PLUS)?(-16):((IS_IPHONE_6)?(-36):((IS_IPHONE_5)?(-16):(-16)));
     
     self.geekSetsVerticalConstraint = [NSLayoutConstraint constraintWithItem:self.geekSetsLogoImageView
                                                                               attribute:NSLayoutAttributeCenterY
@@ -205,7 +209,7 @@
 
 - (void) animateGeekSetsImageView {
     
-    CGFloat animateMargin = (IS_IPHONE_6_PLUS)?(-80):((IS_IPHONE_6)?(-80):((IS_IPHONE_5)?(-80):(-48)));
+    CGFloat animateMargin = (IS_IPHONE_6_PLUS)?(-80):((IS_IPHONE_6)?(-80):((IS_IPHONE_5)?(-60):(-48)));
     
     [UIView animateWithDuration:1 delay:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.geekSetsVerticalConstraint.constant = animateMargin;
@@ -213,6 +217,7 @@
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:1 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
              self.onboardingIntroImageView.alpha = self.onboardingIntroImageView.alpha = 1;
+            self.arrowListIntro.hidden = NO;
             [self.contentView layoutIfNeeded];
         } completion:nil];
     }];
@@ -548,7 +553,7 @@
 
 - (void) configureSyncImageView {
     
-    CGFloat offSetMargin = (IS_IPHONE_6_PLUS)?(-36):((IS_IPHONE_6)?(-36):((IS_IPHONE_5)?(-36):(-44)));
+    CGFloat offSetMargin = (IS_IPHONE_6_PLUS)?(-68):((IS_IPHONE_6)?(-60):((IS_IPHONE_5)?(-52):(-44)));
     
     [self keepView:self.syncImageView onPages:@[@(4)] atTimes:@[@(4)]];
     [self.syncImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -556,11 +561,6 @@
         make.height.equalTo(self.scrollView).multipliedBy(0.2).with.priorityHigh();
         make.top.equalTo(self.loginOnboardingImageView.mas_centerY).offset(offSetMargin).with.priorityLow();
     }];
-    IFTTTScaleAnimation *syncImageViewScaleAnimation = [IFTTTScaleAnimation animationWithView:self.syncImageView];
-    [syncImageViewScaleAnimation addKeyframeForTime:3 scale:0.5 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
-    [syncImageViewScaleAnimation addKeyframeForTime:4 scale:1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
-    [self.animator addAnimation:syncImageViewScaleAnimation];
-    [self.contentView layoutIfNeeded];
     
     //animate the sync image view
     [self rotateSyncImageView];

@@ -7,6 +7,8 @@
 //
 
 #import "Utility.h"
+#import "AppDelegate.h"
+#import <UserNotifications/UserNotifications.h>
 
 @import Firebase;
 
@@ -129,6 +131,45 @@ static Utility* sharedInstance;
     
     [[NSUserDefaults standardUserDefaults] setBool:isDisabled forKey:adKeyString];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark - Notification methods
+
+#pragma mark Push Notification
+
+- (void) registerForPushNotifications {
+    [self ab_registerForPushNotificationsForApplication:[UIApplication sharedApplication]];
+}
+
+- (void)ab_registerForPushNotificationsForApplication:(UIApplication *)inApplication
+{
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
+        UIUserNotificationType allNotificationTypes =
+        (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
+        UIUserNotificationSettings *settings =
+        [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    } else {
+        // iOS 10 or later
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+        UNAuthorizationOptions authOptions =
+        UNAuthorizationOptionAlert
+        | UNAuthorizationOptionSound
+        | UNAuthorizationOptionBadge;
+        [[UNUserNotificationCenter currentNotificationCenter]
+         requestAuthorizationWithOptions:authOptions
+         completionHandler:^(BOOL granted, NSError * _Nullable error) {
+         }
+         ];
+        
+        // For iOS 10 display notification (sent via APNS)
+        [[UNUserNotificationCenter currentNotificationCenter] setDelegate:(AppDelegate*)[UIApplication sharedApplication].delegate];
+        // For iOS 10 data message (sent via FCM)
+        [[FIRMessaging messaging] setRemoteMessageDelegate:(AppDelegate*)[UIApplication sharedApplication].delegate];
+#endif
+    }
+    
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
 }
 
 #pragma mark - Topic List First Invocation 

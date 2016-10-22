@@ -11,11 +11,8 @@
 #import "Utility.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import <UserNotifications/UserNotifications.h>
 
-@import Firebase;
-
-@interface AppDelegate () <UNUserNotificationCenterDelegate>
+@interface AppDelegate ()
 
 @end
 
@@ -41,7 +38,6 @@
         [[UITextField appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]] setTintColor:[UIColor darkTextColor]];
     }
     
-    [self ab_registerForPushNotificationsForApplication:[UIApplication sharedApplication]];
     [Fabric with:@[[Crashlytics class]]];
  //   [[Fabric sharedSDK] setDebug: YES];
     return YES;
@@ -115,39 +111,6 @@ didDisconnectWithUser:(GIDGoogleUser *)user
 #define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 #pragma mark - Notification methods
-
-#pragma mark Push Notification
-
-- (void)ab_registerForPushNotificationsForApplication:(UIApplication *)inApplication
-{
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
-        UIUserNotificationType allNotificationTypes =
-        (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
-        UIUserNotificationSettings *settings =
-        [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-    } else {
-        // iOS 10 or later
-#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-        UNAuthorizationOptions authOptions =
-        UNAuthorizationOptionAlert
-        | UNAuthorizationOptionSound
-        | UNAuthorizationOptionBadge;
-        [[UNUserNotificationCenter currentNotificationCenter]
-         requestAuthorizationWithOptions:authOptions
-         completionHandler:^(BOOL granted, NSError * _Nullable error) {
-         }
-         ];
-        
-        // For iOS 10 display notification (sent via APNS)
-        [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
-        // For iOS 10 data message (sent via FCM)
-        [[FIRMessaging messaging] setRemoteMessageDelegate:self];
-#endif
-    }
-    
-    [[UIApplication sharedApplication] registerForRemoteNotifications];
-}
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {

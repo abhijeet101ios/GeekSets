@@ -21,4 +21,6 @@
 - (BOOL) getIsAdDisabled:(adType) adType;
 - (void) setIsAdDisabled:(BOOL) isDisabled forAdType:(adType) adType;
 
+- (void) registerForPushNotifications;
+
 @end
