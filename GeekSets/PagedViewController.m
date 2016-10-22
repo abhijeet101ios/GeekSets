@@ -20,7 +20,10 @@
 #import <Masonry/Masonry.h>
 
 
-@interface PagedViewController ()
+@interface PagedViewController () <UICollisionBehaviorDelegate>
+
+@property (nonatomic) UIDynamicAnimator* bounceAnimator;
+@property (nonatomic) UIGravityBehavior* gravityBehavior;
 
 @property (nonatomic) UIImageView* geekSetsLogoImageView;
 @property (nonatomic) NSLayoutConstraint *geekSetsVerticalConstraint;
@@ -60,6 +63,8 @@
 
 @property (nonatomic) BOOL isEvenRotation;
 
+@property (nonatomic) int collisionCount;
+
 @property (nonatomic, strong) IFTTTPathPositionAnimation *arrowFlyingAnimation;
 
 @end
@@ -78,7 +83,8 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-    [self animateGeekSetsImageView];
+    //[self bounceGeekSetsImageView];
+     [self animateGeekSetsImageView];
     //animate the sync image view
    // [self rotateSyncImageView];
 }
@@ -205,6 +211,44 @@
                                                                              multiplier:1.f constant:verticalConstraintMargin];
     [self.contentView addConstraint:self.geekSetsVerticalConstraint];
     [self.contentView layoutIfNeeded];
+}
+
+#define COLLISION_BEHAVIOR_IDENTIFIER @"invisibleBehaviour"
+
+- (void) bounceGeekSetsImageView {
+    self.bounceAnimator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    
+    self.gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.geekSetsLogoImageView]];
+    [self.bounceAnimator addBehavior:self.gravityBehavior];
+    
+    
+    UICollisionBehavior* collisionBehavior =
+    [[UICollisionBehavior alloc] initWithItems:@[self.geekSetsLogoImageView]];
+    collisionBehavior.translatesReferenceBoundsIntoBoundary = YES;
+    
+    CGFloat wallYValue = self.geekSetsLogoImageView.frame.origin.y + self.geekSetsLogoImageView.frame.size.height + 40;
+    
+    //add invisible boundary
+    CGPoint startPoint = CGPointMake(0, wallYValue);
+    [collisionBehavior addBoundaryWithIdentifier:COLLISION_BEHAVIOR_IDENTIFIER fromPoint:startPoint toPoint:CGPointMake([UIScreen mainScreen].bounds.size.width, wallYValue)];
+    collisionBehavior.collisionDelegate = self;
+    [self.bounceAnimator addBehavior:collisionBehavior];
+    
+    UIDynamicItemBehavior *elasticityBehavior =
+    [[UIDynamicItemBehavior alloc] initWithItems:@[self.geekSetsLogoImageView]];
+    elasticityBehavior.elasticity = 0.7f;
+    [self.bounceAnimator addBehavior:elasticityBehavior];
+}
+
+//collisionbehavior delegate methods
+- (void)collisionBehavior:(UICollisionBehavior*)behavior beganContactForItem:(id <UIDynamicItem>)item withBoundaryIdentifier:(nullable id <NSCopying>)identifier atPoint:(CGPoint)p {
+    if ([(NSString*)identifier isEqualToString:COLLISION_BEHAVIOR_IDENTIFIER]) {
+        self.collisionCount++;
+        if (self.collisionCount == 2) {
+            [self.bounceAnimator removeAllBehaviors];
+            [self animateGeekSetsImageView];
+        }
+    }
 }
 
 - (void) animateGeekSetsImageView {
