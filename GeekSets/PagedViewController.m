@@ -312,11 +312,11 @@
     
     CGFloat scale = (IS_IPHONE_6_PLUS)?(2.5):((IS_IPHONE_6)?(2.5):((IS_IPHONE_5)?(2):(2)));
     
-    
     //shrink the secondary list into the background between pages 0 and 1
     IFTTTScaleAnimation *amazonScaleAnimation = [IFTTTScaleAnimation animationWithView:self.amazonImageView];
     [amazonScaleAnimation addKeyframeForTime:0.95 scale:1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
-    [amazonScaleAnimation addKeyframeForTime:1.99 scale:scale];
+    [amazonScaleAnimation addKeyframeForTime:1.9 scale:scale];
+    [amazonScaleAnimation addKeyframeForTime:1.99 scale:0.01];
     [amazonScaleAnimation addKeyframeForTime:0 scale:0.01];
     [self.animator addAnimation:amazonScaleAnimation];
 }
@@ -556,10 +556,10 @@
                                                                                                                  attribute:IFTTTLayoutAttributeHeight
                                                                                                              referenceView:self.loginOnboardingImageView];
     [arrowVerticalAnimation addKeyframeForTime:2 multiplier:1.14f];
-    [arrowVerticalAnimation addKeyframeForTime:3 multiplier:0.03f];
+    [arrowVerticalAnimation addKeyframeForTime:3 multiplier:0.13f];
     [self.animator addAnimation:arrowVerticalAnimation];
     
-    IFTTTHideAnimation* arrowHideAnimation = [IFTTTHideAnimation animationWithView:self.onboardingArrow showAt:2.5];
+    IFTTTHideAnimation* arrowHideAnimation = [IFTTTHideAnimation animationWithView:self.onboardingArrow showAt:2.1];
     [self.animator addAnimation:arrowHideAnimation];
 }
 
@@ -606,6 +606,9 @@
         make.top.equalTo(self.loginOnboardingImageView.mas_centerY).offset(offSetMargin).with.priorityLow();
     }];
     
+    IFTTTHideAnimation* syncHideAnimation = [IFTTTHideAnimation animationWithView:self.syncImageView showAt:3.8];
+    [self.animator addAnimation:syncHideAnimation];
+
     //animate the sync image view
     [self rotateSyncImageView];
     [NSTimer scheduledTimerWithTimeInterval:6 target:self selector:@selector(rotateSyncImageView) userInfo:nil repeats:YES];

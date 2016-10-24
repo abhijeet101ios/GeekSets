@@ -35,13 +35,13 @@
 - (void) viewDidAppear:(BOOL)animated {
     if ([FIRAuth auth].currentUser) {
         //logged in
-        [self ab_showLoginScreen:YES];
-        [self ab_showLogoutScreen:NO];
+        [self ab_showLoginScreen:NO];
+        [self ab_showLogoutScreen:YES];
     }
     else {
         //guest user
-        [self ab_showLoginScreen:NO];
-        [self ab_showLogoutScreen:YES];
+        [self ab_showLoginScreen:YES];
+        [self ab_showLogoutScreen:NO];
     }
 }
 
