@@ -13,6 +13,7 @@
 		EE06CF6A1DB8BB7900CDF846 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE06CF691DB8BB7900CDF846 /* MapKit.framework */; };
 		EE4203F21DBBDD54001273A9 /* GSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4203F11DBBDD54001273A9 /* GSAnalytics.m */; };
 		EE688AD01DBDE79300E76268 /* GSCustomNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE688ACF1DBDE79300E76268 /* GSCustomNavigationViewController.m */; };
+		EE688AD31DBDEA1900E76268 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE688AD21DBDEA1900E76268 /* LoginViewController.m */; };
 		EEAE294A1DAEC5FA0067C193 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE29491DAEC5FA0067C193 /* main.m */; };
 		EEAE294D1DAEC5FA0067C193 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE294C1DAEC5FA0067C193 /* AppDelegate.m */; };
 		EEAE29501DAEC5FA0067C193 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE294F1DAEC5FA0067C193 /* ViewController.m */; };
@@ -66,6 +67,8 @@
 		EE4203F11DBBDD54001273A9 /* GSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSAnalytics.m; sourceTree = "<group>"; };
 		EE688ACE1DBDE79300E76268 /* GSCustomNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSCustomNavigationViewController.h; sourceTree = "<group>"; };
 		EE688ACF1DBDE79300E76268 /* GSCustomNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSCustomNavigationViewController.m; sourceTree = "<group>"; };
+		EE688AD11DBDEA1900E76268 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		EE688AD21DBDEA1900E76268 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		EEAE29451DAEC5FA0067C193 /* GeekSets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeekSets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEAE29491DAEC5FA0067C193 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EEAE294B1DAEC5FA0067C193 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -206,6 +209,8 @@
 				EE4203F11DBBDD54001273A9 /* GSAnalytics.m */,
 				EE688ACE1DBDE79300E76268 /* GSCustomNavigationViewController.h */,
 				EE688ACF1DBDE79300E76268 /* GSCustomNavigationViewController.m */,
+				EE688AD11DBDEA1900E76268 /* LoginViewController.h */,
+				EE688AD21DBDEA1900E76268 /* LoginViewController.m */,
 			);
 			path = GeekSets;
 			sourceTree = "<group>";
@@ -539,6 +544,7 @@
 			files = (
 				EE4203F21DBBDD54001273A9 /* GSAnalytics.m in Sources */,
 				EEAE29921DAECDE40067C193 /* PagedViewController.m in Sources */,
+				EE688AD31DBDEA1900E76268 /* LoginViewController.m in Sources */,
 				EEAE29871DAEC8EF0067C193 /* AmazonSetTableViewCell.m in Sources */,
 				EE06CF681DB8931A00CDF846 /* Utility.m in Sources */,
 				EEAE29501DAEC5FA0067C193 /* ViewController.m in Sources */,

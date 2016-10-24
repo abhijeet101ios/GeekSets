@@ -14,6 +14,7 @@
 #import "CommonConstants.h"
 #import "DragAndDropTableView.h"
 #import "PagedViewController.h"
+#import "LoginViewController.h"
 #import "MPCoachMarks.h"
 #import "GSAnalytics.h"
 #import "Utility.h"
@@ -117,12 +118,12 @@
     
     [self ab_customNavigationBar];
     
-    [self ab_customRightBarButton];
-    
     [self ab_customizeTitleBackgroundScreen];
     
     self.title = @"All";
     self.navigationController.navigationBarHidden = YES;
+    
+    [self ab_customRightBarButton];
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
@@ -215,16 +216,18 @@
 }
 
 - (void) ab_customRightBarButton {
-    UIButton* rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 30)];
-    rightButton.backgroundColor = [UIColor clearColor];
-    [rightButton setImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(leftBarPressed:) forControlEvents:UIControlEventTouchDown];
+//    UIButton* rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 30)];
+//    rightButton.backgroundColor = [UIColor clearColor];
+//    [rightButton setImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
+//    [rightButton addTarget:self action:@selector(rightBarPressed:) forControlEvents:UIControlEventTouchDown];
     
-    UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
-    self.navigationItem.leftBarButtonItem = barButtonItem;
+    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"profile"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarPressed:)];
+    
+//    UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    self.navigationItem.rightBarButtonItem = item;
 }
 
-- (void) leftBarPressed:(UIButton*) button {
+- (void) rightBarPressed:(UIButton*) button {
     
     self.navigationController.navigationBarHidden = YES;
     
@@ -408,7 +411,9 @@
     BOOL isWalkthroughSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN];
     
     if ([[Utility sharedInsance] isTopicListSubsequentInvocation]) {
-        self.navigationController.navigationBarHidden = NO;
+        if (self.navigationController.topViewController == self) {
+            self.navigationController.navigationBarHidden = NO;
+        }
     }
     else {
         if (isWalkthroughSeen) {
@@ -458,22 +463,17 @@
 
 #pragma mark - Login Callback methods
 
+- (void) showLoginViewController {
+    LoginViewController* loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([LoginViewController class])];
+    [self.navigationController pushViewController:loginViewController animated:NO];
+}
+
 - (void) ab_showLogoutScreen:(BOOL) showLogoutScreen {
-    self.logoutView.hidden = !showLogoutScreen;
-    if (showLogoutScreen) {
-        self.logoutMessageLabel.text = [FIRAuth auth].currentUser.displayName;
-        if ([FIRAuth auth].currentUser.photoURL) {
-            self.loggedInUserImageView.image = [UIImage imageWithData:[[NSData alloc] initWithContentsOfURL:[FIRAuth auth].currentUser.photoURL]];
-        }
-    }
+    [self showLoginViewController];
 }
 
 - (void) ab_showLoginScreen:(BOOL) showLoginScreen {
-    self.loginView.hidden = !showLoginScreen;
-    
-    if (!showLoginScreen) {
-        self.navigationController.navigationBarHidden = NO;
-    }
+     [self showLoginViewController];
 }
 
 - (void) loginSuccessDone {
