@@ -58,14 +58,14 @@
 
 @property (nonatomic) UILabel* primaryListLabel;
 
-@property (nonatomic, strong) CAShapeLayer *dashedLineLayer;
+@property (nonatomic) CAShapeLayer *dashedLineLayer1;
 @property (nonatomic) UIImageView* arrowImageView;
 
 @property (nonatomic) BOOL isEvenRotation;
 
 @property (nonatomic) int collisionCount;
 
-@property (nonatomic, strong) IFTTTPathPositionAnimation *arrowFlyingAnimation;
+@property (nonatomic) IFTTTPathPositionAnimation *arrowFlyingAnimation;
 
 @end
 
@@ -83,10 +83,10 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+    [UIApplication sharedApplication].statusBarHidden = YES;
     //[self bounceGeekSetsImageView];
+    self.view.userInteractionEnabled = NO;
      [self animateGeekSetsImageView];
-    //animate the sync image view
-   // [self rotateSyncImageView];
 }
 
 - (void) configureViews {
@@ -263,7 +263,9 @@
              self.onboardingIntroImageView.alpha = self.onboardingIntroImageView.alpha = 1;
             self.arrowListIntro.hidden = NO;
             [self.contentView layoutIfNeeded];
-        } completion:nil];
+        } completion:^(BOOL finished) {
+            self.view.userInteractionEnabled = YES;
+        }];
     }];
 }
 
@@ -316,7 +318,7 @@
     IFTTTScaleAnimation *amazonScaleAnimation = [IFTTTScaleAnimation animationWithView:self.amazonImageView];
     [amazonScaleAnimation addKeyframeForTime:0.95 scale:1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
     [amazonScaleAnimation addKeyframeForTime:1.9 scale:scale];
-    [amazonScaleAnimation addKeyframeForTime:1.99 scale:0.01];
+    [amazonScaleAnimation addKeyframeForTime:1.99 scale:0.5];
     [amazonScaleAnimation addKeyframeForTime:0 scale:0.01];
     [self.animator addAnimation:amazonScaleAnimation];
 }
@@ -469,8 +471,8 @@
 - (void) configureDashedLineView {
     
     // Set up the view that contains the airplane view and its dashed line path view
-    self.dashedLineLayer = [self dashedLineLayer];
-    [self.dashedLineView.layer addSublayer:self.dashedLineLayer];
+    self.dashedLineLayer1 = [self dashedLineLayer];
+    [self.dashedLineView.layer addSublayer:self.dashedLineLayer1];
     
     [self.dashedLineView addSubview:self.arrowImageView];
     [self.arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -487,17 +489,17 @@
     [self keepView:self.dashedLineView onPages:@[@(2.5)] atTimes:@[@(2)] withAttribute:IFTTTHorizontalPositionAttributeLeft];
     
     // Fly the plane along the path
-    self.arrowFlyingAnimation = [IFTTTPathPositionAnimation animationWithView:self.arrowImageView path:self.dashedLineLayer.path];
+    self.arrowFlyingAnimation = [IFTTTPathPositionAnimation animationWithView:self.arrowImageView path:self.dashedLineLayer1.path];
     [self.arrowFlyingAnimation addKeyframeForTime:2 animationProgress:0];
     [self.arrowFlyingAnimation addKeyframeForTime:3 animationProgress:1];
     [self.animator addAnimation:self.arrowFlyingAnimation];
     
-    //hide the dashes upon completion
+    // Hide the dashes upon completion
     IFTTTHideAnimation *dashLinenHideAnimation = [IFTTTHideAnimation animationWithView:self.dashedLineView hideAt:2.9];
     [self.animator addAnimation:dashLinenHideAnimation];
     
     // Change the stroke end of the dashed line airplane path to match the plane's current position
-    IFTTTLayerStrokeEndAnimation *planePathAnimation = [IFTTTLayerStrokeEndAnimation animationWithLayer:self.dashedLineLayer];
+    IFTTTLayerStrokeEndAnimation *planePathAnimation = [IFTTTLayerStrokeEndAnimation animationWithLayer:self.dashedLineLayer1];
     [planePathAnimation addKeyframeForTime:2 strokeEnd:0];
     [planePathAnimation addKeyframeForTime:3 strokeEnd:1];
     [self.animator addAnimation:planePathAnimation];
@@ -513,7 +515,7 @@
 
 - (CGPathRef)dashedLinePath
 {
-    CGFloat endXCoordinate = (IS_IPHONE_6_PLUS)?(400):((IS_IPHONE_6)?(360):((IS_IPHONE_5)?(320):(320)));
+    CGFloat endXCoordinate = (IS_IPHONE_6_PLUS)?(400):((IS_IPHONE_6)?(310):((IS_IPHONE_5)?(320):(320)));
     
     CGFloat startXCoordinate = (IS_IPHONE_6_PLUS)?(100):((IS_IPHONE_6)?(84):((IS_IPHONE_5)?(84):(84)));
     
