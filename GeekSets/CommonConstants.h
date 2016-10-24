@@ -43,9 +43,41 @@ typedef enum {
 #define KEY_IS_SET_LIST_COACH_MARK_SEEN @"isSetListCoachMarkSeen"
 #define KEY_IS_TICK_LIST_COACH_MARK_SEEN @"isTickListCoachMarkSeen"
 #define KEY_IS_TOPIC_LIST_SUBSEQUENT_INVOCATION @"isTopicListSubsequentInvocation"
+#define KEY_NO_OF_SETS_OPENED @"noOfSetsOpened"
 
 //ad related values
 #define KEY_IS_INTERSTITIAL_AD_DISABLED @"isInterstitialAdDisabled"
 #define KEY_IS_TOPIC_LIST_BANNER_AD_DISABLED @"isTopicListBannerAdDisabled"
 #define KEY_IS_SET_LIST_BANNER_AD_DISABLED @"isSetListBannerAdDisabled"
 #define KEY_IS_WEB_VIEW_BANNER_AD_DISABLED @"isWebViewBannerAdDisabled"
+
+//analytics events
+#define EVENT_ANALYTICS_LOGIN_PRESSED @"login_pressed"
+#define EVENT_ANALYTICS_NOT_NOW_PRESSED @"not_now_pressed"
+#define EVENT_ANALYTICS_LOGOUT_PRESSED @"logout_pressed"
+#define EVENT_ANALYTICS_COMPANY_SEARCH_PRESSED @"company_search_pressed"
+#define EVENT_ANALYTICS_COMPANY_LIST_REORDERED @"company_list_reordered"
+#define EVENT_ANALYTICS_COMPANY_SELECTED @"company_selected"
+#define EVENT_ANALYTICS_COMPANY_BACK_PRESSED @"company_back_pressed"
+#define EVENT_ANALYTICS_SET_BACK_PRESSED @"set_back_pressed"
+#define EVENT_ANALYTICS_LOGIN_SUCCESS @"login_success"
+#define EVENT_ANALYTICS_LOGIN_FAILURE @"login_failure"
+
+
+//analytics keys
+#define KEY_ANALYTICS_TIMESTAMP @"timestamp"
+#define KEY_ANALYTICS_USERID @"userID"
+#define KEY_ANALYTICS_COMPANY_NAME @"company_name"
+#define KEY_ANALYTICS_FIRST_COMPANY @"first_company"
+#define KEY_ANALYTICS_SECOND_COMPANY @"second_company"
+#define KEY_ANALYTICS_THIRD_COMPANY @"third_company"
+#define KEY_ANALYTICS_TIME_SPENT @"time_spent"
+#define KEY_ANALYTICS_NO_OF_SETS_OPENED @"no_of_sets_opened"
+#define KEY_ANALYTICS_SET_NAME @"set_name"
+
+
+
+
+
+
+

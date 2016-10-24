@@ -11,6 +11,8 @@
 		CC15C2AAA74BAE5DB2792D08 /* libPods-GeekSetsUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A2AF3F43C08F90440830EEB /* libPods-GeekSetsUITests.a */; };
 		EE06CF681DB8931A00CDF846 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = EE06CF671DB8931A00CDF846 /* Utility.m */; };
 		EE06CF6A1DB8BB7900CDF846 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE06CF691DB8BB7900CDF846 /* MapKit.framework */; };
+		EE4203F21DBBDD54001273A9 /* GSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4203F11DBBDD54001273A9 /* GSAnalytics.m */; };
+		EE688AD01DBDE79300E76268 /* GSCustomNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE688ACF1DBDE79300E76268 /* GSCustomNavigationViewController.m */; };
 		EEAE294A1DAEC5FA0067C193 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE29491DAEC5FA0067C193 /* main.m */; };
 		EEAE294D1DAEC5FA0067C193 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE294C1DAEC5FA0067C193 /* AppDelegate.m */; };
 		EEAE29501DAEC5FA0067C193 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAE294F1DAEC5FA0067C193 /* ViewController.m */; };
@@ -60,6 +62,10 @@
 		EE06CF671DB8931A00CDF846 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
 		EE06CF691DB8BB7900CDF846 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		EE06CF6D1DB8BB8300CDF846 /* GeekSets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GeekSets.entitlements; sourceTree = "<group>"; };
+		EE4203F01DBBDD54001273A9 /* GSAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSAnalytics.h; sourceTree = "<group>"; };
+		EE4203F11DBBDD54001273A9 /* GSAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSAnalytics.m; sourceTree = "<group>"; };
+		EE688ACE1DBDE79300E76268 /* GSCustomNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSCustomNavigationViewController.h; sourceTree = "<group>"; };
+		EE688ACF1DBDE79300E76268 /* GSCustomNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSCustomNavigationViewController.m; sourceTree = "<group>"; };
 		EEAE29451DAEC5FA0067C193 /* GeekSets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeekSets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEAE29491DAEC5FA0067C193 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EEAE294B1DAEC5FA0067C193 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -196,6 +202,10 @@
 				EEAE29481DAEC5FA0067C193 /* Supporting Files */,
 				EE06CF661DB8931A00CDF846 /* Utility.h */,
 				EE06CF671DB8931A00CDF846 /* Utility.m */,
+				EE4203F01DBBDD54001273A9 /* GSAnalytics.h */,
+				EE4203F11DBBDD54001273A9 /* GSAnalytics.m */,
+				EE688ACE1DBDE79300E76268 /* GSCustomNavigationViewController.h */,
+				EE688ACF1DBDE79300E76268 /* GSCustomNavigationViewController.m */,
 			);
 			path = GeekSets;
 			sourceTree = "<group>";
@@ -527,6 +537,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE4203F21DBBDD54001273A9 /* GSAnalytics.m in Sources */,
 				EEAE29921DAECDE40067C193 /* PagedViewController.m in Sources */,
 				EEAE29871DAEC8EF0067C193 /* AmazonSetTableViewCell.m in Sources */,
 				EE06CF681DB8931A00CDF846 /* Utility.m in Sources */,
@@ -535,6 +546,7 @@
 				EEAE294A1DAEC5FA0067C193 /* main.m in Sources */,
 				EEAE298B1DAEC8EF0067C193 /* TopicListingTableViewCell.m in Sources */,
 				EEAE29881DAEC8EF0067C193 /* GeekyWebViewController.m in Sources */,
+				EE688AD01DBDE79300E76268 /* GSCustomNavigationViewController.m in Sources */,
 				EEAE298A1DAEC8EF0067C193 /* ImageFloatingAnimationView.m in Sources */,
 				EEAE298C1DAEC8EF0067C193 /* TopicListingViewController.m in Sources */,
 			);

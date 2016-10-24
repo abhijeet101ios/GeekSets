@@ -72,6 +72,7 @@
 #pragma mark - Banner Ads
 
 - (void) createBannerAdTimer {
+    [self createBannerAd:nil];
     self.bannerAdTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(createBannerAd:) userInfo:nil repeats:YES];
 }
 

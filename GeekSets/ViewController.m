@@ -14,6 +14,7 @@
 #import "CommonConstants.h"
 #import "MPCoachMarks.h"
 #import "Utility.h"
+#import "GSAnalytics.h"
 
 
 @import GoogleMobileAds;
@@ -38,6 +39,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bannerAdHeight;
 
 @property (nonatomic) NSDate* lastInterstitialAdDate;
+
+@property (nonatomic) NSString* lastSelectedSet;
+
+@property (nonatomic) NSDate* lastSelectedSetTimeStamp;
 
 @end
 
@@ -89,6 +94,19 @@
         }
     }
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    if (!self.isMovingToParentViewController) {
+        [self ab_setEventName:EVENT_ANALYTICS_COMPANY_BACK_PRESSED forKeys:@{KEY_ANALYTICS_TIME_SPENT:[NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSinceDate:self.lastSelectedSetTimeStamp]],KEY_ANALYTICS_SET_NAME:self.lastSelectedSet}];
+
+    }
+}
+
+#pragma mark - Analytics Methods
+
+- (void) ab_setEventName:(NSString*) eventName forKeys:(NSDictionary*) keys {
+    [[GSAnalytics sharedInstance] setEventName:eventName withKeys:keys];
 }
 
 - (void) ab_createCoachMarks {
@@ -1347,13 +1365,22 @@
     
     NSString* urlString = self.dataSourceArray[indexPath.row][KEY_URL];
     
-//    [FIRAnalytics logEventWithName:kFIREventSelectContent parameters:@{
-//                                                                       kFIRParameterContentType:self.dataSourceArray[indexPath.row][KEY_NAME],
-//                                                                       kFIRParameterItemID:urlString
-//                                                                       }];
+    NSDictionary *setDictionary = self.dataSourceArray[indexPath.row];
+    
+   self.lastSelectedSet = [NSString stringWithFormat:@"%@",setDictionary[KEY_NAME]];
+    
     GeekyWebViewController* webViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([GeekyWebViewController class])];
     self.isInterstitialAdToBeStopped = NO;
     webViewController.url = urlString;
+    
+    int numberOfSetsOpened = (int)[[NSUserDefaults standardUserDefaults] integerForKey:KEY_NO_OF_SETS_OPENED];
+    numberOfSetsOpened++;
+    
+    [[NSUserDefaults standardUserDefaults] setInteger:numberOfSetsOpened forKey:KEY_NO_OF_SETS_OPENED];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    self.lastSelectedSetTimeStamp = [NSDate date];
+    
     [self.navigationController pushViewController:webViewController animated:YES];
 }
 

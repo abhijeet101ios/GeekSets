@@ -15,6 +15,7 @@
 #import "DragAndDropTableView.h"
 #import "PagedViewController.h"
 #import "MPCoachMarks.h"
+#import "GSAnalytics.h"
 #import "Utility.h"
 
 @import Firebase;
@@ -70,6 +71,10 @@
 @property (nonatomic) BOOL isGlobalInterstitialAdFlagDisabled;
 
 @property (nonatomic) BOOL isNetworkRequestCompleted;
+
+@property (nonatomic) NSString* lastSelectedCompany;
+
+@property (nonatomic) NSDate* lastSelectedCompanyTimeStamp;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bannerAdHeight;
 @property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
@@ -130,6 +135,7 @@
 
 - (void) viewDidAppear:(BOOL) animated {
     [self showInterstitialAd];
+    [self createBannerAd];
     if (!self.isMovingToParentViewController) {
         
         BOOL isTickListCoachMarkSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_REORDER_COACH_MARK_SEEN];
@@ -139,6 +145,10 @@
         else {
             [self createInterstitialAd];
         }
+        
+        //set the analytics part
+        int noOfSetsOpened = (int)[[NSUserDefaults standardUserDefaults] integerForKey:KEY_NO_OF_SETS_OPENED];
+        [self ab_setEventName:EVENT_ANALYTICS_COMPANY_BACK_PRESSED forKeys:@{KEY_ANALYTICS_TIME_SPENT:[NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSinceDate:self.lastSelectedCompanyTimeStamp]], KEY_NO_OF_SETS_OPENED:[NSString stringWithFormat:@"%d",noOfSetsOpened]}];
     }
 }
 
@@ -274,10 +284,18 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString* dataTopic = self.dataSourceArray[indexPath.section][indexPath.row];
     ViewController* viewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([ViewController class])];
-    viewController.topicName = dataTopic;
+    viewController.topicName = self.lastSelectedCompany = dataTopic;
     viewController.completedArray = [self.completedArray mutableCopy];
     viewController.openedArray = [self.openedArray mutableCopy];
     self.isInterstitialAdToBeStopped = NO;
+    
+    [self ab_setEventName:EVENT_ANALYTICS_COMPANY_SELECTED forKeys:@{KEY_ANALYTICS_COMPANY_NAME:dataTopic}];
+    
+    self.lastSelectedCompanyTimeStamp = [NSDate date];
+    
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:KEY_NO_OF_SETS_OPENED];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
@@ -502,18 +520,18 @@
 }
 
 - (GADInterstitial *)createInterstitialAd {
-    if (!self.isGlobalInterstitialAdFlagDisabled && !self.isInterstitialAdToBeStopped) {
-        
-        self.interstitial =
-        [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3743202420941577/5605948044"];
-        
-        GADRequest *request = [GADRequest request];
-        // Request test ads on devices you specify. Your test device ID is printed to the console when
-        // an ad request is made.
-        request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
-        [self.interstitial loadRequest:request];
-        return self.interstitial;
-    }
+//    if (!self.isGlobalInterstitialAdFlagDisabled && !self.isInterstitialAdToBeStopped) {
+//        
+//        self.interstitial =
+//        [[GADInterstitial alloc] initWithAdUnitID:@"ca-app-pub-3743202420941577/5605948044"];
+//        
+//        GADRequest *request = [GADRequest request];
+//        // Request test ads on devices you specify. Your test device ID is printed to the console when
+//        // an ad request is made.
+//        request.testDevices = @[ @"4979d821dabc9b7f43cb2f4dd7e3876c" ];
+//        [self.interstitial loadRequest:request];
+//        return self.interstitial;
+//    }
     return nil;
 }
 
@@ -743,11 +761,38 @@
     [self.dataSourceArray removeObjectsAtIndexes:indexSet];
     [tableView endUpdates];
     [self ab_updateDataSourceArray];
+    
+    NSString* firstCompanyName = self.dataSourceArray.count?self.dataSourceArray.firstObject:nil;
+    NSString* secondCompanyName = (self.dataSourceArray.count > 1)?self.dataSourceArray[1]:nil;
+    NSString* thirdCompanyName = (self.dataSourceArray.count > 2)?self.dataSourceArray[2]:nil;
+    
+    NSMutableDictionary* keysDict = [@{} mutableCopy];
+    
+    if (firstCompanyName) {
+        [keysDict setValue:KEY_ANALYTICS_FIRST_COMPANY forKey:firstCompanyName];
+        
+        if (secondCompanyName) {
+            [keysDict setValue:KEY_ANALYTICS_SECOND_COMPANY forKey:secondCompanyName];
+            if (thirdCompanyName) {
+                [keysDict setValue:KEY_ANALYTICS_THIRD_COMPANY forKey:thirdCompanyName];
+            }
+        }
+    }
+    else {
+        return;
+    }
+    [self ab_setEventName:EVENT_ANALYTICS_COMPANY_LIST_REORDERED forKeys:[keysDict copy]];
 }
 
 -(CGFloat)tableView:tableView heightForEmptySection:(int)section
 {
     return 10;
+}
+
+#pragma mark - Analytics Methods
+
+- (void) ab_setEventName:(NSString*) eventName forKeys:(NSDictionary*) keys {
+    [[GSAnalytics sharedInstance] setEventName:eventName withKeys:keys];
 }
 
 #pragma mark - PagedViewControllerDelegate callback methods
@@ -763,9 +808,18 @@
     }
 }
 
+#pragma mark - Helper methods
+
+- (NSString*) ab_getCurrentTimestamp {
+    return [NSString stringWithFormat:@"%f",[NSDate timeIntervalSinceReferenceDate]];
+}
+
 #pragma mark - Logout button callback
 
 - (IBAction)logoutPressed:(UIButton *)sender {
+    
+    [self ab_setEventName:EVENT_ANALYTICS_LOGOUT_PRESSED forKeys:@{KEY_ANALYTICS_USERID:[FIRAuth auth].currentUser.email,KEY_ANALYTICS_TIMESTAMP:[self ab_getCurrentTimestamp]}];
+    
     NSError* error;
     [[FIRAuth auth] signOut:&error];
     [self ab_showLogoutScreen:NO];
@@ -774,6 +828,22 @@
 - (IBAction)notNowPressed:(UIButton *)sender {
     [self ab_showLogoutScreen:NO];
     self.navigationController.navigationBarHidden = NO;
+    [self ab_setEventName:EVENT_ANALYTICS_NOT_NOW_PRESSED forKeys:@{KEY_ANALYTICS_TIMESTAMP:[self ab_getCurrentTimestamp]}];
 }
+
+
+-(BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    if (self.bubbleBackgroundView.hidden) {
+        return UIInterfaceOrientationMaskAll;
+    }
+    else {
+        return UIInterfaceOrientationMaskPortrait;
+    }
+}
+
 
 @end
