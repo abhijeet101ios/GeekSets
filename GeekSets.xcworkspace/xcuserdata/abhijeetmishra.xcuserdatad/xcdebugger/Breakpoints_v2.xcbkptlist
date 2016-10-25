@@ -50,11 +50,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GeekSets/TopicListingViewController.m"
-            timestampString = "499068050.920687"
+            timestampString = "499086339.315843"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "827"
-            endingLineNumber = "827"
+            startingLineNumber = "822"
+            endingLineNumber = "822"
             landmarkName = "-notNowPressed:"
             landmarkType = "7">
          </BreakpointContent>
@@ -81,12 +81,28 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GeekSets/TopicListingViewController.m"
-            timestampString = "499067935.767138"
+            filePath = "GeekSets/LoginViewController.m"
+            timestampString = "499086842.853151"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "-loginPressed:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GeekSets/TopicListingViewController.m"
+            timestampString = "499086339.315843"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "-rightBarPressed:"
             landmarkType = "7">
          </BreakpointContent>
@@ -97,29 +113,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GeekSets/LoginViewController.m"
-            timestampString = "499067853.388178"
+            filePath = "GeekSets/TopicListingViewController.m"
+            timestampString = "499086339.315843"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
-            landmarkName = "-logoutNotNowPressed:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GeekSets/LoginViewController.m"
-            timestampString = "499067853.388178"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "-loginNotNowPressed:"
+            startingLineNumber = "420"
+            endingLineNumber = "420"
+            landmarkName = "-removeIntroView"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -130,11 +130,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GeekSets/TopicListingViewController.m"
-            timestampString = "499068050.920687"
+            timestampString = "499086339.315843"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "478"
-            endingLineNumber = "478"
+            startingLineNumber = "441"
+            endingLineNumber = "441"
+            landmarkName = "-removeIntroView"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GeekSets/TopicListingViewController.m"
+            timestampString = "499086339.315843"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "475"
+            endingLineNumber = "475"
             landmarkName = "-showLoginViewController"
             landmarkType = "7">
          </BreakpointContent>
@@ -145,13 +161,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GeekSets/LoginViewController.m"
-            timestampString = "499067853.388178"
+            filePath = "GeekSets/TopicListingViewController.m"
+            timestampString = "499086339.315843"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "-loginPressed:"
+            startingLineNumber = "412"
+            endingLineNumber = "412"
+            landmarkName = "-removeIntroView"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

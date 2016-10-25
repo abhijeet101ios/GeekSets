@@ -135,12 +135,16 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [UIApplication sharedApplication].statusBarHidden = !self.bubbleBackgroundView.hidden;
+    [UIApplication sharedApplication].statusBarHidden =  self.navigationController.navigationBarHidden = !self.bubbleBackgroundView.hidden;
     
     [self ab_fetchUserData];
 }
 
 - (void) viewDidAppear:(BOOL) animated {
+    if (self.bubbleBackgroundView.hidden && [self.navigationController.topViewController isKindOfClass:[TopicListingViewController class]]) {
+        self.navigationController.navigationBarHidden = NO;
+    }
+    
     [self showInterstitialAd];
     [self createBannerAd];
     if (!self.isMovingToParentViewController) {
@@ -173,7 +177,7 @@
 }
 
 - (void) ab_createCoachMarks {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_COACH_MARK_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_LOGIN_SCREEN_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN]) {
+    if (self.bubbleBackgroundView.hidden && ![[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_COACH_MARK_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_LOGIN_SCREEN_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN]) {
         // Setup coach marks
         
         CGRect rectInTableView = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -198,7 +202,7 @@
 }
 
 - (void) ab_createReorderCoachMarks {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_REORDER_COACH_MARK_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_LOGIN_SCREEN_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN] && self.bubbleBackgroundView.hidden) {
+    if (self.bubbleBackgroundView.hidden && ![[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_TOPIC_LIST_REORDER_COACH_MARK_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_LOGIN_SCREEN_SEEN] && [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN] && self.bubbleBackgroundView.hidden) {
         // Setup coach marks
         
         CGRect rectInTableView = [self.tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -360,6 +364,10 @@
 
 - (void) createBubbles {
     
+    if (![self.navigationController.topViewController isKindOfClass:[LoginViewController class]]) {
+        [UIApplication sharedApplication].statusBarHidden = NO;
+    }
+    
     self.isBubbleScreenVisible = YES;
     
     int maxBubbleCount = 5000;
@@ -376,7 +384,7 @@
             floatingView.animationDuration = [self getRandomBubbleTime];
             floatingView.imageViewAnimationCompleted = ^(UIImageView* imageView) {
                 self.removedBubblesCount++;
-                if (self.removedBubblesCount >= minBubbleCount) {
+                if (self.removedBubblesCount >= minBubbleCount && self.isBubbleScreenVisible) {
                     if (self.isNetworkRequestCompleted) {
                         [self removeIntroView];
                     }
@@ -407,11 +415,11 @@
     
     BOOL isWalkthroughSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN];
     
-    if ([[Utility sharedInsance] isTopicListSubsequentInvocation]) {
+   // if ([[Utility sharedInsance] isTopicListSubsequentInvocation]) {
         if ([self.navigationController.topViewController isKindOfClass:[TopicListingViewController class]]) {
             self.navigationController.navigationBarHidden = NO;
         }
-    }
+  //  }
     else {
         if (isWalkthroughSeen) {
             [[Utility sharedInsance] setTopicListSubsequentInvocation];

@@ -11,6 +11,9 @@
 #import "CommonConstants.h"
 #import "GSAnalytics.h"
 
+#define NO_OF_VIEWS 500
+#define TAG_MULTIPLIER (NO_OF_VIEWS + 1)
+
 @import Firebase;
 
 @interface LoginViewController ()
@@ -24,6 +27,13 @@
 @property (weak, nonatomic) IBOutlet UIImageView *loginImageVIew;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 @property (weak, nonatomic) IBOutlet UIButton *signInButton;
+@property (nonatomic) UIView *randomImageBaseView;
+
+@property (nonatomic) NSTimer* imageTimer;
+
+@property (nonatomic) int currentImageViewNo;
+@property (nonatomic) int removedSubViews;
+@property (nonatomic) NSMutableArray* imageViewArray;
 
 @end
 
@@ -147,12 +157,22 @@
 #pragma mark - Show Login/ Logout Methdods
 
 - (void) ab_showLoginScreen:(BOOL) showLoginScreen {
+    
+    if (showLoginScreen) {
+        self.imageTimer = nil;
+        [self.randomImageBaseView removeFromSuperview];
+        self.randomImageBaseView = nil;
+    }
+    
     self.loginView.hidden = !showLoginScreen;
 }
 
 - (void) ab_showLogoutScreen:(BOOL) showLogoutScreen {
     self.logoutView.hidden = !showLogoutScreen;
     if (showLogoutScreen) {
+        
+        [self startImageViewAddTimer];
+        
         self.logoutMessageLabel.text = [FIRAuth auth].currentUser.displayName;
         if ([FIRAuth auth].currentUser.photoURL) {
             self.loggedInUserImageView.image = [UIImage imageWithData:[[NSData alloc] initWithContentsOfURL:[FIRAuth auth].currentUser.photoURL]];
@@ -177,11 +197,180 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
-    self.navigationController.navigationBarHidden = NO;
+    //self.navigationController.navigationBarHidden = NO;
 }
 
 - (void) dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - 
+
+- (NSString*) getImageForIndex:(int) index {
+    NSArray* imageArray = @[@"array",@"binary_tree",@"linked_list",@"queue",@"stack"];
+    
+    if (index < imageArray.count) {
+        return imageArray[index];
+    }
+    else {
+        return imageArray[index%(imageArray.count)];
+    }
+}
+
+
+
+- (void) startImageViewAddTimer {
+    
+   self.randomImageBaseView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.randomImageBaseView.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2);
+    [self.view addSubview:self.randomImageBaseView];
+    [self.view sendSubviewToBack:self.randomImageBaseView];
+    
+   self.imageTimer = [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(addTimerCallback:) userInfo:nil repeats:YES];
+}
+
+- (void) addTimerCallback:(NSTimer*) timer {
+    
+    if (!self.imageViewArray) {
+        self.imageViewArray = [@[] mutableCopy];
+    }
+    
+    int index = self.currentImageViewNo;
+    CGFloat imageWidth = [self getImageViewDimension];
+    
+    CGPoint originPoint = [self getRandomPoint];
+    
+    UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(originPoint.x, originPoint.y, imageWidth, imageWidth)];
+    imageView.tag = (index + 1)*TAG_MULTIPLIER;
+    imageView.alpha = 0;
+    imageView.image = [UIImage imageNamed:[self getImageForIndex:index]];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.75, 0.75);
+    [self.randomImageBaseView addSubview:imageView];
+    
+    [self.imageViewArray addObject:imageView];
+    
+    self.currentImageViewNo++;
+    
+    if (self.currentImageViewNo == NO_OF_VIEWS) {
+        [timer invalidate];
+        timer = nil;
+    }
+    
+    [UIView animateWithDuration:1 delay:0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+        imageView.alpha = 1.0;
+        imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+        
+    } completion:^(BOOL finished) {
+        // [self fadeOtherImagesExceptWithTags:(int)imageView.tag];
+        [UIView animateWithDuration:1 delay:0 options:0 animations:^{
+            imageView.alpha = 0.0;
+            imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.75, 0.75);
+        } completion:^(BOOL finished) {
+            CGPoint originPoint = [self getRandomPoint];
+            
+            imageView.frame = CGRectMake(originPoint.x, originPoint.y, imageWidth, imageWidth);
+            [UIView animateWithDuration:1 delay:0 options:0 animations:^{
+                imageView.alpha = 1.0;
+                imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+            } completion:^(BOOL finished) {
+                //  [self fadeOtherImagesExceptWithTags:(int)imageView.tag];
+                [UIView animateWithDuration:1 delay:0 options:0 animations:^{
+                    imageView.alpha = 0.0;
+                    imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.75, 0.75);
+                } completion:^(BOOL finished) {
+                    [imageView removeFromSuperview];
+                    self.removedSubViews++;
+                    if (self.removedSubViews == NO_OF_VIEWS) {
+                        //all subviews removed
+                    }
+                }];
+            }];
+        }];
+    }];
+}
+
+- (void) fadeOtherImagesExceptWithTags:(int) visibleImageViewTag {
+    for (UIView* subView in self.view.subviews) {
+        if (subView.tag%TAG_MULTIPLIER == 0) {
+            subView.alpha = 0.6;
+        }
+    }
+    UIView* focusView = [self.view viewWithTag:visibleImageViewTag];
+    focusView.alpha = 1.0;
+}
+
+- (CGPoint) getRandomPoint {
+    CGFloat xPosition = [self getRandomXPosition];
+    CGFloat yPosition = [self getRandomYPosition];
+    
+    CGPoint point = CGPointMake(xPosition, yPosition);
+    
+    if ([self checkIfOtherImageViewContainsPoint:point]) {
+        return [self getRandomPoint];
+    }
+    return point;
+}
+
+- (void) timerVisibleCallback:(NSTimer*) timer {
+    UIView* subView = [self.view viewWithTag:((NSNumber*)timer.userInfo).intValue];
+    CGPoint originPoint = [self getRandomPoint];
+    
+    subView.frame = CGRectMake(originPoint.x, originPoint.y, [self getImageViewDimension], [self getImageViewDimension]);
+    [UIView animateWithDuration:1 animations:^{
+        subView.alpha = 1;
+    }];
+    NSLog(@"Showing view with tag:%d at time:%f",(int)subView.tag,[NSDate timeIntervalSinceReferenceDate]);
+    
+}
+
+- (void) timerInvisibleCallback:(NSTimer*) timer {
+    UIView* subView = [self.view viewWithTag:((NSNumber*)timer.userInfo).intValue];
+    CGPoint originPoint = [self getRandomPoint];
+    
+    subView.frame = CGRectMake(originPoint.x, originPoint.y, [self getImageViewDimension], [self getImageViewDimension]);
+    [UIView animateWithDuration:1 animations:^{
+        subView.alpha = 0;
+    }];
+    NSLog(@"Hiding view with tag:%d at time:%f",(int)subView.tag,[NSDate timeIntervalSinceReferenceDate]);
+    
+}
+
+- (CGFloat) getRandomXPosition {
+    int maxX = [UIScreen mainScreen].bounds.size.width - [self getImageViewDimension];
+    
+    NSInteger randomNumber = arc4random() % maxX;
+    
+    return randomNumber;
+}
+
+- (CGFloat) getRandomYPosition {
+    int maxX = [UIScreen mainScreen].bounds.size.height - [self getImageViewDimension];
+    
+    NSInteger randomNumber = arc4random() % maxX;
+    
+    return randomNumber;
+}
+
+- (BOOL) checkIfOtherImageViewContainsPoint:(CGPoint) point {
+    for (UIImageView* imageView in self.imageViewArray) {
+        // CGPoint locationInView = [imageView convertPoint:point fromView:imageView.window];
+        if ( CGRectContainsPoint(imageView.frame, point) ) {
+            // Point lies inside the bounds.
+            return YES;
+        }
+    }
+    return NO;
+}
+
+
+- (CGFloat) getImageViewDimension {
+    //    CGFloat maxWidth = [UIScreen mainScreen].bounds.size.width/NO_OF_VIEWS;
+    //    CGFloat maxHeight = [UIScreen mainScreen].bounds.size.height/NO_OF_VIEWS;
+    
+    
+    
+    return MIN(120, 120);
 }
 
 @end

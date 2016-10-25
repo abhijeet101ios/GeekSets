@@ -393,10 +393,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sLS-6O-IaB" userLabel="Cover View">
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kVp-VM-CK2" userLabel="Login View">
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LMN-2b-ejE">
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="PWU-jS-gCd" userLabel="Login Activity Indicator"/>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eGN-85-AU0" userLabel="Google Button" customClass="UIButton">
@@ -432,7 +435,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="LMN-2b-ejE" firstAttribute="leading" secondItem="kVp-VM-CK2" secondAttribute="leading" id="0Pc-oC-z8g"/>
                                     <constraint firstAttribute="trailing" secondItem="LMN-2b-ejE" secondAttribute="trailing" id="2DG-Mx-Cbb"/>
@@ -471,6 +474,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mhh-CK-Oza" userLabel="Logout Button">
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="6VM-WF-d6C"/>
                                             <constraint firstAttribute="width" constant="60" id="uKJ-ba-KhC"/>
@@ -485,6 +489,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iXl-tc-LOD" userLabel="Cancel Button">
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="Cancel">
                                             <color key="titleColor" red="0.0" green="0.78976172208786011" blue="0.50252598524093628" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -494,7 +499,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="GVZ-gh-goZ" firstAttribute="centerY" secondItem="OLc-ic-AbG" secondAttribute="centerY" multiplier="1:2" id="0A8-3t-gRK"/>
                                     <constraint firstItem="GVZ-gh-goZ" firstAttribute="centerX" secondItem="OLc-ic-AbG" secondAttribute="centerX" id="Rfa-wh-5ED"/>
@@ -510,13 +515,17 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="sLS-6O-IaB" secondAttribute="trailing" id="6Dp-S5-Yay"/>
                             <constraint firstItem="OLc-ic-AbG" firstAttribute="top" secondItem="ZWt-yu-eqf" secondAttribute="top" id="7rA-gQ-Fww"/>
+                            <constraint firstAttribute="bottom" secondItem="sLS-6O-IaB" secondAttribute="bottom" id="C78-bl-bOa"/>
                             <constraint firstAttribute="trailing" secondItem="kVp-VM-CK2" secondAttribute="trailing" id="Eag-9r-mj4"/>
                             <constraint firstItem="kVp-VM-CK2" firstAttribute="leading" secondItem="ZWt-yu-eqf" secondAttribute="leading" id="OOa-qH-a5N"/>
                             <constraint firstAttribute="bottom" secondItem="kVp-VM-CK2" secondAttribute="bottom" id="TN2-ng-GGn"/>
                             <constraint firstAttribute="bottom" secondItem="OLc-ic-AbG" secondAttribute="bottom" id="U9V-iF-8MW"/>
                             <constraint firstAttribute="trailing" secondItem="OLc-ic-AbG" secondAttribute="trailing" id="WER-wB-Hht"/>
+                            <constraint firstItem="sLS-6O-IaB" firstAttribute="top" secondItem="ZWt-yu-eqf" secondAttribute="top" id="fwq-dF-dHl"/>
                             <constraint firstItem="kVp-VM-CK2" firstAttribute="top" secondItem="ZWt-yu-eqf" secondAttribute="top" id="g6H-6r-2ky"/>
+                            <constraint firstItem="sLS-6O-IaB" firstAttribute="leading" secondItem="ZWt-yu-eqf" secondAttribute="leading" id="hLo-17-zlc"/>
                             <constraint firstItem="OLc-ic-AbG" firstAttribute="leading" secondItem="ZWt-yu-eqf" secondAttribute="leading" id="iXd-PQ-zrZ"/>
                         </constraints>
                     </view>
@@ -542,7 +551,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hsC-Ct-sJz" customClass="GSCustomNavigationViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="h9X-NP-Wz4">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="h9X-NP-Wz4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
