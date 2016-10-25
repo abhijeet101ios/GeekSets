@@ -67,6 +67,8 @@
 
 @property (nonatomic) IFTTTPathPositionAnimation *arrowFlyingAnimation;
 
+@property (nonatomic) UIPageControl* pageControl;
+
 @end
 
 @implementation PagedViewController
@@ -79,7 +81,10 @@
     
     [self configureViews];
     [self configureAnimations];
+    [self configurePageControl];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageOffSetChanged:) name:NOTIFICATION_TYPE_ONBOARDING_PAGE_OFFSET object:nil];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -192,6 +197,19 @@
     [self animateCurrentFrame];
 }
 
+- (void) configurePageControl {
+    
+    CGFloat screenCenterX = [UIScreen mainScreen].bounds.size.width/2;
+    CGFloat pageControlYPosition = [UIScreen mainScreen].bounds.size.height - 40;
+    
+    self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(screenCenterX - 60, pageControlYPosition, 120, 40)];
+    self.pageControl.currentPageIndicatorTintColor = APP_COLOR;
+    self.pageControl.pageIndicatorTintColor = APP_COMPLEMENTARY_COLOR;
+    self.pageControl.numberOfPages = 5;
+    self.pageControl.hidden = YES;
+    [self.view addSubview:self.pageControl];
+}
+
 - (void)rotateSyncImageView
 {
     [UIView animateWithDuration:4.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -274,6 +292,7 @@
             [self.contentView layoutIfNeeded];
         } completion:^(BOOL finished) {
             self.view.userInteractionEnabled = YES;
+            self.pageControl.hidden = NO;
         }];
     }];
 }
@@ -627,8 +646,10 @@
 - (void) configureStartButton {
     [self keepView:self.startButton onPages:@[@(4)] atTimes:@[@(4)]];
     
+   CGFloat offSetMargin = (IS_IPHONE_6_PLUS)?(-50):((IS_IPHONE_6)?(-50):((IS_IPHONE_5)?(-50):(-40)));
+
     [self.startButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.contentView.mas_bottom).offset(-20);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(offSetMargin);
     }];
 }
 
@@ -698,6 +719,11 @@
 }
 
 #pragma mark - NSNotification based methods
+
+- (void) pageOffSetChanged:(NSNotification*) pageOffSetNotification {
+    int pageNo = [pageOffSetNotification.object intValue];
+    self.pageControl.currentPage = pageNo;
+}
 
 - (void) applicationWillEnterForeground {
    // [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(rotateSyncImageView) userInfo:nil repeats:YES];

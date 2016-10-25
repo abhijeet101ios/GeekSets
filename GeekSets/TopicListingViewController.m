@@ -160,9 +160,9 @@
 }
 
 - (void) ab_correctLogoCenterPositioning {
-    if (IS_IPHONE_6) {
+    //if (IS_IPHONE_6) {
         self.logoImageViewCenterYConstraint.constant = -12;
-    }
+    //}
 }
 
 - (void) ab_customizeTitleBackgroundScreen {
@@ -237,19 +237,6 @@
     self.navigationController.navigationBarHidden = YES;
 
     [self showLoginViewController];
-//    [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth *_Nonnull auth,
-//                                                    FIRUser *_Nullable user) {
-//        if (user != nil) {
-//            // User is signed in.
-//        
-//            //show logged in status
-//            [self ab_showLogoutScreen:YES];
-//        }
-//        else {
-//       //show login view
-//            [self ab_showLoginScreen:YES];
-//        }
-//    }];
 }
 
 - (void) ab_customNavigationBar {

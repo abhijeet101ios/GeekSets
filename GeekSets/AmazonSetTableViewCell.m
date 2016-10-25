@@ -32,6 +32,7 @@
 }
 
 - (void) awakeFromNib {
+    [super awakeFromNib];
     self.actionButton.layer.shadowColor = [UIColor darkGrayColor].CGColor;
     self.actionButton.layer.shadowOffset = CGSizeMake(1, 1);
     self.actionButton.layer.shadowOpacity = 0.2;

@@ -20,6 +20,7 @@ typedef enum {
 } adType;
 
 //notification macros
+#define NOTIFICATION_TYPE_ONBOARDING_PAGE_OFFSET @"onboardingPageOffSet"
 #define NOTIFICATION_TYPE_USER_LOGGED_IN_SUCCESS @"loggedInNotificationSuccess"
 #define NOTIFICATION_TYPE_USER_LOGGED_IN_FAILED @"loggedInNotificationFailure"
 
@@ -32,6 +33,7 @@ typedef enum {
 
 //general constants
 #define APP_COLOR [UIColor colorWithRed:0 green:194.0/255.0 blue:109.0/255.0 alpha:0.8]
+#define APP_COMPLEMENTARY_COLOR [UIColor colorWithRed:1 green:61.0/255.0 blue:146.0/255.0 alpha:1.0]
 #define UNIQUE_ID @"unique_id"
 #define DIVIDER_KEY @"divider101"
 #define KEY_SETS @"sets"

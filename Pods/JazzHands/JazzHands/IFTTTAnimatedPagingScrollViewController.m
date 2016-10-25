@@ -170,6 +170,7 @@
     } else {
         _pageOffset = 0.f;
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"onboardingPageOffSet" object:@(self.pageOffset)];
 }
 
 #pragma mark - Scroll View
