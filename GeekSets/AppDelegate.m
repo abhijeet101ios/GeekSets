@@ -12,7 +12,7 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
-@interface AppDelegate ()
+@interface AppDelegate () <GIDSignInDelegate>
 
 @end
 
@@ -71,13 +71,14 @@ didSignInForUser:(GIDGoogleUser *)user
         [[FIRAuth auth] signInWithCredential:credential
                                   completion:^(FIRUser *user, NSError *error) {
                                       // ...
-                                  }];
+                                      [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_TYPE_USER_LOGGED_IN_SUCCESS object:nil];
+            }];
         // ...
     } else {
-        
+          [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_TYPE_USER_LOGGED_IN_SUCCESS object:nil];
     }
-        // ...
-        }
+    // ...
+}
 - (void)signIn:(GIDSignIn *)signIn
 didDisconnectWithUser:(GIDGoogleUser *)user
      withError:(NSError *)error {

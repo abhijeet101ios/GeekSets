@@ -19,6 +19,10 @@ typedef enum {
     bannerAdWebView    
 } adType;
 
+//notification macros
+#define NOTIFICATION_TYPE_USER_LOGGED_IN_SUCCESS @"loggedInNotificationSuccess"
+#define NOTIFICATION_TYPE_USER_LOGGED_IN_FAILED @"loggedInNotificationFailure"
+
 //device type macros
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 #define IS_IPHONE_4_OR_LESS (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height < 568.0)

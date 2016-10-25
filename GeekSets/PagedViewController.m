@@ -92,7 +92,11 @@
 - (void) configureViews {
   
     self.geekSetsLogoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"geeksets_logo"]];
- 
+    self.geekSetsLogoImageView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+    self.geekSetsLogoImageView.layer.shadowOffset = CGSizeMake(3, 3);
+    self.geekSetsLogoImageView.layer.shadowOpacity = 0.6;
+    self.geekSetsLogoImageView.layer.shadowRadius = 1.0;
+    
     self.onboardingIntroImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"onboarding_intro_screen"]];
     self.primaryListImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"primary_list"]];
     self.secondaryListImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"secondary_list"]];
@@ -124,6 +128,10 @@
     self.arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow"]];
     
     self.syncImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"sync"]];
+    self.syncImageView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+    self.syncImageView.layer.shadowOffset = CGSizeMake(3, 3);
+    self.syncImageView.layer.shadowOpacity = 0.6;
+    self.syncImageView.layer.shadowRadius = 1.0;
     
     self.startButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 120, 60)];
     [self.startButton setImage:[UIImage imageNamed:@"start_button"] forState:UIControlStateNormal];
@@ -201,7 +209,7 @@
         make.height.equalTo(@60);
     }];
     
-   CGFloat verticalConstraintMargin = (IS_IPHONE_6_PLUS)?(-16):((IS_IPHONE_6)?(-36):((IS_IPHONE_5)?(-16):(-16)));
+   CGFloat verticalConstraintMargin = (IS_IPHONE_6_PLUS)?(-16):((IS_IPHONE_6)?(-12):((IS_IPHONE_5)?(-16):(-16)));
     
     self.geekSetsVerticalConstraint = [NSLayoutConstraint constraintWithItem:self.geekSetsLogoImageView
                                                                               attribute:NSLayoutAttributeCenterY
@@ -260,8 +268,9 @@
         [self.contentView layoutIfNeeded];
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:1 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-             self.onboardingIntroImageView.alpha = self.onboardingIntroImageView.alpha = 1;
+            self.onboardingIntroImageView.alpha = self.onboardingIntroImageView.alpha = 1;
             self.arrowListIntro.hidden = NO;
+            self.geekSetsLogoImageView.layer.shadowOpacity = 0;
             [self.contentView layoutIfNeeded];
         } completion:^(BOOL finished) {
             self.view.userInteractionEnabled = YES;
@@ -318,7 +327,7 @@
     IFTTTScaleAnimation *amazonScaleAnimation = [IFTTTScaleAnimation animationWithView:self.amazonImageView];
     [amazonScaleAnimation addKeyframeForTime:0.95 scale:1 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
     [amazonScaleAnimation addKeyframeForTime:1.9 scale:scale];
-    [amazonScaleAnimation addKeyframeForTime:1.99 scale:0.5];
+  //  [amazonScaleAnimation addKeyframeForTime:1.99 scale:0.5];
     [amazonScaleAnimation addKeyframeForTime:0 scale:0.01];
     [self.animator addAnimation:amazonScaleAnimation];
 }
@@ -422,7 +431,6 @@
     
     // grow the secondary list into the background between pages 0 and 1
     IFTTTScaleAnimation *secondaryListScaleAnimation = [IFTTTScaleAnimation animationWithView:self.secondaryListImageView];
-  //  [secondaryListScaleAnimation addKeyframeForTime:1 scale:0.5 withEasingFunction:IFTTTEasingFunctionEaseInQuad];
     [secondaryListScaleAnimation addKeyframeForTime:1.9 scale:0.5];
     [secondaryListScaleAnimation addKeyframeForTime:2 scale:1];
     [secondaryListScaleAnimation addKeyframeForTime:3 scale:0.5];
@@ -544,7 +552,7 @@
 }
 
 - (void) configureOnboardingArrow {
-    [self keepView:self.onboardingArrow onPages:@[@(2.65)] atTimes:@[@(3)]];
+    [self keepView:self.onboardingArrow onPages:@[@(2.65),@(2.7),@(2.72)] atTimes:@[@(3),@(2.8),@(2.9)]];
     
    NSLayoutConstraint *arrowVerticalConstraint = [NSLayoutConstraint constraintWithItem:self.onboardingArrow
                                                                               attribute:NSLayoutAttributeCenterY

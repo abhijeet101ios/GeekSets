@@ -10,7 +10,4 @@
 
 @interface TopicListingViewController : UIViewController
 
-- (void) loginSuccessDone;
-- (void) loginFailed;
-
 @end

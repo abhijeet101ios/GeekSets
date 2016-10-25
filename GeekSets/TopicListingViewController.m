@@ -81,6 +81,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *intializingLabel;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *logoImageViewCenterYConstraint;
+
 @end
 
 #define KEY_SETS @"sets"
@@ -125,11 +127,15 @@
     
     [self ab_customRightBarButton];
     
+    [self ab_correctLogoCenterPositioning];
+    
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [UIApplication sharedApplication].statusBarHidden = !self.bubbleBackgroundView.hidden;
     
     [self ab_fetchUserData];
 }
@@ -150,6 +156,12 @@
         //set the analytics part
         int noOfSetsOpened = (int)[[NSUserDefaults standardUserDefaults] integerForKey:KEY_NO_OF_SETS_OPENED];
         [self ab_setEventName:EVENT_ANALYTICS_COMPANY_BACK_PRESSED forKeys:@{KEY_ANALYTICS_TIME_SPENT:[NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSinceDate:self.lastSelectedCompanyTimeStamp]], KEY_NO_OF_SETS_OPENED:[NSString stringWithFormat:@"%d",noOfSetsOpened]}];
+    }
+}
+
+- (void) ab_correctLogoCenterPositioning {
+    if (IS_IPHONE_6) {
+        self.logoImageViewCenterYConstraint.constant = -12;
     }
 }
 
@@ -212,38 +224,32 @@
 - (void) ab_checkForWalkthroughScreen {
     PagedViewController* onboardingViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([PagedViewController class])];
     onboardingViewController.pagedViewControllerDelegate = self;
+    //show login view controller
     [self presentViewController:onboardingViewController animated:NO completion:nil];
 }
 
 - (void) ab_customRightBarButton {
-//    UIButton* rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 30)];
-//    rightButton.backgroundColor = [UIColor clearColor];
-//    [rightButton setImage:[UIImage imageNamed:@"profile"] forState:UIControlStateNormal];
-//    [rightButton addTarget:self action:@selector(rightBarPressed:) forControlEvents:UIControlEventTouchDown];
-    
-    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"profile"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarPressed:)];
-    
-//    UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
-    self.navigationItem.rightBarButtonItem = item;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"profile"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarPressed:)];
 }
 
 - (void) rightBarPressed:(UIButton*) button {
     
     self.navigationController.navigationBarHidden = YES;
-    
-    [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth *_Nonnull auth,
-                                                    FIRUser *_Nullable user) {
-        if (user != nil) {
-            // User is signed in.
-        
-            //show logged in status
-            [self ab_showLogoutScreen:YES];
-        }
-        else {
-       //show login view
-            [self ab_showLoginScreen:YES];
-        }
-    }];
+
+    [self showLoginViewController];
+//    [[FIRAuth auth] addAuthStateDidChangeListener:^(FIRAuth *_Nonnull auth,
+//                                                    FIRUser *_Nullable user) {
+//        if (user != nil) {
+//            // User is signed in.
+//        
+//            //show logged in status
+//            [self ab_showLogoutScreen:YES];
+//        }
+//        else {
+//       //show login view
+//            [self ab_showLoginScreen:YES];
+//        }
+//    }];
 }
 
 - (void) ab_customNavigationBar {
@@ -408,10 +414,14 @@
     
     self.isBubbleScreenVisible = NO;
     
+    if (![self.navigationController.topViewController isKindOfClass:[LoginViewController class]]) {
+        [UIApplication sharedApplication].statusBarHidden = NO;
+    }
+    
     BOOL isWalkthroughSeen = [[NSUserDefaults standardUserDefaults] boolForKey:KEY_IS_WALKTHROUGH_SEEN];
     
     if ([[Utility sharedInsance] isTopicListSubsequentInvocation]) {
-        if (self.navigationController.topViewController == self) {
+        if ([self.navigationController.topViewController isKindOfClass:[TopicListingViewController class]]) {
             self.navigationController.navigationBarHidden = NO;
         }
     }
@@ -432,8 +442,9 @@
             //migrate DB if required
            // [[Utility sharedInsance] ab_migrateDB];
             
-            self.navigationController.navigationBarHidden = NO;
-            
+            if ([self.navigationController.topViewController isKindOfClass:[TopicListingViewController class]]) {
+                self.navigationController.navigationBarHidden = NO;
+            }
             BOOL isBannerAdDisabled = [[Utility sharedInsance] getIsAdDisabled:bannerAdTopicList];
             
             if (isBannerAdDisabled) {
@@ -464,40 +475,25 @@
 #pragma mark - Login Callback methods
 
 - (void) showLoginViewController {
-    LoginViewController* loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([LoginViewController class])];
-    [self.navigationController pushViewController:loginViewController animated:NO];
+    if ([self.navigationController.topViewController isKindOfClass:[TopicListingViewController class]]) {
+        LoginViewController* loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([LoginViewController class])];
+        self.navigationController.navigationBarHidden = YES;
+        [self.navigationController pushViewController:loginViewController animated:NO];
+    }
 }
 
 - (void) ab_showLogoutScreen:(BOOL) showLogoutScreen {
-    [self showLoginViewController];
+    if (showLogoutScreen) {
+        [self showLoginViewController];
+    }
 }
 
 - (void) ab_showLoginScreen:(BOOL) showLoginScreen {
-     [self showLoginViewController];
-}
-
-- (void) loginSuccessDone {
-    [self ab_showLoginScreen:NO];
-  
-    BOOL isBannerAdDisabled = [[Utility sharedInsance] getIsAdDisabled:bannerAdTopicList];
-    
-    if (isBannerAdDisabled) {
-        self.bannerAdHeight.constant = 0;
+    if (showLoginScreen) {
+        [self showLoginViewController];
     }
-    else {
-        [self createBannerAd];
-    }
-    
-    [[NSUserDefaults standardUserDefaults] setValue:@YES forKey:KEY_IS_LOGIN_SCREEN_SEEN];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [self ab_createCoachMarks];
 }
 
-
-- (void) loginFailed {
-    [self ab_showLoginScreen:YES];
-}
 
 #pragma mark - Ad methods
 
@@ -806,6 +802,7 @@
     else {
         [self removeIntroView];
     }
+    [self showLoginViewController];
 }
 
 #pragma mark - Helper methods

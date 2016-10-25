@@ -102,17 +102,10 @@
                                                 <constraint firstItem="yS0-mz-yet" firstAttribute="leading" secondItem="9pX-gd-kZi" secondAttribute="trailing" constant="16" id="5CM-mM-jrO"/>
                                                 <constraint firstItem="9pX-gd-kZi" firstAttribute="leading" secondItem="NbF-lu-X7X" secondAttribute="leading" constant="6" id="AqI-ua-0xh"/>
                                                 <constraint firstItem="9pX-gd-kZi" firstAttribute="centerY" secondItem="NbF-lu-X7X" secondAttribute="centerY" id="Rar-7P-0Ed"/>
-                                                <constraint firstItem="yS0-mz-yet" firstAttribute="centerY" secondItem="NbF-lu-X7X" secondAttribute="centerY" id="XvT-Td-0Lx"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="yS0-mz-yet" secondAttribute="trailing" id="Zmh-d7-kE5"/>
                                                 <constraint firstAttribute="bottom" secondItem="yS0-mz-yet" secondAttribute="bottom" id="bRg-Un-cCn"/>
                                                 <constraint firstItem="yS0-mz-yet" firstAttribute="top" secondItem="NbF-lu-X7X" secondAttribute="top" id="hJl-8G-BM4"/>
-                                                <constraint firstItem="yS0-mz-yet" firstAttribute="leading" secondItem="NbF-lu-X7X" secondAttribute="leadingMargin" constant="16" id="pA7-Pw-9IW"/>
                                             </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="pA7-Pw-9IW"/>
-                                                </mask>
-                                            </variation>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="0.0" green="0.76078431372549016" blue="0.42745098039215684" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -226,9 +219,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fqc-kD-AMf" userLabel="Title Background View">
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Initializing data..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ppb-4q-jV4" userLabel="Intializing label">
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.76078431369999999" blue="0.42745098040000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.0" green="0.78976172208786011" blue="0.50252598524093628" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="geeksets_logo" translatesAutoresizingMaskIntoConstraints="NO" id="cEp-kc-K5a" userLabel="Logo Image View">
@@ -241,19 +234,13 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="ppb-4q-jV4" firstAttribute="top" secondItem="cEp-kc-K5a" secondAttribute="bottom" constant="24" id="2af-a0-EAn"/>
-                                    <constraint firstAttribute="height" constant="486" id="b05-al-62Z"/>
                                     <constraint firstItem="cEp-kc-K5a" firstAttribute="centerX" secondItem="fqc-kD-AMf" secondAttribute="centerX" id="c2e-bH-YDp"/>
                                     <constraint firstItem="ppb-4q-jV4" firstAttribute="centerX" secondItem="fqc-kD-AMf" secondAttribute="centerX" id="fSF-Sb-BdT"/>
                                     <constraint firstItem="cEp-kc-K5a" firstAttribute="centerY" secondItem="fqc-kD-AMf" secondAttribute="centerY" id="y1W-2D-hAa"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="b05-al-62Z"/>
-                                    </mask>
-                                </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vt1-3i-4Ei" userLabel="Cover View">
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -287,9 +274,9 @@
                             <mask key="constraints">
                                 <exclude reference="JHl-ri-RdL"/>
                                 <exclude reference="O8A-bO-63V"/>
-                                <exclude reference="Rxf-Xd-QDd"/>
                                 <exclude reference="N5r-Ij-o9A"/>
                                 <exclude reference="xwb-2o-4eB"/>
+                                <exclude reference="Rxf-Xd-QDd"/>
                             </mask>
                         </variation>
                     </view>
@@ -301,6 +288,7 @@
                         <outlet property="bubbleBackgroundView" destination="I6b-Na-1X9" id="VER-gM-qwX"/>
                         <outlet property="intializingLabel" destination="ppb-4q-jV4" id="H0w-ZJ-78g"/>
                         <outlet property="logoImageView" destination="cEp-kc-K5a" id="cIv-Vs-ebA"/>
+                        <outlet property="logoImageViewCenterYConstraint" destination="y1W-2D-hAa" id="3qJ-4G-7oc"/>
                         <outlet property="tableView" destination="Kl1-Rd-zNO" id="LeZ-Of-iPI"/>
                         <outlet property="titleBackgroundView" destination="fqc-kD-AMf" id="JHJ-6Z-efI"/>
                         <outlet property="whiteBackgroundCoverView" destination="vt1-3i-4Ei" id="QwJ-2i-9Zm"/>
@@ -356,7 +344,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="neH-5h-VSE" userLabel="Banner View" customClass="GADBannerView">
-                                <color key="backgroundColor" red="0.0" green="0.76078431369999999" blue="0.42745098040000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.78976172208786011" blue="0.50252598524093628" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="JvD-OV-Rar"/>
                                 </constraints>
@@ -408,15 +396,26 @@
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kVp-VM-CK2" userLabel="Login View">
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LMN-2b-ejE">
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eGN-85-AU0" userLabel="Login Button" customClass="GIDSignInButton">
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="PWU-jS-gCd" userLabel="Login Activity Indicator"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eGN-85-AU0" userLabel="Google Button" customClass="UIButton">
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="44" id="5k8-g8-aQA"/>
-                                            <constraint firstAttribute="height" constant="30" id="TWg-7A-toU"/>
+                                            <constraint firstAttribute="width" constant="220" id="5k8-g8-aQA"/>
+                                            <constraint firstAttribute="height" constant="60" id="TWg-7A-toU"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FUS-ma-bXl" userLabel="SignIn Button">
+                                        <color key="backgroundColor" red="0.0" green="0.76078431369999999" blue="0.42745098040000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="Sign in using Google" image="signin">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginPressed:" destination="DPA-eW-Qla" eventType="touchUpInside" id="Ab6-4j-kYY"/>
+                                        </connections>
+                                    </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login" translatesAutoresizingMaskIntoConstraints="NO" id="lGH-gh-0xE"/>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login to account in order to sync your progress across all the devices" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AhV-J6-eff" userLabel="Message Label">
                                         <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="17"/>
@@ -425,7 +424,7 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yQu-BJ-ACA" userLabel="Guest Button">
                                         <state key="normal" title="No, Continue as a guest">
-                                            <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="guestButtonPressed:" destination="mUU-Hu-Ung" eventType="touchUpInside" id="k7P-4K-2sO"/>
@@ -440,14 +439,20 @@
                                     <constraint firstItem="eGN-85-AU0" firstAttribute="centerX" secondItem="kVp-VM-CK2" secondAttribute="centerX" id="3Y7-tm-Pvu"/>
                                     <constraint firstItem="yQu-BJ-ACA" firstAttribute="top" secondItem="eGN-85-AU0" secondAttribute="bottom" constant="14" id="3qZ-vt-ofZ"/>
                                     <constraint firstItem="eGN-85-AU0" firstAttribute="centerY" secondItem="kVp-VM-CK2" secondAttribute="centerY" multiplier="3:2" id="6yc-c5-q7M"/>
+                                    <constraint firstItem="eGN-85-AU0" firstAttribute="centerX" secondItem="PWU-jS-gCd" secondAttribute="centerX" id="75O-dr-bKM"/>
                                     <constraint firstItem="lGH-gh-0xE" firstAttribute="centerX" secondItem="kVp-VM-CK2" secondAttribute="centerX" id="7og-Oy-GGK"/>
+                                    <constraint firstItem="eGN-85-AU0" firstAttribute="top" secondItem="PWU-jS-gCd" secondAttribute="bottom" constant="12" id="860-AP-SaP"/>
                                     <constraint firstItem="AhV-J6-eff" firstAttribute="width" secondItem="kVp-VM-CK2" secondAttribute="width" multiplier="4:5" id="CBq-IS-u60"/>
                                     <constraint firstItem="AhV-J6-eff" firstAttribute="top" secondItem="lGH-gh-0xE" secondAttribute="bottom" id="IDX-8x-w2W"/>
                                     <constraint firstItem="LMN-2b-ejE" firstAttribute="top" secondItem="kVp-VM-CK2" secondAttribute="top" id="SKW-SE-9yP"/>
                                     <constraint firstItem="lGH-gh-0xE" firstAttribute="height" secondItem="kVp-VM-CK2" secondAttribute="height" multiplier="1:2" id="UPQ-Hi-1za"/>
+                                    <constraint firstItem="eGN-85-AU0" firstAttribute="leading" secondItem="FUS-ma-bXl" secondAttribute="leading" id="YKY-dH-9Dt"/>
+                                    <constraint firstItem="eGN-85-AU0" firstAttribute="trailing" secondItem="FUS-ma-bXl" secondAttribute="trailing" id="b1G-j4-uSe"/>
                                     <constraint firstItem="lGH-gh-0xE" firstAttribute="width" secondItem="kVp-VM-CK2" secondAttribute="width" multiplier="1:2" id="hsi-ht-x1P"/>
                                     <constraint firstItem="lGH-gh-0xE" firstAttribute="centerY" secondItem="kVp-VM-CK2" secondAttribute="centerY" multiplier="5:10" id="ltj-Sd-ZRa"/>
+                                    <constraint firstItem="eGN-85-AU0" firstAttribute="bottom" secondItem="FUS-ma-bXl" secondAttribute="bottom" id="m3v-WE-4Ug"/>
                                     <constraint firstAttribute="bottom" secondItem="LMN-2b-ejE" secondAttribute="bottom" id="mGq-a6-WTy"/>
+                                    <constraint firstItem="eGN-85-AU0" firstAttribute="top" secondItem="FUS-ma-bXl" secondAttribute="top" id="qp3-Ij-7mU"/>
                                     <constraint firstItem="AhV-J6-eff" firstAttribute="centerX" secondItem="kVp-VM-CK2" secondAttribute="centerX" id="rSV-vD-isr"/>
                                     <constraint firstItem="yQu-BJ-ACA" firstAttribute="centerX" secondItem="eGN-85-AU0" secondAttribute="centerX" id="t3E-5j-eTd"/>
                                 </constraints>
@@ -472,7 +477,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
                                         <state key="normal" title="Logout">
-                                            <color key="titleColor" red="1" green="0.23921568630000001" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="1" green="0.35514384508132935" blue="0.63885539770126343" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="logoutPressed:" destination="DPA-eW-Qla" eventType="touchUpInside" id="EDZ-gk-4Fw"/>
@@ -481,7 +486,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iXl-tc-LOD" userLabel="Not Now Button">
                                         <state key="normal" title="Not Now">
-                                            <color key="titleColor" red="0.0" green="0.76078431369999999" blue="0.42745098040000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.0" green="0.78976172208786011" blue="0.50252598524093628" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="logoutNotNowPressed:" destination="DPA-eW-Qla" eventType="touchUpInside" id="YWD-AD-V5l"/>
@@ -503,7 +508,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="OLc-ic-AbG" firstAttribute="top" secondItem="ZWt-yu-eqf" secondAttribute="top" id="7rA-gQ-Fww"/>
                             <constraint firstAttribute="trailing" secondItem="kVp-VM-CK2" secondAttribute="trailing" id="Eag-9r-mj4"/>
@@ -516,6 +521,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="PWU-jS-gCd" id="et9-sZ-yBE"/>
                         <outlet property="loggedInUserImageView" destination="GVZ-gh-goZ" id="b3e-qR-m3m"/>
                         <outlet property="loginButton" destination="eGN-85-AU0" id="r0R-X1-dYR"/>
                         <outlet property="loginImageVIew" destination="lGH-gh-0xE" id="S3w-Kg-R7Q"/>
@@ -523,6 +529,7 @@
                         <outlet property="loginView" destination="kVp-VM-CK2" id="maT-to-A1i"/>
                         <outlet property="logoutMessageLabel" destination="ndS-aL-7e8" id="ZyL-yZ-taN"/>
                         <outlet property="logoutView" destination="OLc-ic-AbG" id="F0m-Ib-GOj"/>
+                        <outlet property="signInButton" destination="FUS-ma-bXl" id="vov-oa-Ci3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Srl-8f-Yy1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -573,5 +580,6 @@
         <image name="login" width="441" height="367"/>
         <image name="profile_placeholder" width="32" height="42"/>
         <image name="reminder_unselected" width="26" height="26"/>
+        <image name="signin" width="40" height="41"/>
     </resources>
 </document>
