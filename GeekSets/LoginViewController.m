@@ -49,7 +49,6 @@
     [self gk_updateSignInButtonUI];
     
     [UIApplication sharedApplication].statusBarHidden = YES;
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess) name:NOTIFICATION_TYPE_USER_LOGGED_IN_SUCCESS object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logineFailure) name:NOTIFICATION_TYPE_USER_LOGGED_IN_FAILED object:nil];
 }
@@ -83,7 +82,6 @@
 
 - (IBAction)loginPressed:(UIButton *)sender {
     [self.activityIndicatorView startAnimating];
-    
     [[GIDSignIn sharedInstance] signIn];
 }
 
@@ -338,10 +336,7 @@
 
 - (CGFloat) getRandomXPosition {
     int maxX = [UIScreen mainScreen].bounds.size.width - [self getImageViewDimension];
-    
-    NSInteger randomNumber = arc4random() % maxX;
-    
-    return randomNumber;
+    return arc4random() % maxX;
 }
 
 - (CGFloat) getRandomYPosition {
@@ -363,13 +358,7 @@
     return NO;
 }
 
-
 - (CGFloat) getImageViewDimension {
-    //    CGFloat maxWidth = [UIScreen mainScreen].bounds.size.width/NO_OF_VIEWS;
-    //    CGFloat maxHeight = [UIScreen mainScreen].bounds.size.height/NO_OF_VIEWS;
-    
-    
-    
     return MIN(120, 120);
 }
 

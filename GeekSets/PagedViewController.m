@@ -279,7 +279,7 @@
 
 - (void) animateGeekSetsImageView {
     
-    CGFloat animateMargin = (IS_IPHONE_6_PLUS)?(-80):((IS_IPHONE_6)?(-80):((IS_IPHONE_5)?(-60):(-48)));
+    CGFloat animateMargin = (IS_IPHONE_6_PLUS)?(-80):((IS_IPHONE_6)?(-80):((IS_IPHONE_5)?(-60):((IS_IPAD_PRO_12INCH)?(-180):((IS_IPAD)?(-120):(-48)))));
     
     [UIView animateWithDuration:1 delay:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.geekSetsVerticalConstraint.constant = animateMargin;
@@ -542,11 +542,11 @@
 
 - (CGPathRef)dashedLinePath
 {
-    CGFloat endXCoordinate = (IS_IPHONE_6_PLUS)?(400):((IS_IPHONE_6)?(310):((IS_IPHONE_5)?(320):(320)));
+    CGFloat endXCoordinate = (IS_IPHONE_6_PLUS)?(400):((IS_IPHONE_6)?(310):((IS_IPHONE_5)?(320):(IS_IPAD_PRO_12INCH?(830):(((IS_IPAD)?(640):(320))))));
     
-    CGFloat startXCoordinate = (IS_IPHONE_6_PLUS)?(100):((IS_IPHONE_6)?(84):((IS_IPHONE_5)?(84):(84)));
+    CGFloat startXCoordinate = (IS_IPHONE_6_PLUS)?(100):((IS_IPHONE_6)?(84):((IS_IPHONE_5)?(84):(IS_IPAD_PRO_12INCH?(220):(((IS_IPAD)?(180):(84))))));
     
-    CGFloat yCoordinate = (IS_IPHONE_6_PLUS)?(-470):((IS_IPHONE_6)?(-420):((IS_IPHONE_5)?(-364):(-306)));
+    CGFloat yCoordinate = (IS_IPHONE_6_PLUS)?(-470):((IS_IPHONE_6)?(-424):((IS_IPHONE_5)?(-364):(IS_IPAD_PRO_12INCH?(-864):(((IS_IPAD)?(-660):(-306))))));
     
     // Create a bezier path for the airplane to fly along
     UIBezierPath *airplanePath = [UIBezierPath bezierPath];
@@ -626,7 +626,7 @@
 
 - (void) configureSyncImageView {
     
-    CGFloat offSetMargin = (IS_IPHONE_6_PLUS)?(-68):((IS_IPHONE_6)?(-60):((IS_IPHONE_5)?(-52):(-44)));
+    CGFloat offSetMargin = (IS_IPHONE_6_PLUS)?(-68):((IS_IPHONE_6)?(-62):((IS_IPHONE_5)?(-52):((IS_IPAD_PRO_12INCH)?(-120):(((IS_IPAD)?(-90):(-44))))));
     
     [self keepView:self.syncImageView onPages:@[@(4)] atTimes:@[@(4)]];
     [self.syncImageView mas_makeConstraints:^(MASConstraintMaker *make) {

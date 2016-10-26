@@ -30,6 +30,8 @@ typedef enum {
 #define IS_IPHONE_5 (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 568.0)
 #define IS_IPHONE_6 (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 667.0)
 #define IS_IPHONE_6_PLUS (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 736.0)
+#define IS_IPAD [UIScreen mainScreen].bounds.size.height == 1024
+#define IS_IPAD_PRO_12INCH [UIScreen mainScreen].bounds.size.height == 1366
 
 //general constants
 #define APP_COLOR [UIColor colorWithRed:0 green:194.0/255.0 blue:109.0/255.0 alpha:0.8]

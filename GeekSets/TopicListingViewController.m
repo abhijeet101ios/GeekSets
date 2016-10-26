@@ -170,6 +170,11 @@
 }
 
 - (void) ab_customizeTitleBackgroundScreen {
+    self.logoImageView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+    self.logoImageView.layer.shadowOffset = CGSizeMake(3, 3);
+    self.logoImageView.layer.shadowOpacity = 0.6;
+    self.logoImageView.layer.shadowRadius = 1.0;
+    
     self.intializingLabel.layer.shadowColor = [UIColor lightGrayColor].CGColor;
     self.intializingLabel.layer.shadowOffset = CGSizeMake(3, 3);
     self.intializingLabel.layer.shadowOpacity = 0.6;
